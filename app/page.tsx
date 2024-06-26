@@ -7,10 +7,10 @@ export default function Home() {
   return (
     <main className="h-screen py-12 sm:py-16 xl:py-[120px] select-none">
       <div className="w-[343px] sm:w-[640px] mx-auto">
-        <div className="w-fit mx-auto mb-10 py-[20.3px] pl-[12.7px] pr-[13.2px]">
+        <div className="w-fit mx-auto mb-[40px] py-[20.3px] pl-[12.7px] pr-[13.2px]">
           <Image src="/logo.svg" width={244} height={48} alt="로고" />
         </div>
-        <div className="mb-12 flex flex-col gap-6">
+        <div className="mb-[48px] flex flex-col gap-[24px]">
           <Input span="아이디" placeholder="이메일을 입력해주세요" />
           <Input
             span="비밀번호"
