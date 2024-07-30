@@ -30,7 +30,7 @@ export default function SignUp() {
             isPassword
           />
         </div>
-        <Button>로그인하기</Button>
+        <Button onClick={() => {}}>로그인하기</Button>
         <p className="w-fit mx-auto text-[1.4rem]">
           이미 회원이신가요?{" "}
           <Link href="/" className="text-[#3182F6] text-[1.4rem]">

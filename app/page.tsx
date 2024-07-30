@@ -1,9 +1,21 @@
+"use client";
+
+import { useState } from "react";
+import { signIn } from "@/api/authApi";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const [email, setEmail] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
+
+  const handleSignIn = async () => {
+    const response = await signIn(email, password);
+    console.log(response);
+  };
+
   return (
     <main className="h-screen py-12 sm:py-16 xl:py-[120px] select-none">
       <div className="w-[343px] sm:w-[640px] mx-auto">
@@ -15,14 +27,16 @@ export default function Home() {
             span="아이디"
             placeholder="이메일을 입력해주세요"
             type="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             span="비밀번호"
             placeholder="비밀번호를 입력해주세요"
             isPassword
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button>로그인하기</Button>
+        <Button onClick={handleSignIn}>로그인하기</Button>
         <p className="w-fit mx-auto text-[1.4rem]">
           슬리드 투 두가 처음이신가요?{" "}
           <Link href="/sign-up" className="text-[#3182F6] text-[1.4rem]">

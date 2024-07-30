@@ -9,6 +9,7 @@ export default function Input({
   placeholder,
   type = "text",
   isPassword = false,
+  onChange,
 }: InputType) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,6 +20,7 @@ export default function Input({
         className="px-[24px] py-[12px] bg-[#F8FAFC] rounded-xl focus:outline-none focus:shadow-input transition-shadow duration-500"
         placeholder={placeholder}
         type={isPassword ? (isVisible ? type : "password") : "text"}
+        onChange={onChange}
       />
       {isPassword && (
         <Image
