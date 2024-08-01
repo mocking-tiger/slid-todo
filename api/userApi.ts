@@ -1,25 +1,19 @@
 import { BASE_URL } from "./constants/url";
 import { ErrorType } from "./types/apiTypes";
 import instance from "./instance/default-instance";
-import Cookies from "js-cookie";
 
-export async function signIn(
+export async function signUp(
+  name: string | undefined,
   email: string | undefined,
   password: string | undefined
 ) {
   try {
-    const response = await instance.post(`${BASE_URL}auth/login`, {
+    const response = await instance.post(`${BASE_URL}user`, {
       email,
+      name,
       password,
     });
     if (response.status === 201) {
-      Cookies.set("accessToken", response.data.accessToken, {
-        expires: 1,
-      });
-      Cookies.set("refreshToken", response.data.refreshToken, {
-        expires: 1,
-      });
-
       return response.data;
     }
   } catch (e) {

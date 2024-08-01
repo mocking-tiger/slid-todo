@@ -41,7 +41,7 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button onClick={handleSignIn}>로그인하기</Button>
+        <Button onClick={handleSignIn}>로그인</Button>
         <p className="w-fit mx-auto text-[1.4rem]">
           슬리드 투 두가 처음이신가요?{" "}
           <Link href="/sign-up" className="text-[#3182F6] text-[1.4rem]">
