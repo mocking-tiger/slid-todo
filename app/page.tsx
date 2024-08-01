@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { signIn } from "@/api/authApi";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -8,12 +9,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
 
   const handleSignIn = async () => {
     const response = await signIn(email, password);
     console.log(response);
+    if (response) {
+      router.push("/dashboard");
+    }
   };
 
   return (

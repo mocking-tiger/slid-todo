@@ -1,4 +1,5 @@
 import { BASE_URL } from "./constants/url";
+import { ErrorType } from "./types/apiTypes";
 import instance from "./instance/default-instance";
 import Cookies from "js-cookie";
 
@@ -12,8 +13,17 @@ export const signIn = async (
       password,
     });
     if (response.status === 201) {
-      //Cookies.set('accessToken',)
+      Cookies.set("accessToken", response.data.accessToken, {
+        expires: 1,
+      });
+      Cookies.set("refreshToken", response.data.refreshToken, {
+        expires: 1,
+      });
+
       return response.data;
     }
-  } catch (e) {}
+  } catch (e) {
+    const error = e as ErrorType;
+    alert(error.response.data.message);
+  }
 };
