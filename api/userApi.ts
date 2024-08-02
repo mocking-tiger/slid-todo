@@ -1,5 +1,5 @@
 import { BASE_URL } from "./constants/url";
-import { ErrorType } from "./types/apiTypes";
+import { ErrorType } from "../types/apiTypes";
 import instance from "./instance/default-instance";
 
 export async function signUp(
@@ -19,5 +19,16 @@ export async function signUp(
   } catch (e) {
     const error = e as ErrorType;
     alert(error.response.data.message);
+  }
+}
+
+export async function getUser() {
+  try {
+    const response = await instance.get(`${BASE_URL}user`);
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (e) {
+    console.log(e);
   }
 }

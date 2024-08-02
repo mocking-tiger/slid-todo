@@ -1,5 +1,5 @@
 import { BASE_URL } from "./constants/url";
-import { ErrorType } from "./types/apiTypes";
+import { ErrorType } from "../types/apiTypes";
 import instance from "./instance/default-instance";
 import Cookies from "js-cookie";
 
