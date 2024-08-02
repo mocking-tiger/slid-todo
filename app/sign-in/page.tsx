@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/api/authApi";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import LoadingScreen from "@/components/Loading";
 
 export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSignIn = async () => {
     const response = await signIn(email, password);
@@ -20,6 +23,18 @@ export default function SignIn() {
       router.push("/dashboard");
     }
   };
+
+  useEffect(() => {
+    if (Cookies.get("accessToken")) {
+      router.push("/");
+    } else {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <main className="h-screen py-12 sm:py-16 xl:py-[120px] select-none">

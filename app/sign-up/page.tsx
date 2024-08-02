@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { signUp } from "@/api/userApi";
+import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
-import { signUp } from "@/api/userApi";
-import { useRouter } from "next/navigation";
+import LoadingScreen from "@/components/Loading";
+import Cookies from "js-cookie";
 
 export default function SignUp() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export default function SignUp() {
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [passwordRepeat, setPasswordRepeat] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSignUp = async () => {
     if (password === passwordRepeat) {
@@ -26,6 +29,18 @@ export default function SignUp() {
       alert("비밀번호를 확인해주세요.");
     }
   };
+
+  useEffect(() => {
+    if (Cookies.get("accessToken")) {
+      router.push("/");
+    } else {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <main className="h-screen py-12 sm:py-16 xl:py-[120px] select-none">

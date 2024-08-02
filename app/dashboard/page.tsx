@@ -7,15 +7,15 @@ import LoadingScreen from "@/components/Loading";
 
 export default function Dashboard() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   if (!Cookies.get("accessToken")) {
-  //     router.push("/");
-  //   }
-  //   setIsLoading(false);
-  // }, [router]);
+  useEffect(() => {
+    setIsLoading(true);
+    if (!Cookies.get("accessToken")) {
+      router.push("/");
+    }
+    setIsLoading(false);
+  }, [router]);
 
   if (isLoading) {
     return <LoadingScreen />;
