@@ -19,4 +19,26 @@ instance.interceptors.request.use(
   }
 );
 
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    if (error.response.status === 401) {
+      const token = async () => {
+        const getNewToken = await instance.post(`${BASE_URL}auth/tokens`);
+        Cookies.set("accessToken", getNewToken.data.accessToken);
+        Cookies.set("refreshToken", getNewToken.data.refreshToken);
+
+        error.config.headers = {
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        };
+        const response = await axios.request(error.config);
+        return response;
+      };
+      token();
+    }
+  }
+);
+
 export default instance;

@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "../../zustand/userStore";
 import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
+import SideBar from "@/components/SideBar";
 
 export default function Dashboard() {
   const router = useRouter();
-  const user = useUserStore((state) => state.userInfo);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,9 +23,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
-      <h2>{user.email}</h2>
-      <h2>{user.name}</h2>
-    </div>
+    <aside>
+      <SideBar />
+    </aside>
   );
 }
