@@ -25,6 +25,7 @@ export default function Dashboard() {
   return (
     <aside>
       <SideBar />
+      dfdf
     </aside>
   );
 }
