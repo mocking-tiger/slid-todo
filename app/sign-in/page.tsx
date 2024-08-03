@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/api/authApi";
+import { useUserStore } from "../../zustand/userStore";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
@@ -12,12 +13,14 @@ import LoadingScreen from "@/components/Loading";
 
 export default function SignIn() {
   const router = useRouter();
+  const setUser = useUserStore((state) => state.setUserInfo);
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleSignIn = async () => {
     const response = await signIn(email, password);
+    setUser(response.user);
     console.log(response);
     if (response) {
       router.push("/dashboard");
