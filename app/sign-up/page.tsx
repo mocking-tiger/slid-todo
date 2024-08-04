@@ -76,7 +76,7 @@ export default function SignUp() {
           />
         </div>
         <Button onClick={handleSignUp}>회원가입</Button>
-        <p className="w-fit mx-auto text-[1.4rem]">
+        <p className="w-fit mx-auto mt-[40px] text-[1.4rem]">
           이미 회원이신가요?{" "}
           <Link href="/" className="text-[#3182F6] text-[1.4rem]">
             로그인

@@ -1,13 +1,23 @@
 "use client";
 
 import { useUserStore } from "@/zustand/userStore";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import Button from "./Button";
+import Cookies from "js-cookie";
 
 export default function SideBar() {
   const user = useUserStore((state) => state.userInfo);
+  const clearUser = useUserStore((state) => state.clearUserInfo);
   const [isHide, setIsHide] = useState(false);
+
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    clearUser();
+    location.reload();
+  };
 
   return (
     <aside>
@@ -32,7 +42,7 @@ export default function SideBar() {
             />
           </button>
         </div>
-        <div className="px-[8px] flex gap-[12px]">
+        <div className="mb-[24px] px-[8px] flex gap-[12px]">
           <Image
             src="/sidebar-profile.svg"
             width={64}
@@ -42,9 +52,20 @@ export default function SideBar() {
           <div>
             <h2 className="">{user.name}</h2>
             <h2>{user.email}</h2>
-            <button className="text-[1.2rem] text-gray-400">로그아웃</button>
+            <button
+              className="text-[1.2rem] text-gray-400"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
           </div>
         </div>
+        <div className="px-[8px]">
+          <Button onClick={() => {}} color="bg-[#3B82F6]">
+            {"+ 새 할 일"}
+          </Button>
+        </div>
+        <div>d</div>
       </div>
       {isHide && (
         <div className="w-fit h-screen px-[14px] py-[16px] border-r float-left">

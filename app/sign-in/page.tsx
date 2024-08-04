@@ -60,7 +60,7 @@ export default function SignIn() {
           />
         </div>
         <Button onClick={handleSignIn}>로그인</Button>
-        <p className="w-fit mx-auto text-[1.4rem]">
+        <p className="w-fit mx-auto mt-[40px] text-[1.4rem]">
           슬리드 투 두가 처음이신가요?{" "}
           <Link href="/sign-up" className="text-[#3182F6] text-[1.4rem]">
             회원가입
