@@ -22,7 +22,7 @@ export default function SideBar() {
   return (
     <aside>
       <div
-        className={`w-[280px] h-screen  py-[12px] border-r float-left ${
+        className={`w-[280px] h-screen mr-[24px] py-[12px] border-r float-left bg-white ${
           isHide && "hidden"
         }`}
       >
@@ -75,7 +75,7 @@ export default function SideBar() {
           />
           <span>대시보드</span>
         </div>
-        <div className="px-[24px] py-[16px] border-b border-b-[#E2E8F0]">
+        <div className="px-[24px] py-[16px]">
           <div className=" flex gap-[8px]">
             <Image
               src="/sidebar-flag.svg"
@@ -99,7 +99,7 @@ export default function SideBar() {
         </div>
       </div>
       {isHide && (
-        <div className="w-fit h-screen px-[14px] py-[16px] border-r float-left flex flex-col items-center gap-[16px]">
+        <div className="w-fit h-screen px-[14px] py-[16px] border-r float-left bg-white flex flex-col items-center gap-[16px]">
           <Link href="/">
             <Image
               src="/sidebar-logo.svg"

@@ -25,7 +25,20 @@ export default function Dashboard() {
   return (
     <aside>
       <SideBar />
-      dfdf
+      <main className="w-full h-screen bg-[#F1F5F9]">
+        <div className="w-fit p-[24px] mx-auto">
+          <h2>대시보드</h2>
+          <div className="flex gap-[24px]">
+            <div className="max-w-[588px] min-w-[306px] h-[250px] bg-white">
+              최근 등록한 할 일
+            </div>
+            <div className="max-w-[588px] min-w-[306px] h-[250px] bg-[#3B82F6]">
+              내 진행 상황
+            </div>
+          </div>
+          <div>목표 별 할 일</div>
+        </div>
+      </main>
     </aside>
   );
 }
