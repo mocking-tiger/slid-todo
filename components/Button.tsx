@@ -4,16 +4,20 @@ export default function Button({
   children,
   onClick,
   color,
+  text,
+  border,
 }: {
   children: ReactNode;
   onClick: () => void;
   color?: string;
+  text?: string;
+  border?: string;
 }) {
   return (
     <button
-      className={`w-full py-[12px] ${
+      className={`w-full py-[12px] rounded-xl text-white ${
         color ? color : "bg-[#94A3B8]"
-      } rounded-xl text-white`}
+      } ${text ? text : ""} ${border ? border : ""} `}
       onClick={onClick}
     >
       {children}
