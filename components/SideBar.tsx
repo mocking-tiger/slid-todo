@@ -21,9 +21,20 @@ export default function SideBar() {
 
   return (
     <aside>
+      <div className="px-[16px] py-[12px] flex gap-[16px] lg:hidden">
+        <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
+          <Image
+            src="/sidebar-kebab.svg"
+            width={12}
+            height={8}
+            alt="kebab-button"
+          />
+        </div>
+        <h2 className="text-[1.8rem] font-semibold">대시보드</h2>
+      </div>
       <div
-        className={`w-[280px] h-screen mr-[24px] py-[12px] border-r float-left bg-white ${
-          isHide && "hidden"
+        className={`w-[280px] h-screen mr-[24px] py-[12px] border-r float-left bg-white hidden  ${
+          isHide ? "hidden" : "lg:block"
         }`}
       >
         <div className="mb-[13px] px-[21px] flex justify-between items-center">
@@ -99,7 +110,7 @@ export default function SideBar() {
         </div>
       </div>
       {isHide && (
-        <div className="w-fit h-screen px-[14px] py-[16px] border-r float-left bg-white flex flex-col items-center gap-[16px]">
+        <div className="w-fit h-screen px-[14px] py-[16px] mr-[24px] border-r float-left bg-white lg:flex flex-col items-center gap-[16px] hidden">
           <Link href="/">
             <Image
               src="/sidebar-logo.svg"
