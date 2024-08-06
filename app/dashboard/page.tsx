@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
+import ProgressCircle from "@/components/ProgressCircle";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -19,8 +20,30 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!isLoading) {
+      setProgress(75); // SVG 요소가 DOM에 추가된 후 호출
+    }
+  }, [isLoading]);
+
   if (isLoading) {
     return <LoadingScreen />;
+  }
+
+  function setProgress(percent: number) {
+    const circle = document.querySelector(
+      ".progress-ring__circle"
+    ) as SVGCircleElement | null;
+    if (circle) {
+      const radius = circle.r.baseVal.value;
+      const circumference = radius * 2 * Math.PI;
+
+      circle.style.strokeDasharray = `${circumference} ${circumference}`;
+      circle.style.strokeDashoffset = circumference.toString();
+
+      const offset = circumference - (percent / 100) * circumference;
+      circle.style.strokeDashoffset = offset.toString();
+    }
   }
 
   return (
@@ -46,14 +69,25 @@ export default function Dashboard() {
               </div>
               <div>할 일 목록 들어갈 곳</div>
             </div>
-            <div className="w-[306px] 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white">
+            <div className="w-[306px] 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
               <Image
                 src="/dashboard-progress.png"
                 width={40}
                 height={40}
                 alt="pregress-task-icon"
               />
-              <h2>내 진행 상황</h2>
+              <div>
+                <h2>내 진행 상황</h2>
+                <span>{}%</span>
+              </div>
+              <ProgressCircle />
+              <Image
+                className="absolute right-0 bottom-0"
+                src="/bg-outter.svg"
+                width={166}
+                height={166}
+                alt="bg-outter"
+              />
             </div>
           </div>
           <div className="w-[306px] sm:w-auto h-full mt-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">

@@ -20,3 +20,11 @@
 html {
   font-size: 62.5%;
 }
+
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.5s;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+  stroke-dasharray: 0 0; /* 초기 값 설정 */
+  stroke-dashoffset: 0; /* 초기 값 설정 */
+}
