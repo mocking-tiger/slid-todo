@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProgressCircle, { setProgress } from "@/components/ProgressCircle";
 import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
-import ProgressCircle from "@/components/ProgressCircle";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -22,28 +22,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isLoading) {
-      setProgress(75); // SVG 요소가 DOM에 추가된 후 호출
+      setProgress(100); // 100-n 으로 구현할 것!
     }
   }, [isLoading]);
 
   if (isLoading) {
     return <LoadingScreen />;
-  }
-
-  function setProgress(percent: number) {
-    const circle = document.querySelector(
-      ".progress-ring__circle"
-    ) as SVGCircleElement | null;
-    if (circle) {
-      const radius = circle.r.baseVal.value;
-      const circumference = radius * 2 * Math.PI;
-
-      circle.style.strokeDasharray = `${circumference} ${circumference}`;
-      circle.style.strokeDashoffset = circumference.toString();
-
-      const offset = circumference - (percent / 100) * circumference;
-      circle.style.strokeDashoffset = offset.toString();
-    }
   }
 
   return (

@@ -1,3 +1,19 @@
+export function setProgress(percent: number) {
+  const circle = document.querySelector(
+    ".progress-ring__circle"
+  ) as SVGCircleElement | null;
+  if (circle) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference.toString();
+
+    const offset = circumference - (percent / 100) * circumference;
+    circle.style.strokeDashoffset = offset.toString();
+  }
+}
+
 export default function ProgressCircle() {
   return (
     <div className="absolute left-[40%] 2xl:left-[50%] top-16 z-10">
