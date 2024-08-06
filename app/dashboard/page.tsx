@@ -50,10 +50,10 @@ export default function Dashboard() {
     <aside>
       <SideBar />
       <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
-        <div className="w-[343px] sm:w-[637px] 2xl:w-[1200px] p-[24px] mx-auto">
+        <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
           <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
           <div className="flex flex-col sm:flex-row 2xl:flex-row gap-[24px]">
-            <div className="w-[306px] md:w-[306px] 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
+            <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
               <div className="flex items-center gap-[8px]">
                 <div className="w-[40px] h-[40px] bg-[#3B82F6] rounded-[15px] flex justify-center items-center">
                   <Image
@@ -69,7 +69,7 @@ export default function Dashboard() {
               </div>
               <div>할 일 목록 들어갈 곳</div>
             </div>
-            <div className="w-[306px] 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
+            <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
               <Image
                 src="/dashboard-progress.png"
                 width={40}
