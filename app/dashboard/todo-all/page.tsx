@@ -1,6 +1,4 @@
 import SideBar from "@/components/SideBar";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function TodoAll() {
   const temp = 6;

@@ -100,7 +100,9 @@ export default function SideBar() {
             />
             <span>목표</span>
           </div>
-          <div className="pt-[16px]  pb-[24px]">목표 리스트 들어갈 곳</div>
+          <div className="pt-[16px]  pb-[24px]">
+            <Link href="/dashboard/goal">목표 리스트 들어갈 곳</Link>
+          </div>
           <div>
             <Button
               onClick={() => {}}
