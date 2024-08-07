@@ -6,8 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function SideBar() {
+  const router = useRouter();
   const user = useUserStore((state) => state.userInfo);
   const clearUser = useUserStore((state) => state.clearUserInfo);
   const [isHide, setIsHide] = useState(false);
@@ -16,7 +18,7 @@ export default function SideBar() {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     clearUser();
-    location.reload();
+    router.push("/");
   };
 
   return (
@@ -84,7 +86,9 @@ export default function SideBar() {
             height={13}
             alt="sidebar-home"
           />
-          <span>대시보드</span>
+          <Link href="/">
+            <span>대시보드</span>
+          </Link>
         </div>
         <div className="px-[24px] py-[16px]">
           <div className=" flex gap-[8px]">
