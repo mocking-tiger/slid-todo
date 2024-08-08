@@ -30,7 +30,7 @@ export default function ProgressCircle() {
             cx="83"
             cy="83"
             r="67"
-            stroke="#F8FAFC"
+            stroke="#000000"
             strokeWidth="32"
           />
           <circle
@@ -38,7 +38,7 @@ export default function ProgressCircle() {
             cx="83"
             cy="83"
             r="67"
-            stroke="#000000"
+            stroke="#F8FAFC"
             strokeWidth="32"
           />
         </g>

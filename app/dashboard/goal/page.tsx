@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ProgressCircle, { setProgress } from "@/components/ProgressCircle";
 import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Goal() {
   const router = useRouter();
@@ -19,12 +17,6 @@ export default function Goal() {
     }
     setIsLoading(false);
   }, [router]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      setProgress(100); // 100-n 으로 구현할 것!
-    }
-  }, [isLoading]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -68,11 +60,9 @@ export default function Goal() {
               <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
                 <div className="flex items-center gap-[8px]">
                   <h2 className="text-[1.8rem] font-semibold">To do</h2>
-                  <Link href="/dashboard/todo-all" className="grow text-right ">
-                    <p className="min-w-[74px] text-[1.4rem] text-[#3B82F6] cursor-pointer">
-                      {"+ 할일 추가"}
-                    </p>
-                  </Link>
+                  <p className="min-w-[74px] text-[1.4rem] text-[#3B82F6] grow text-right cursor-pointer">
+                    {"+ 할일 추가"}
+                  </p>
                 </div>
                 <div>미완료된 할 일 리스트</div>
               </div>

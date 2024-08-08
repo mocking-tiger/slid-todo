@@ -13,6 +13,8 @@ export default function Dashboard() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  const temp = 72;
+
   useEffect(() => {
     if (!Cookies.get("accessToken")) {
       router.push("/");
@@ -22,7 +24,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isLoading) {
-      setProgress(100); // 100-n 으로 구현할 것!
+      setProgress(100 - temp); // 100-n 으로 구현할 것!
     }
   }, [isLoading]);
 
@@ -31,9 +33,9 @@ export default function Dashboard() {
   }
 
   return (
-    <aside>
+    <main className="relative">
       <SideBar />
-      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
+      <div className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
@@ -68,7 +70,9 @@ export default function Dashboard() {
                 />
                 <div>
                   <h2>내 진행 상황</h2>
-                  <span>{}%</span>
+                  <h2>
+                    <span className="text-[3rem] font-semibold">{temp}</span>%
+                  </h2>
                 </div>
                 <ProgressCircle />
                 <Image
@@ -96,7 +100,7 @@ export default function Dashboard() {
             </div>
           </div>
         }
-      </main>
-    </aside>
+      </div>
+    </main>
   );
 }
