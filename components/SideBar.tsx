@@ -2,16 +2,18 @@
 
 import { useUserStore } from "@/zustand/userStore";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
 export default function SideBar() {
   const router = useRouter();
   const user = useUserStore((state) => state.userInfo);
   const clearUser = useUserStore((state) => state.clearUserInfo);
+  const { Modal, openModal, closeModal } = useModal();
   const [isHide, setIsHide] = useState(false);
 
   const handleLogout = () => {
@@ -74,7 +76,7 @@ export default function SideBar() {
           </div>
         </div>
         <div className="px-[24px] pb-[24px] border-b border-b-[#E2E8F0]">
-          <Button onClick={() => {}} color="bg-[#3B82F6]">
+          <Button onClick={() => openModal("create-todo")} color="bg-[#3B82F6]">
             {"+ 새 할 일"}
           </Button>
         </div>
@@ -138,6 +140,9 @@ export default function SideBar() {
           </button>
         </div>
       )}
+      <Modal name="create-todo" title="할 일 생성">
+        모달 테스트
+      </Modal>
     </aside>
   );
 }
