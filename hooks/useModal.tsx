@@ -24,6 +24,8 @@ export const useModal = () => {
 
   const Modal = useCallback(
     ({ name, children, title }: ModalProps) => {
+      if (typeof document === "undefined") return null;
+
       return ReactDOM.createPortal(
         name === modalName ? (
           <div
