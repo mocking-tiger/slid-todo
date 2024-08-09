@@ -31,18 +31,18 @@ export const useModal = () => {
             onClick={closeModal}
           >
             <div
-              className="w-[520px] min-h-[676px] bg-white rounded-[12px]"
+              className="w-[520px] min-h-[676px] p-[24px] bg-white rounded-[12px] relative"
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                className="cursor-pointer"
+                className="cursor-pointer absolute right-[24px]"
                 src="/modal-close.svg"
                 width={24}
                 height={24}
                 alt="모달닫기버튼"
                 onClick={closeModal}
               />
-              <h1 className="">{title}</h1>
+              <h1 className="mb-[24px] text-[1.8rem] font-semibold">{title}</h1>
               {children}
             </div>
           </div>

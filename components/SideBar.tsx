@@ -8,12 +8,13 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Cookies from "js-cookie";
+import CreateTodo from "./modal/create-todo";
 
 export default function SideBar() {
   const router = useRouter();
   const user = useUserStore((state) => state.userInfo);
   const clearUser = useUserStore((state) => state.clearUserInfo);
-  const { Modal, openModal, closeModal } = useModal();
+  const { Modal, openModal } = useModal();
   const [isHide, setIsHide] = useState(false);
 
   const handleLogout = () => {
@@ -141,7 +142,7 @@ export default function SideBar() {
         </div>
       )}
       <Modal name="create-todo" title="할 일 생성">
-        모달 테스트
+        <CreateTodo />
       </Modal>
     </aside>
   );
