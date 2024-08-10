@@ -22,7 +22,7 @@ html {
 }
 
 .progress-ring__circle {
-  transition: stroke-dashoffset ease-in-out 1.5s;
+  transition: stroke-dashoffset ease-in-out 1s;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }

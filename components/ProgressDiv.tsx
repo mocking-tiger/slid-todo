@@ -11,9 +11,6 @@ export default function ProgressDiv({
 }: ProgressDivType) {
   useEffect(() => {
     if (!isLoading) {
-      // Progress Circle 애니메이션 설정
-      setProgress(100 - temp);
-
       // 숫자 애니메이션 설정
       const interval = setInterval(() => {
         setProgressValue((prev) => {
@@ -24,11 +21,15 @@ export default function ProgressDiv({
             return prev;
           }
         });
-      }, 15); // 숫자가 증가하는 속도 조절
+      }, 10); // 숫자가 증가하는 속도 조절
 
       return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
     }
   }, [isLoading, temp, setProgressValue]);
+
+  useEffect(() => {
+    setProgress(100 - temp);
+  });
 
   return (
     <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
