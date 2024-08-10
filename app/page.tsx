@@ -2,13 +2,21 @@
 
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
 
-  if (Cookies.get("accessToken")) {
-    router.push("/dashboard");
-  } else {
-    router.push("/sign-in");
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = Cookies.get("accessToken");
+      if (token) {
+        router.push("/dashboard");
+      } else {
+        router.push("/sign-in");
+      }
+    }
+  }, [router]);
+
+  return null;
 }
