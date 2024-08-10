@@ -8,3 +8,10 @@ export type InputType = {
   // eslint-disable-next-line
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
+
+export type ProgressDivType = {
+  temp: number;
+  progressValue: number;
+  setProgressValue: React.Dispatch<React.SetStateAction<number>>;
+  isLoading: boolean;
+};

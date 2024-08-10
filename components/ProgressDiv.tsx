@@ -1,13 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
+import { ProgressDivType } from "./types/componentTypes";
 import ProgressCircle, { setProgress } from "./ProgressCircle";
-
-type ProgressDivType = {
-  temp: number;
-  progressValue: number;
-  setProgressValue: React.Dispatch<React.SetStateAction<number>>;
-  isLoading: boolean;
-};
 
 export default function ProgressDiv({
   temp,
