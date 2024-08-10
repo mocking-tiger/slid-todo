@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ProgressCircle, { setProgress } from "@/components/ProgressCircle";
 import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
+import ProgressDiv from "@/components/ProgressDiv";
 
 export default function Dashboard() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [progressValue, setProgressValue] = useState(0);
 
   const temp = 72;
 
@@ -21,12 +22,6 @@ export default function Dashboard() {
     }
     setIsLoading(false);
   }, [router]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      setProgress(100 - temp); // 100-n 으로 구현할 것!
-    }
-  }, [isLoading]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -61,28 +56,12 @@ export default function Dashboard() {
                 </div>
                 <div>할 일 목록 들어갈 곳</div>
               </div>
-              <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
-                <Image
-                  src="/dashboard-progress.png"
-                  width={40}
-                  height={40}
-                  alt="pregress-task-icon"
-                />
-                <div>
-                  <h2>내 진행 상황</h2>
-                  <h2>
-                    <span className="text-[3rem] font-semibold">{temp}</span>%
-                  </h2>
-                </div>
-                <ProgressCircle />
-                <Image
-                  className="absolute right-0 bottom-0"
-                  src="/bg-outter.svg"
-                  width={166}
-                  height={166}
-                  alt="bg-outter"
-                />
-              </div>
+              <ProgressDiv
+                temp={temp}
+                progressValue={progressValue}
+                setProgressValue={setProgressValue}
+                isLoading={isLoading}
+              />
             </div>
             <div className="w-[306px] sm:w-auto h-full mt-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
               <div className="flex items-center gap-[8px]">
