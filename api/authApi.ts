@@ -27,3 +27,9 @@ export async function signIn(
     alert(error.response.data.message);
   }
 }
+
+export async function getNewToken() {
+  const response = await instance.post(`${BASE_URL}auth/tokens`);
+  Cookies.set("accessToken", response.data.accessToken);
+  Cookies.set("refreshToken", response.data.refreshToken);
+}
