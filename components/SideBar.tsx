@@ -2,10 +2,11 @@
 
 import { useUserStore } from "@/zustand/userStore";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { addGoal } from "@/api/goalApi";
+import { addGoal, getGoals } from "@/api/goalApi";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import { getNewToken } from "@/api/authApi";
+import { GoalType } from "@/types/apiTypes";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
@@ -19,8 +20,9 @@ export default function SideBar() {
   const { Modal, openModal } = useModal();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isHide, setIsHide] = useState(false);
-  const [isAddGoal, SetIsAddGoal] = useState(false);
+  const [isAddGoal, setIsAddGoal] = useState(false);
   const [newGoalName, setNewGoalName] = useState("");
+  const [goals, setGoals] = useState<GoalType[]>([]);
 
   const handleLogout = () => {
     Cookies.remove("accessToken");
@@ -31,7 +33,16 @@ export default function SideBar() {
 
   const createNewGoal = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter" || e.code === "NumpadEnter") {
-      await addGoal(newGoalName);
+      if (newGoalName !== "") {
+        setNewGoalName("");
+        setIsAddGoal(false);
+        await addGoal(newGoalName);
+        const updatedGolas = await getGoals();
+        setGoals(updatedGolas);
+      } else {
+        alert("목표를 입력해 주세요.");
+        setIsAddGoal(false);
+      }
     }
   };
 
@@ -42,6 +53,15 @@ export default function SideBar() {
   }, [isAddGoal]); // goals가 업데이트될 때마다 실행
 
   useEffect(() => {
+    const fetchGoals = async () => {
+      const goalsData = await getGoals();
+      if (goalsData) {
+        setGoals(goalsData);
+      }
+    };
+
+    fetchGoals();
+
     // 30분(1800000 밀리초)마다 getNewToken 함수 실행
     const intervalId = setInterval(() => {
       getNewToken();
@@ -53,7 +73,7 @@ export default function SideBar() {
 
   return (
     <aside>
-      <button onClick={getNewToken}>토큰테스트</button>
+      <button onClick={getGoals}>api테스트</button>
       <div className="px-[16px] py-[12px] flex gap-[16px] lg:hidden">
         <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
           <Image
@@ -132,8 +152,12 @@ export default function SideBar() {
             <span>목표</span>
           </div>
           <div className="pt-[16px]  pb-[24px]">
-            <div>
-              <Link href="/dashboard/goal">목표 리스트 들어갈 곳</Link>
+            <div className="flex flex-col">
+              {goals.map((goal) => (
+                <Link key={goal.id} href="#">
+                  {goal.title}
+                </Link>
+              ))}
             </div>
             {isAddGoal && (
               <input
@@ -147,7 +171,7 @@ export default function SideBar() {
           </div>
           <div>
             <Button
-              onClick={() => SetIsAddGoal((prev) => !prev)}
+              onClick={() => setIsAddGoal((prev) => !prev)}
               text="text-[#3B82F6]"
               color="bg-white"
               border="border border-[#3B82F6]"

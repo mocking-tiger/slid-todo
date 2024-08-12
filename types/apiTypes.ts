@@ -7,3 +7,12 @@ export interface ErrorType {
     };
   };
 }
+
+export interface GoalType {
+  createdAt: string;
+  id: number;
+  teamId: string;
+  title: string;
+  updatedAt: string;
+  userId: number;
+}
