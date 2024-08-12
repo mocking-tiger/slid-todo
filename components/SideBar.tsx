@@ -1,7 +1,8 @@
 "use client";
 
 import { useUserStore } from "@/zustand/userStore";
-import { useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { addGoal } from "@/api/goalApi";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
@@ -15,7 +16,10 @@ export default function SideBar() {
   const user = useUserStore((state) => state.userInfo);
   const clearUser = useUserStore((state) => state.clearUserInfo);
   const { Modal, openModal } = useModal();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [isHide, setIsHide] = useState(false);
+  const [isAddGoal, SetIsAddGoal] = useState(false);
+  const [newGoalName, setNewGoalName] = useState("");
 
   const handleLogout = () => {
     Cookies.remove("accessToken");
@@ -23,6 +27,18 @@ export default function SideBar() {
     clearUser();
     router.push("/");
   };
+
+  const createNewGoal = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      await addGoal(newGoalName);
+    }
+  };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isAddGoal]); // goals가 업데이트될 때마다 실행
 
   return (
     <aside>
@@ -104,11 +120,22 @@ export default function SideBar() {
             <span>목표</span>
           </div>
           <div className="pt-[16px]  pb-[24px]">
-            <Link href="/dashboard/goal">목표 리스트 들어갈 곳</Link>
+            <div>
+              <Link href="/dashboard/goal">목표 리스트 들어갈 곳</Link>
+            </div>
+            {isAddGoal && (
+              <input
+                ref={inputRef}
+                type="text"
+                className="block w-full border-b border-gray-300 focus:outline-none focus:border-blue-500"
+                onChange={(e) => setNewGoalName(e.target.value)}
+                onKeyDown={(e) => createNewGoal(e)}
+              />
+            )}
           </div>
           <div>
             <Button
-              onClick={() => {}}
+              onClick={() => SetIsAddGoal((prev) => !prev)}
               text="text-[#3B82F6]"
               color="bg-white"
               border="border border-[#3B82F6]"
