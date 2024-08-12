@@ -27,10 +27,7 @@ export default function ProgressDiv({
     }
   }, [isLoading, temp, setProgressValue]);
 
-  useEffect(() => {
-    setProgress(100 - temp);
-  });
-
+  setProgress(100 - temp);
   return (
     <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
       <Image
