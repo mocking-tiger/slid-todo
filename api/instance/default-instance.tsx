@@ -27,16 +27,21 @@ instance.interceptors.response.use(
     if (error.response.status === 401) {
       const token = async () => {
         const getNewToken = await instance.post(`${BASE_URL}auth/tokens`);
-        Cookies.set("accessToken", getNewToken.data.accessToken);
-        Cookies.set("refreshToken", getNewToken.data.refreshToken);
+        Cookies.set("accessToken", getNewToken.data.accessToken, {
+          expires: 1,
+        });
+        Cookies.set("refreshToken", getNewToken.data.refreshToken, {
+          expires: 1,
+        });
 
         error.config.headers = {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         };
         const response = await axios.request(error.config);
+        console.log("instance에서 토큰 재발급");
         return response;
       };
-      token();
+      await token();
     }
   }
 );

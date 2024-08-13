@@ -50,7 +50,7 @@ export default function SideBar() {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isAddGoal]); // goals가 업데이트될 때마다 실행
+  }, [isAddGoal]);
 
   useEffect(() => {
     const fetchGoals = async () => {
@@ -62,18 +62,18 @@ export default function SideBar() {
 
     fetchGoals();
 
-    // 30분(1800000 밀리초)마다 getNewToken 함수 실행
     const intervalId = setInterval(() => {
+      console.log("토큰 재발급");
       getNewToken();
-    }, 1800000); // 30분 = 30 * 60 * 1000 밀리초
+    }, 1800000); //
 
     // 컴포넌트가 언마운트될 때 인터벌을 정리하여 메모리 누수 방지
     return () => clearInterval(intervalId);
-  }, []); // 빈 배열로 두어 컴포넌트가 마운트될 때 한 번만 설정되도록 함
+  }, []);
 
   return (
     <aside>
-      <button onClick={getGoals}>api테스트</button>
+      <button onClick={getNewToken}>api테스트</button>
       <div className="px-[16px] py-[12px] flex gap-[16px] lg:hidden">
         <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
           <Image

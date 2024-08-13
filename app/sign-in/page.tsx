@@ -21,7 +21,6 @@ export default function SignIn() {
   const handleSignIn = async () => {
     const response = await signIn(email, password);
     setUser(response.user);
-    console.log(response);
     if (response) {
       router.push("/dashboard");
     }

@@ -30,6 +30,11 @@ export async function signIn(
 
 export async function getNewToken() {
   const response = await instance.post(`${BASE_URL}auth/tokens`);
-  Cookies.set("accessToken", response.data.accessToken);
-  Cookies.set("refreshToken", response.data.refreshToken);
+  console.log(response);
+  Cookies.set("accessToken", response.data.accessToken, {
+    expires: 1,
+  });
+  Cookies.set("refreshToken", response.data.refreshToken, {
+    expires: 1,
+  });
 }
