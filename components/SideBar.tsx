@@ -46,6 +46,13 @@ export default function SideBar() {
     }
   };
 
+  const fetchGoals = async () => {
+    const goalsData = await getGoals();
+    if (goalsData) {
+      setGoals(goalsData);
+    }
+  };
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -53,27 +60,12 @@ export default function SideBar() {
   }, [isAddGoal]);
 
   useEffect(() => {
-    const fetchGoals = async () => {
-      const goalsData = await getGoals();
-      if (goalsData) {
-        setGoals(goalsData);
-      }
-    };
-
     fetchGoals();
-
-    const intervalId = setInterval(() => {
-      console.log("토큰 재발급");
-      getNewToken();
-    }, 1800000); //
-
-    // 컴포넌트가 언마운트될 때 인터벌을 정리하여 메모리 누수 방지
-    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <aside>
-      <button onClick={getNewToken}>api테스트</button>
+      {/* <button onClick={getNewToken}>api테스트</button> */}
       <div className="px-[16px] py-[12px] flex gap-[16px] lg:hidden">
         <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
           <Image
@@ -154,7 +146,7 @@ export default function SideBar() {
           <div className="pt-[16px]  pb-[24px]">
             <div className="flex flex-col">
               {goals.map((goal) => (
-                <Link key={goal.id} href="#">
+                <Link key={goal.id} href={`/dashboard/goal/${goal.id}`}>
                   {goal.title}
                 </Link>
               ))}

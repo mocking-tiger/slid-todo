@@ -23,3 +23,13 @@ export async function addGoal(title: string) {
     console.log(error);
   }
 }
+
+export async function getGoalDetail(goalID: number) {
+  try {
+    const response = await instance.get(`${BASE_URL}goals/${goalID}`);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+  }
+}

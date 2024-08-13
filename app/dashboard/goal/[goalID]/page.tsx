@@ -2,14 +2,34 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
 import Cookies from "js-cookie";
 import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
+import { getGoalDetail } from "@/api/goalApi";
+import { getTodo } from "@/api/todoApi";
 
-export default function Goal() {
+export default function GoalDetail(params: PagePropsType) {
   const router = useRouter();
+  const id = params.params.goalID;
   const [isLoading, setIsLoading] = useState(true);
+  const [goalDetail, setGoalDetail] = useState<GoalDetailType>();
+  const [todos, setTodos] = useState<TodoType[]>([]);
+
+  const getPageDetail = async () => {
+    const goalData = await getGoalDetail(Number(id));
+    const todoData = await getTodo(Number(id));
+    console.log(goalData);
+    setGoalDetail(goalData?.data);
+    console.log(todoData);
+    setTodos(todoData?.data.todos);
+  };
+
+  useEffect(() => {
+    getPageDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!Cookies.get("accessToken")) {
@@ -40,7 +60,7 @@ export default function Goal() {
                   />
                 </div>
                 <h2 className="text-[1.8rem] font-semibold">
-                  목표 타이틀 들어갈 곳
+                  {goalDetail?.title}
                 </h2>
               </div>
               <div>프로그레스 게이지 들어갈 곳</div>
@@ -64,13 +84,25 @@ export default function Goal() {
                     {"+ 할일 추가"}
                   </p>
                 </div>
-                <div>미완료된 할 일 리스트</div>
+                <ul>
+                  {todos
+                    .filter((todo) => todo.done === false)
+                    .map((todo) => (
+                      <li key={todo.id}>{todo.title}</li>
+                    ))}
+                </ul>
               </div>
               <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#E2E8F0]">
                 <div className="flex items-center gap-[8px]">
                   <h2 className="text-[1.8rem] font-semibold">Done</h2>
                 </div>
-                <div>완료된 할 일 리스트</div>
+                <ul>
+                  {todos
+                    .filter((todo) => todo.done === true)
+                    .map((todo) => (
+                      <li key={todo.id}>{todo.title}</li>
+                    ))}
+                </ul>
               </div>
             </div>
           </div>
