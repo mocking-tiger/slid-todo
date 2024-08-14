@@ -1,27 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
-import Cookies from "js-cookie";
-import LoadingScreen from "@/components/Loading";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import { getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";
 
 export default function GoalDetail(params: PagePropsType) {
-  const router = useRouter();
   const id = params.params.goalID;
-  const [isLoading, setIsLoading] = useState(true);
   const [goalDetail, setGoalDetail] = useState<GoalDetailType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const getPageDetail = async () => {
     const goalData = await getGoalDetail(Number(id));
     const todoData = await getTodo(Number(id));
+    console.log("goalData:");
     console.log(goalData);
     setGoalDetail(goalData?.data);
+    console.log("todoData: ");
     console.log(todoData);
     setTodos(todoData?.data.todos);
   };
@@ -30,17 +27,6 @@ export default function GoalDetail(params: PagePropsType) {
     getPageDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (!Cookies.get("accessToken")) {
-      router.push("/");
-    }
-    setIsLoading(false);
-  }, [router]);
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
 
   return (
     <aside>

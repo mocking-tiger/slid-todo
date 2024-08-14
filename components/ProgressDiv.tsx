@@ -7,25 +7,22 @@ export default function ProgressDiv({
   temp,
   progressValue,
   setProgressValue,
-  isLoading,
 }: ProgressDivType) {
   useEffect(() => {
-    if (!isLoading) {
-      // 숫자 애니메이션 설정
-      const interval = setInterval(() => {
-        setProgressValue((prev) => {
-          if (prev < temp) {
-            return prev + 1;
-          } else {
-            clearInterval(interval);
-            return prev;
-          }
-        });
-      }, 10); // 숫자가 증가하는 속도 조절
+    // 숫자 애니메이션 설정
+    const interval = setInterval(() => {
+      setProgressValue((prev) => {
+        if (prev < temp) {
+          return prev + 1;
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
+    }, 10); // 숫자가 증가하는 속도 조절
 
-      return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
-    }
-  }, [isLoading, temp, setProgressValue]);
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
+  }, [temp, setProgressValue]);
 
   setProgress(100 - temp);
   return (

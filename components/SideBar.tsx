@@ -5,7 +5,6 @@ import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { addGoal, getGoals } from "@/api/goalApi";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
-import { getNewToken } from "@/api/authApi";
 import { GoalType } from "@/types/apiTypes";
 import Image from "next/image";
 import Link from "next/link";

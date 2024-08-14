@@ -13,3 +13,13 @@ export async function getTodo(goalID: number) {
     console.log(error);
   }
 }
+
+export async function getTodoAll() {
+  try {
+    const response = await instance.get(`${BASE_URL}todos?size=999`);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+  }
+}

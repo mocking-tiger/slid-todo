@@ -1,31 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import LoadingScreen from "@/components/Loading";
+import { useState } from "react";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
 
 export default function Dashboard() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
   const [progressValue, setProgressValue] = useState(0);
 
   const temp = 72;
-
-  useEffect(() => {
-    if (!Cookies.get("accessToken")) {
-      router.push("/");
-    }
-    setIsLoading(false);
-  }, [router]);
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
 
   return (
     <main className="relative">
@@ -60,7 +44,6 @@ export default function Dashboard() {
                 temp={temp}
                 progressValue={progressValue}
                 setProgressValue={setProgressValue}
-                isLoading={isLoading}
               />
             </div>
             <div className="w-[306px] sm:w-auto h-full mt-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">

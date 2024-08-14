@@ -13,5 +13,4 @@ export type ProgressDivType = {
   temp: number;
   progressValue: number;
   setProgressValue: React.Dispatch<React.SetStateAction<number>>;
-  isLoading: boolean;
 };
