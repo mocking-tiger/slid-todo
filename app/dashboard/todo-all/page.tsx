@@ -1,9 +1,24 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { getTodoAll } from "@/api/todoApi";
 import SideBar from "@/components/SideBar";
+import { AllTodoType } from "@/types/apiTypes";
 
 export default function TodoAll() {
-  const temp = 6;
+  const [todos, setTodos] = useState<AllTodoType>();
+
+  const getTodos = async () => {
+    const todosData = await getTodoAll();
+    if (todosData) {
+      setTodos(todosData.data);
+      console.log(todosData);
+    }
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   return (
     <div>
@@ -12,7 +27,7 @@ export default function TodoAll() {
         <div className="w-[343px] sm:w-full 2xl:w-[1200px] h-[calc(100vh-40px)] mx-auto p-[24px] ">
           <div className="flex justify-between">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">
-              모든 할 일 {`(${temp})`}
+              모든 할 일 {`(${todos && todos.totalCount})`}
             </h2>
             <span className="text-[1.4rem] text-[#3B82F6] cursor-pointer">
               + 할일 추가
@@ -31,7 +46,12 @@ export default function TodoAll() {
                   Done
                 </div>
               </div>
-              <div>모든 할 일 리스트 들어갈 곳</div>
+              <ul>
+                {todos &&
+                  todos.todos.map((todo) => (
+                    <li key={todo.id}>{todo.title}</li>
+                  ))}
+              </ul>
             </div>
           </div>
         </div>

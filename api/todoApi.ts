@@ -16,7 +16,7 @@ export async function getTodo(goalID: number) {
 
 export async function getTodoAll() {
   try {
-    const response = await instance.get(`${BASE_URL}todos?size=999`);
+    const response = await instance.get(`${BASE_URL}todos?size=40`);
     return response;
   } catch (e) {
     const error = e as ErrorType;
