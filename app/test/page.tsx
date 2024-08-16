@@ -1,10 +1,10 @@
-import ProgressBar from "@/components/ProgressBar";
+import GoalSection from "@/components/GoalSection";
 
 export default function Test() {
   return (
     <div>
       <div className="w-[600px] h-[600px] bg-black">
-        <ProgressBar />
+        <GoalSection />
       </div>
     </div>
   );
