@@ -6,15 +6,18 @@ import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import { getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";
+import LoadingScreen from "@/components/Loading";
 
 export default function GoalDetail(params: PagePropsType) {
   const id = params.params.goalID;
   const [goalDetail, setGoalDetail] = useState<GoalDetailType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getPageDetail = async () => {
     const goalData = await getGoalDetail(Number(id));
     const todoData = await getTodo(Number(id));
+    if (goalData && todoData) setIsLoading(false);
     console.log("goalData:");
     console.log(goalData);
     setGoalDetail(goalData?.data);
@@ -27,6 +30,10 @@ export default function GoalDetail(params: PagePropsType) {
     getPageDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <aside>
