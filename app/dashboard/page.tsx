@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
@@ -15,7 +14,7 @@ export default function Dashboard() {
   const [goals, setGoals] = useState<GoalType[]>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const temp = 72;
+  const temp = 24;
 
   const fetchGoals = async () => {
     const response = await getGoals(3);

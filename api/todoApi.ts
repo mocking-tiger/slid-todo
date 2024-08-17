@@ -2,10 +2,12 @@ import { BASE_URL } from "./constants/url";
 import { ErrorType } from "../types/apiTypes";
 import instance from "./instance/default-instance";
 
-export async function getTodo(goalID: number) {
+export async function getTodo(goalID: number, done?: boolean, size?: number) {
   try {
     const response = await instance.get(
-      `${BASE_URL}todos?goalId=${goalID}&size=20`
+      `${BASE_URL}todos?goalId=${goalID}&${
+        done ? `done=${done}&` : done === false ? "done=false&" : ""
+      }${size ? `size=${size}` : "size=20"}`
     );
     return response;
   } catch (e) {
