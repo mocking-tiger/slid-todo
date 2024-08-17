@@ -1,15 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
+import { getGoals } from "@/api/goalApi";
+import { GoalType } from "@/types/apiTypes";
+import GoalSection from "@/components/GoalSection";
 
 export default function Dashboard() {
   const [progressValue, setProgressValue] = useState(0);
+  const [goals, setGoals] = useState<GoalType[]>();
 
   const temp = 72;
+
+  const fetchGoals = async () => {
+    const response = await getGoals(3);
+    if (response) {
+      console.log(response);
+      setGoals(response);
+    }
+  };
+
+  useEffect(() => {
+    fetchGoals();
+  }, []);
 
   return (
     <main className="relative">
@@ -58,7 +74,18 @@ export default function Dashboard() {
                 </div>
                 <h2 className="text-[1.8rem] font-semibold">목표 별 할 일</h2>
               </div>
-              <div>목표 별 할 일 들어갈 곳</div>
+              <div className="grid gap-[16px] grid-cols-2">
+                {goals?.map((goal, index) => (
+                  <div
+                    key={goal.id}
+                    className={`${
+                      (index + 1) % 3 === 0 ? "col-span-2" : "col-span-1"
+                    }`}
+                  >
+                    <GoalSection />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         }

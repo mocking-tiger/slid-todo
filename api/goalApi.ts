@@ -2,9 +2,11 @@ import { BASE_URL } from "./constants/url";
 import { ErrorType } from "../types/apiTypes";
 import instance from "./instance/default-instance";
 
-export async function getGoals() {
+export async function getGoals(size: number = 999, cursor?: number) {
   try {
-    const response = await instance.get(`${BASE_URL}goals?size=999`);
+    const response = await instance.get(
+      `${BASE_URL}goals?${cursor ? `cursor=${cursor}&` : ""}size=${size}`
+    );
     return response.data.goals;
   } catch (e) {
     const error = e as ErrorType;
