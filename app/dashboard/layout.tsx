@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@/components/Loading";
 import Cookies from "js-cookie";
+import SideBar from "@/components/SideBar";
 
 export default function DashboardLayout({
   children,
@@ -24,5 +25,10 @@ export default function DashboardLayout({
     return <LoadingScreen />;
   }
 
-  return <div>{children}</div>;
+  return (
+    <div className="lg:flex">
+      <SideBar />
+      <main className="flex-1 p-[24px] bg-[#F1F5F9]">{children}</main>
+    </div>
+  );
 }

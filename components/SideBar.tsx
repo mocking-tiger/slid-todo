@@ -63,7 +63,7 @@ export default function SideBar() {
   }, []);
 
   return (
-    <aside>
+    <aside className="border-r">
       {/* <button onClick={getNewToken}>api테스트</button> */}
       <div className="px-[16px] py-[12px] flex gap-[16px] lg:hidden">
         <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
@@ -77,7 +77,7 @@ export default function SideBar() {
         <h2 className="text-[1.8rem] font-semibold">대시보드</h2>
       </div>
       <div
-        className={`w-[280px] h-screen mr-[24px] py-[12px] border-r float-left bg-white hidden  ${
+        className={`w-[280px] min-h-screen py-[12px] float-left bg-white hidden  ${
           isHide ? "hidden" : "lg:block"
         }`}
       >
@@ -173,7 +173,7 @@ export default function SideBar() {
         </div>
       </div>
       {isHide && (
-        <div className="w-fit h-screen px-[14px] py-[16px] mr-[24px] border-r float-left bg-white lg:flex flex-col items-center gap-[16px] hidden">
+        <div className="w-fit h-screen px-[14px] py-[16px] float-left bg-white lg:flex flex-col items-center gap-[16px] hidden">
           <Link href="/">
             <Image
               src="/sidebar-logo.svg"

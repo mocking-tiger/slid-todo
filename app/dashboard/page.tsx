@@ -8,10 +8,12 @@ import ProgressDiv from "@/components/ProgressDiv";
 import { getGoals } from "@/api/goalApi";
 import { GoalType } from "@/types/apiTypes";
 import GoalSection from "@/components/GoalSection";
+import LoadingScreen from "@/components/Loading";
 
 export default function Dashboard() {
   const [progressValue, setProgressValue] = useState(0);
   const [goals, setGoals] = useState<GoalType[]>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const temp = 72;
 
@@ -20,6 +22,7 @@ export default function Dashboard() {
     if (response) {
       console.log(response);
       setGoals(response);
+      setIsLoading(false);
     }
   };
 
@@ -27,10 +30,13 @@ export default function Dashboard() {
     fetchGoals();
   }, []);
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <main className="relative">
-      <SideBar />
-      <div className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
+      <div className="w-full min-h-[calc(100vh-51px)] lg:min-h-screen bg-[#F1F5F9]">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
@@ -62,7 +68,7 @@ export default function Dashboard() {
                 setProgressValue={setProgressValue}
               />
             </div>
-            <div className="w-[306px] sm:w-auto h-full mt-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
+            <div className="w-[306px] sm:w-auto h-auto mt-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
               <div className="flex items-center gap-[8px]">
                 <div className="w-[40px] h-[40px] bg-[#F97316] rounded-[15px] flex justify-center items-center">
                   <Image
@@ -82,7 +88,7 @@ export default function Dashboard() {
                       (index + 1) % 3 === 0 ? "col-span-2" : "col-span-1"
                     }`}
                   >
-                    <GoalSection />
+                    <GoalSection id={goal.id} />
                   </div>
                 ))}
               </div>

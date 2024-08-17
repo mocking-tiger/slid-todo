@@ -22,7 +22,6 @@ export default function TodoAll() {
 
   return (
     <div>
-      <SideBar />
       <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
         <div className="w-[343px] sm:w-full 2xl:w-[1200px] h-[calc(100vh-40px)] mx-auto p-[24px] ">
           <div className="flex justify-between">
