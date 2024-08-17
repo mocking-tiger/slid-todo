@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { getTodoAll } from "@/api/todoApi";
-import SideBar from "@/components/SideBar";
 import { AllTodoType } from "@/types/apiTypes";
 
 export default function TodoAll() {

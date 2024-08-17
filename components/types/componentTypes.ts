@@ -10,7 +10,7 @@ export type InputType = {
 };
 
 export type ProgressDivType = {
-  temp: number;
+  ratio: number;
   progressValue: number;
   setProgressValue: React.Dispatch<React.SetStateAction<number>>;
 };

@@ -5,22 +5,28 @@ import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
 import { getGoals } from "@/api/goalApi";
-import { GoalType } from "@/types/apiTypes";
+import { GoalType, TodoType } from "@/types/apiTypes";
 import GoalSection from "@/components/GoalSection";
 import LoadingScreen from "@/components/Loading";
+import { getTodoAll } from "@/api/todoApi";
 
 export default function Dashboard() {
   const [progressValue, setProgressValue] = useState(0);
   const [goals, setGoals] = useState<GoalType[]>();
   const [isLoading, setIsLoading] = useState(false);
-
-  const temp = 24;
+  const [ratio, setRatio] = useState(0);
 
   const fetchGoals = async () => {
     const response = await getGoals(3);
-    if (response) {
-      console.log(response);
+    const allTodo = await getTodoAll();
+    if (response && allTodo) {
       setGoals(response);
+      console.log(allTodo);
+      const total = allTodo.data.totalCount;
+      const dones = allTodo.data.todos.filter(
+        (todo: TodoType) => todo.done === true
+      );
+      setRatio((dones.length / total) * 100);
       setIsLoading(false);
     }
   };
@@ -62,7 +68,7 @@ export default function Dashboard() {
                 <div>할 일 목록 들어갈 곳</div>
               </div>
               <ProgressDiv
-                temp={temp}
+                ratio={ratio}
                 progressValue={progressValue}
                 setProgressValue={setProgressValue}
               />

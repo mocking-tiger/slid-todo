@@ -4,7 +4,7 @@ import { ProgressDivType } from "./types/componentTypes";
 import ProgressCircle, { setProgress } from "./ProgressCircle";
 
 export default function ProgressDiv({
-  temp,
+  ratio,
   progressValue,
   setProgressValue,
 }: ProgressDivType) {
@@ -12,7 +12,7 @@ export default function ProgressDiv({
     // 숫자 애니메이션 설정
     const interval = setInterval(() => {
       setProgressValue((prev) => {
-        if (prev < temp) {
+        if (prev < ratio) {
           return prev + 1;
         } else {
           clearInterval(interval);
@@ -22,9 +22,9 @@ export default function ProgressDiv({
     }, 10); // 숫자가 증가하는 속도 조절
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
-  }, [temp, setProgressValue]);
+  }, [ratio, setProgressValue]);
 
-  setProgress(100 - temp);
+  setProgress(100 - ratio);
   return (
     <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
       <Image
