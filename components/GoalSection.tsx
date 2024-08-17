@@ -1,31 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getTodo } from "@/api/todoApi";
-import ProgressBar from "./ProgressBar";
 import { getGoalDetail } from "@/api/goalApi";
 import { GoalType, TodoType } from "@/types/apiTypes";
+import ProgressBar from "./ProgressBar";
+import Image from "next/image";
 
 export default function GoalSection({ id }: { id: number }) {
+  const router = useRouter();
   const [goalDetail, setGoalDetail] = useState<GoalType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [dones, setDones] = useState<TodoType[]>([]);
   const [progress, setProgress] = useState(0);
+  const [isOverFive, setIsOverFive] = useState(false);
 
   const getDetails = async () => {
     const fetchGoal = await getGoalDetail(id);
     const fetchTodos = await getTodo(id, false, 5);
     const fetchDones = await getTodo(id, true, 5);
     if (fetchTodos && fetchDones && fetchGoal) {
-      console.log(fetchGoal);
+      // console.log(fetchGoal);
       setGoalDetail(fetchGoal.data);
-      console.log(fetchTodos);
+      // console.log(fetchTodos);
       setTodos(fetchTodos.data.todos);
-      console.log(fetchDones);
+      // console.log(fetchDones);
       setDones(fetchDones.data.todos);
       const totalCount =
         fetchTodos.data.totalCount + fetchDones.data.totalCount;
       setProgress(Math.round((fetchDones.data.totalCount / totalCount) * 100));
+      if (fetchTodos.data.totalCount >= 5 || fetchDones.data.totalCount >= 5) {
+        setIsOverFive(true);
+      }
     }
   };
 
@@ -35,9 +42,12 @@ export default function GoalSection({ id }: { id: number }) {
   }, []);
 
   return (
-    <div className="w-full h-auto min-h-[257px] p-[24px] bg-[#EFF6FF] rounded-[32px]">
+    <div className="w-full h-auto p-[24px] bg-[#EFF6FF] rounded-[32px] select-none">
       <div className="flex justify-between">
-        <h1 className="mb-[8px] text-[1.8rem] font-bold">
+        <h1
+          className="mb-[8px] text-[1.8rem] font-bold cursor-pointer"
+          onClick={() => router.push(`/dashboard/goal/${goalDetail?.id}`)}
+        >
           {goalDetail?.title}
         </h1>
         <span className="text-[1.4rem] text-[#3B82F6] cursor-pointer">
@@ -47,7 +57,7 @@ export default function GoalSection({ id }: { id: number }) {
       <div className="mb-[16px]">
         <ProgressBar progress={progress} />
       </div>
-      <div className="w-full flex">
+      <div className="w-full flex flex-col gap-[24px] sm:flex-row sm:gap-0">
         <div className="w-full">
           <h2 className="mb-[12px] text-[1.4rem] font-semibold">To do</h2>
           <ul>
@@ -81,6 +91,22 @@ export default function GoalSection({ id }: { id: number }) {
           </ul>
         </div>
       </div>
+      {isOverFive && (
+        <div className="w-full mt-[16px] flex justify-center">
+          <div
+            className="w-[120px] py-[6px] flex justify-center items-center bg-white rounded-[16px] cursor-pointer"
+            onClick={() => router.push(`/dashboard/goal/${goalDetail?.id}`)}
+          >
+            <span>더보기</span>
+            <Image
+              src="/modal-arrowdown.svg"
+              width={24}
+              height={24}
+              alt="button-arrow-icon"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

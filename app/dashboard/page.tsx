@@ -26,7 +26,7 @@ export default function Dashboard() {
       const dones = allTodo.data.todos.filter(
         (todo: TodoType) => todo.done === true
       );
-      setRatio((dones.length / total) * 100);
+      setRatio(Math.round((dones.length / total) * 100));
       setIsLoading(false);
     }
   };
@@ -41,7 +41,7 @@ export default function Dashboard() {
 
   return (
     <main className="relative">
-      <div className="w-full min-h-[calc(100vh-51px)] lg:min-h-screen bg-[#F1F5F9]">
+      <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9]">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
@@ -85,7 +85,7 @@ export default function Dashboard() {
                 </div>
                 <h2 className="text-[1.8rem] font-semibold">목표 별 할 일</h2>
               </div>
-              <div className="grid gap-[16px] grid-cols-2">
+              <div className="flex flex-col sm:grid gap-[16px] grid-cols-2">
                 {goals?.map((goal, index) => (
                   <div
                     key={goal.id}

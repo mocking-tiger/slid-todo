@@ -28,7 +28,7 @@ export default function DashboardLayout({
   return (
     <div className="lg:flex">
       <SideBar />
-      <main className="flex-1 p-[24px] bg-[#F1F5F9]">{children}</main>
+      <main className="flex-1 bg-[#F1F5F9]">{children}</main>
     </div>
   );
 }
