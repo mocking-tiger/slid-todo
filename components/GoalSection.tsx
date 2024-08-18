@@ -73,8 +73,8 @@ export default function GoalSection({ id }: { id: number }) {
                 <li key={todo.id} className="text-[1.4rem] flex gap-[8px]">
                   <Image
                     src="/checkbox-unchecked.svg"
-                    width={16}
-                    height={16}
+                    width={24}
+                    height={24}
                     alt="checkbox-icon"
                   />
                   <span>{todo.title}</span>
@@ -95,8 +95,8 @@ export default function GoalSection({ id }: { id: number }) {
                 <li key={done.id} className="text-[1.4rem] flex gap-[8px]">
                   <Image
                     src="/checkbox-checked.svg"
-                    width={16}
-                    height={16}
+                    width={18}
+                    height={18}
                     alt="checkbox-icon"
                   />
                   <span className="line-through">{done.title}</span>

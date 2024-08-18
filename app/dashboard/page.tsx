@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [goals, setGoals] = useState<GoalType[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [ratio, setRatio] = useState(0);
+  const [recentTodos, setRecentTodos] = useState<TodoType[]>([]);
 
   const fetchGoals = async () => {
     const response = await getGoals(3);
@@ -27,12 +28,22 @@ export default function Dashboard() {
         (todo: TodoType) => todo.done === true
       );
       setRatio(Math.round((dones.length / total) * 100));
+      setRecentTodos(
+        allTodo.data.todos
+          .sort(
+            (a: TodoType, b: TodoType) =>
+              Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+          )
+          .slice(0, 4)
+      );
+      console.log(recentTodos);
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchGoals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -41,7 +52,7 @@ export default function Dashboard() {
 
   return (
     <main className="relative">
-      <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9]">
+      <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9] select-none">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
@@ -65,7 +76,26 @@ export default function Dashboard() {
                     </p>
                   </Link>
                 </div>
-                <div>할 일 목록 들어갈 곳</div>
+                <ul>
+                  {recentTodos.map((todo: TodoType) => (
+                    <li key={todo.id} className="flex gap-[8px]">
+                      <Image
+                        className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                        src={
+                          todo.done
+                            ? "/checkbox-checked.svg"
+                            : "/checkbox-unchecked.svg"
+                        }
+                        width={todo.done === true ? 18 : 24}
+                        height={todo.done === true ? 18 : 24}
+                        alt="checkbox-icon"
+                      />
+                      <span className={todo.done ? "line-through" : ""}>
+                        {todo.title}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
               <ProgressDiv
                 ratio={ratio}
