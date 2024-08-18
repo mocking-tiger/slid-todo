@@ -47,7 +47,13 @@ export default function SignUp() {
       <div className="w-[343px] sm:w-[640px] mx-auto">
         <div className="w-fit mx-auto mb-[40px] py-[20.3px] pl-[12.7px] pr-[13.2px]">
           <Link href="/">
-            <Image src="/logo.svg" width={244} height={48} alt="로고" />
+            <Image
+              src="/logo.svg"
+              width={244}
+              height={48}
+              alt="로고"
+              priority
+            />
           </Link>
         </div>
         <div className="mb-[48px] flex flex-col gap-[24px]">

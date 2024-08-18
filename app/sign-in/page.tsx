@@ -42,7 +42,7 @@ export default function SignIn() {
     <main className="h-screen py-12 sm:py-16 xl:py-[120px] select-none">
       <div className="w-[343px] sm:w-[640px] mx-auto">
         <div className="w-fit mx-auto mb-[40px] py-[20.3px] pl-[12.7px] pr-[13.2px]">
-          <Image src="/logo.svg" width={244} height={48} alt="로고" />
+          <Image src="/logo.svg" width={244} height={48} alt="로고" priority />
         </div>
         <div className="mb-[48px] flex flex-col gap-[24px]">
           <Input

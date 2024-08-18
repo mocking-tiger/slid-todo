@@ -83,7 +83,14 @@ export default function SideBar() {
       >
         <div className="mb-[13px] px-[21px] flex justify-between items-center">
           <Link href="/">
-            <Image src="/logo.svg" width={106} height={35} alt="logo-sidebar" />
+            <Image
+              src="/logo.svg"
+              width={0}
+              height={0}
+              style={{ width: "106px", height: "auto" }}
+              alt="logo-sidebar"
+              priority
+            />
           </Link>
           <button
             className="p-[8px] border-2 rounded-[8px]"
@@ -91,8 +98,9 @@ export default function SideBar() {
           >
             <Image
               src="/sidebar-hide.svg"
-              width={8}
-              height={8}
+              width={0}
+              height={0}
+              style={{ width: "8px", height: "auto" }}
               alt="sidebar-button"
             />
           </button>
@@ -100,8 +108,9 @@ export default function SideBar() {
         <div className="mb-[24px] px-[24px] flex gap-[12px]">
           <Image
             src="/sidebar-profile.svg"
-            width={64}
-            height={64}
+            width={0}
+            height={0}
+            style={{ width: "64px", height: "auto" }}
             alt="profile-sidebar"
           />
           <div>
@@ -124,8 +133,9 @@ export default function SideBar() {
           <Image
             className="ml-2"
             src="/sidebar-home.svg"
-            width={13}
-            height={13}
+            width={0}
+            height={0}
+            style={{ width: "13px", height: "auto" }}
             alt="sidebar-home"
           />
           <Link href="/">

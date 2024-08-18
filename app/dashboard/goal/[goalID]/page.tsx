@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
-import SideBar from "@/components/SideBar";
 import Image from "next/image";
 import { getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";

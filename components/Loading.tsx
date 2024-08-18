@@ -6,10 +6,12 @@ export default function LoadingScreen() {
       <div>
         <Image
           src="/logo.svg"
-          width={244}
-          height={48}
+          width={0}
+          height={0}
+          style={{ width: "244px", height: "auto" }}
           alt="로고"
           className="animate-bounce"
+          priority
         />
         <h2 className="w-full text-[2rem] text-center">now Loading...</h2>
       </div>
