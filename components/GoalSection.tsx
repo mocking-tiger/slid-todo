@@ -7,6 +7,7 @@ import { getGoalDetail } from "@/api/goalApi";
 import { GoalType, TodoType } from "@/types/apiTypes";
 import ProgressBar from "./ProgressBar";
 import Image from "next/image";
+import LoadingScreen from "./Loading";
 
 export default function GoalSection({ id }: { id: number }) {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function GoalSection({ id }: { id: number }) {
   const [dones, setDones] = useState<TodoType[]>([]);
   const [progress, setProgress] = useState(0);
   const [isOverFive, setIsOverFive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getDetails = async () => {
     const fetchGoal = await getGoalDetail(id);
@@ -33,6 +35,7 @@ export default function GoalSection({ id }: { id: number }) {
       if (fetchTodos.data.totalCount >= 5 || fetchDones.data.totalCount >= 5) {
         setIsOverFive(true);
       }
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +43,10 @@ export default function GoalSection({ id }: { id: number }) {
     getDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="w-full h-auto p-[24px] bg-[#EFF6FF] rounded-[32px] select-none">
