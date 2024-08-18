@@ -70,8 +70,14 @@ export default function GoalSection({ id }: { id: number }) {
           <ul>
             {todos.length > 0 ? (
               todos.map((todo) => (
-                <li key={todo.id} className="text-[1.4rem]">
-                  {todo.title}
+                <li key={todo.id} className="text-[1.4rem] flex gap-[8px]">
+                  <Image
+                    src="/checkbox-unchecked.svg"
+                    width={16}
+                    height={16}
+                    alt="checkbox-icon"
+                  />
+                  <span>{todo.title}</span>
                 </li>
               ))
             ) : (
@@ -86,8 +92,14 @@ export default function GoalSection({ id }: { id: number }) {
           <ul>
             {dones.length > 0 ? (
               dones.map((done) => (
-                <li key={done.id} className="text-[1.4rem]">
-                  {done.title}
+                <li key={done.id} className="text-[1.4rem] flex gap-[8px]">
+                  <Image
+                    src="/checkbox-checked.svg"
+                    width={16}
+                    height={16}
+                    alt="checkbox-icon"
+                  />
+                  <span className="line-through">{done.title}</span>
                 </li>
               ))
             ) : (
