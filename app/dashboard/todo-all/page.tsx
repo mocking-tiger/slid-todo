@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { getTodoAll } from "@/api/todoApi";
 import { AllTodoType } from "@/types/apiTypes";
+import Image from "next/image";
 
 export default function TodoAll() {
   const [todos, setTodos] = useState<AllTodoType>();
+  const [status, setStatus] = useState<"All" | "Todo" | "Done">("All");
 
   const getTodos = async () => {
     const todosData = await getTodoAll();
@@ -31,24 +33,85 @@ export default function TodoAll() {
               + 할일 추가
             </span>
           </div>
-          <div className="flex">
-            <div className="w-full h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
+          <div className="h-full flex">
+            <div className="w-full h-auto px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
               <div className="flex items-center gap-[8px]">
-                <div className="px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer">
+                <div
+                  className={`px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer ${
+                    status === "All" ? "bg-[#3B82F6] text-white" : ""
+                  }`}
+                  onClick={() => setStatus("All")}
+                >
                   All
                 </div>
-                <div className="px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer">
+                <div
+                  className={`px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer ${
+                    status === "Todo" ? "bg-[#3B82F6] text-white" : ""
+                  }`}
+                  onClick={() => setStatus("Todo")}
+                >
                   To do
                 </div>
-                <div className="px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer">
+                <div
+                  className={`px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer ${
+                    status === "Done" ? "bg-[#3B82F6] text-white" : ""
+                  }`}
+                  onClick={() => setStatus("Done")}
+                >
                   Done
                 </div>
               </div>
               <ul>
-                {todos &&
-                  todos.todos.map((todo) => (
-                    <li key={todo.id}>{todo.title}</li>
+                {status === "All" &&
+                  todos?.todos.map((todo) => (
+                    <li key={todo.id} className="flex gap-[8px]">
+                      <Image
+                        className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                        src={
+                          todo.done
+                            ? "/checkbox-checked.svg"
+                            : "/checkbox-unchecked.svg"
+                        }
+                        width={todo.done === true ? 18 : 24}
+                        height={todo.done === true ? 18 : 24}
+                        alt="checkbox-icon"
+                      />
+
+                      <span className={todo.done ? "line-through" : ""}>
+                        {todo.title}
+                      </span>
+                    </li>
                   ))}
+                {status === "Todo" &&
+                  todos?.todos
+                    .filter((todo) => todo.done === false)
+                    .map((todo) => (
+                      <li key={todo.id} className="flex gap-[8px]">
+                        <Image
+                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          src={"/checkbox-unchecked.svg"}
+                          width={24}
+                          height={24}
+                          alt="checkbox-icon"
+                        />
+                        <span>{todo.title}</span>
+                      </li>
+                    ))}
+                {status === "Done" &&
+                  todos?.todos
+                    .filter((todo) => todo.done === true)
+                    .map((todo) => (
+                      <li key={todo.id} className="flex gap-[8px]">
+                        <Image
+                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          src={"/checkbox-checked.svg"}
+                          width={18}
+                          height={18}
+                          alt="checkbox-icon"
+                        />
+                        <span className="line-through">{todo.title}</span>
+                      </li>
+                    ))}
               </ul>
             </div>
           </div>
