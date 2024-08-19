@@ -18,6 +18,7 @@ export default function CreateTodo({ goals }: { goals: GoalType[] }) {
         <input
           className="w-full px-[24px] py-[12px] bg-[#F8FAFC] rounded-[12px] focus:outline-none"
           placeholder="할 일의 제목을 적어주세요"
+          onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
         ></input>
       </div>
       <div>
@@ -57,8 +58,10 @@ export default function CreateTodo({ goals }: { goals: GoalType[] }) {
           className="w-full px-[20px] py-[12px] flex justify-between bg-[#F8FAFC] rounded-[12px] cursor-pointer"
           onClick={() => setIsGoalListClicked((prev) => !prev)}
         >
-          <p className={`${newTodo.title ? "" : "text-[#94A3B8]"}`}>
-            {newTodo?.title ? newTodo.title : "목표를 선택해주세요"}
+          <p className={`${newTodo.goalId ? "" : "text-[#94A3B8]"}`}>
+            {newTodo?.goalId
+              ? goals.find((goal) => goal.id === newTodo.goalId)?.title
+              : "목표를 선택해주세요"}
           </p>
           <Image
             src="/modal-arrowdown.svg"
@@ -75,7 +78,7 @@ export default function CreateTodo({ goals }: { goals: GoalType[] }) {
                   key={goal.id}
                   className="p-3 hover:bg-[#bce0fe] rounded-lg"
                   onClick={() => {
-                    setNewTodo({ ...newTodo, title: goal.title });
+                    setNewTodo({ ...newTodo, goalId: goal.id });
                     setIsGoalListClicked(false);
                   }}
                 >
