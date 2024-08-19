@@ -14,3 +14,10 @@ export type ProgressDivType = {
   progressValue: number;
   setProgressValue: React.Dispatch<React.SetStateAction<number>>;
 };
+
+export type NewTodoType = {
+  title: string;
+  fileUrl?: string;
+  linkUrl?: string;
+  goalId: number;
+};

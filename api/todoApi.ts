@@ -25,3 +25,35 @@ export async function getTodoAll() {
     console.log(error);
   }
 }
+
+export async function addTodo(
+  title: string,
+  goalId: number,
+  fileUrl?: string,
+  linkUrl?: string
+) {
+  try {
+    const payload: {
+      title: string;
+      goalId: number;
+      fileUrl?: string;
+      linkUrl?: string;
+    } = {
+      title,
+      goalId,
+    };
+
+    if (fileUrl) {
+      payload.fileUrl = fileUrl;
+    }
+
+    if (linkUrl) {
+      payload.linkUrl = linkUrl;
+    }
+    const response = await instance.post(`${BASE_URL}todos`, payload);
+    return response.data;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+  }
+}

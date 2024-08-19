@@ -39,8 +39,9 @@ export const useModal = () => {
               <Image
                 className="cursor-pointer absolute right-[24px]"
                 src="/modal-close.svg"
-                width={24}
-                height={24}
+                width={0}
+                height={0}
+                style={{ width: 24, height: "auto" }}
                 alt="모달닫기버튼"
                 onClick={closeModal}
               />

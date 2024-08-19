@@ -206,7 +206,7 @@ export default function SideBar() {
         </div>
       )}
       <Modal name="create-todo" title="할 일 생성">
-        <CreateTodo />
+        <CreateTodo goals={goals} />
       </Modal>
     </aside>
   );

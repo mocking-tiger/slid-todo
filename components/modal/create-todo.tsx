@@ -1,9 +1,16 @@
 "use client";
 
+import { useState } from "react";
+import { GoalType } from "@/types/apiTypes";
+import { NewTodoType } from "../types/componentTypes";
 import Image from "next/image";
 import Button from "../Button";
 
-export default function CreateTodo() {
+export default function CreateTodo({ goals }: { goals: GoalType[] }) {
+  const [isGoalListClicked, setIsGoalListClicked] = useState(false);
+  const [newTodo, setNewTodo] = useState<NewTodoType>({ title: "", goalId: 0 });
+
+  console.log(goals);
   return (
     <div className="flex flex-col gap-[24px]">
       <div>
@@ -44,10 +51,15 @@ export default function CreateTodo() {
           }
         </div>
       </div>
-      <div>
+      <div className="relative">
         <h2 className="mb-[12px] font-[600]">목표</h2>
-        <div className="w-full px-[20px] py-[12px] flex justify-between bg-[#F8FAFC] rounded-[12px] cursor-pointer">
-          <p className="text-[#94A3B8]">목표를 선택해주세요</p>
+        <div
+          className="w-full px-[20px] py-[12px] flex justify-between bg-[#F8FAFC] rounded-[12px] cursor-pointer"
+          onClick={() => setIsGoalListClicked((prev) => !prev)}
+        >
+          <p className={`${newTodo.title ? "" : "text-[#94A3B8]"}`}>
+            {newTodo?.title ? newTodo.title : "목표를 선택해주세요"}
+          </p>
           <Image
             src="/modal-arrowdown.svg"
             width={24}
@@ -55,6 +67,24 @@ export default function CreateTodo() {
             alt="arrowdown-icon"
           />
         </div>
+        {isGoalListClicked && (
+          <div className="w-full max-h-[200px] px-[20px] py-[12px] bg-white absolute select-none rounded-[12px] overflow-y-scroll">
+            <ul>
+              {goals.map((goal) => (
+                <li
+                  key={goal.id}
+                  className="p-3 hover:bg-[#bce0fe] rounded-lg"
+                  onClick={() => {
+                    setNewTodo({ ...newTodo, title: goal.title });
+                    setIsGoalListClicked(false);
+                  }}
+                >
+                  {goal.title}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <Button onClick={() => {}}>확인</Button>
     </div>

@@ -26,3 +26,18 @@ html {
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* 스크롤바 트랙 색상 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* 스크롤바 색상 */
+  border-radius: 10px;
+  border: 3px solid #f1f1f1; /* 스크롤바 바깥쪽 테두리 */
+}
