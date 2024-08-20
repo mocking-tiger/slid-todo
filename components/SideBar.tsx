@@ -16,7 +16,7 @@ export default function SideBar() {
   const router = useRouter();
   const user = useUserStore((state) => state.userInfo);
   const clearUser = useUserStore((state) => state.clearUserInfo);
-  const { Modal, openModal } = useModal();
+  const { Modal, openModal, closeModal } = useModal();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isHide, setIsHide] = useState(false);
   const [isAddGoal, setIsAddGoal] = useState(false);
@@ -206,7 +206,7 @@ export default function SideBar() {
         </div>
       )}
       <Modal name="create-todo" title="할 일 생성">
-        <CreateTodo goals={goals} />
+        <CreateTodo goals={goals} closeThis={closeModal} />
       </Modal>
     </aside>
   );

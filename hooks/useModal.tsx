@@ -33,7 +33,7 @@ export const useModal = () => {
             onClick={closeModal}
           >
             <div
-              className="w-[520px] min-h-[676px] p-[24px] bg-white rounded-[12px] relative"
+              className="w-[520px] h-auto p-[24px] bg-white rounded-[12px] relative"
               onClick={(e) => e.stopPropagation()}
             >
               <Image

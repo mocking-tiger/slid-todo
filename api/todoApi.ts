@@ -54,6 +54,6 @@ export async function addTodo(
     return response.data;
   } catch (e) {
     const error = e as ErrorType;
-    console.log(error);
+    alert(error.response.data.message);
   }
 }
