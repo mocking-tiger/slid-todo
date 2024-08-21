@@ -74,6 +74,7 @@ export default function CreateTodo({
           className="w-full px-[24px] py-[12px] bg-[#F8FAFC] rounded-[12px] focus:outline-none"
           placeholder="할 일의 제목을 적어주세요"
           onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
+          maxLength={30}
         ></input>
       </div>
       <div>
