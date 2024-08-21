@@ -9,6 +9,8 @@ export type InputType = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   // eslint-disable-next-line
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
 };
 
 export type ProgressDivType = {

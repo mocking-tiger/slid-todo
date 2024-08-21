@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { signUp } from "@/api/userApi";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
@@ -17,6 +17,11 @@ export default function SignUp() {
   const [password, setPassword] = useState<string | undefined>();
   const [passwordRepeat, setPasswordRepeat] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [warning, setWarning] = useState({
+    noName: false,
+    shortPassword: false,
+    differentPassword: false,
+  });
 
   const handleSignUp = async () => {
     if (password === passwordRepeat) {
@@ -28,6 +33,12 @@ export default function SignUp() {
     } else {
       alert("비밀번호를 확인해주세요.");
     }
+  };
+
+  const checkPasswordDifference = (text: string) => {
+    text !== password
+      ? setWarning({ ...warning, differentPassword: true })
+      : setWarning({ ...warning, differentPassword: false });
   };
 
   useEffect(() => {
@@ -61,7 +72,14 @@ export default function SignUp() {
             span="이름"
             placeholder="이름을 입력해주세요"
             onChange={(e) => setName(e.target.value)}
+            onBlur={() => !name && setWarning({ ...warning, noName: true })}
+            onFocus={() => setWarning({ ...warning, noName: false })}
           />
+          {warning.noName && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              이름을 입력해 주세요.
+            </span>
+          )}
           <Input
             span="이메일"
             placeholder="이메일을 입력해주세요"
@@ -73,13 +91,33 @@ export default function SignUp() {
             placeholder="비밀번호를 입력해주세요"
             isPassword
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={() =>
+              password?.length &&
+              password?.length < 8 &&
+              setWarning({ ...warning, shortPassword: true })
+            }
+            onFocus={() => setWarning({ ...warning, shortPassword: false })}
           />
+          {warning.shortPassword && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              비밀번호가 8자 이상이 되도록 해 주세요.
+            </span>
+          )}
           <Input
             span="비밀번호 확인"
             placeholder="비밀번호를 다시 한 번 입력해주세요"
             isPassword
-            onChange={(e) => setPasswordRepeat(e.target.value)}
+            onChange={(e) => {
+              setPasswordRepeat(e.target.value);
+              checkPasswordDifference(e.target.value);
+            }}
+            onFocus={() => setWarning({ ...warning, differentPassword: false })}
           />
+          {warning.differentPassword && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              비밀번호가 일치하지 않습니다.
+            </span>
+          )}
         </div>
         <Button onClick={handleSignUp}>회원가입</Button>
         <p className="w-fit mx-auto mt-[40px] text-[1.4rem]">

@@ -11,6 +11,7 @@ export default function Input({
   isPassword = false,
   onChange,
   onFocus,
+  onBlur,
 }: InputType) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,6 +24,7 @@ export default function Input({
         type={isPassword ? (isVisible ? type : "password") : "text"}
         onChange={onChange}
         onFocus={onFocus}
+        onBlur={onBlur}
       />
       {isPassword && (
         <Image
