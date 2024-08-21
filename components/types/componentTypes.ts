@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, FocusEvent } from "react";
 
 export type InputType = {
   span: string;
@@ -7,6 +7,8 @@ export type InputType = {
   isPassword?: boolean;
   // eslint-disable-next-line
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
 };
 
 export type ProgressDivType = {

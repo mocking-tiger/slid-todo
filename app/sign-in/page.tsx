@@ -17,12 +17,15 @@ export default function SignIn() {
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignIn = async () => {
     const response = await signIn(email, password);
-    setUser(response.user);
-    if (response) {
+    if (response.user) {
+      setUser(response.user);
       router.push("/dashboard");
+    } else {
+      setErrorMessage(response.response.data.message);
     }
   };
 
@@ -50,13 +53,25 @@ export default function SignIn() {
             placeholder="이메일을 입력해주세요"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setErrorMessage("")}
           />
+          {errorMessage && errorMessage !== "비밀번호가 올바르지 않습니다." && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              {errorMessage}
+            </span>
+          )}
           <Input
             span="비밀번호"
             placeholder="비밀번호를 입력해주세요"
             isPassword
             onChange={(e) => setPassword(e.target.value)}
+            onFocus={() => setErrorMessage("")}
           />
+          {errorMessage && errorMessage === "비밀번호가 올바르지 않습니다." && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              {errorMessage}
+            </span>
+          )}
         </div>
         <Button onClick={handleSignIn}>로그인</Button>
         <p className="w-fit mx-auto mt-[40px] text-[1.4rem]">
