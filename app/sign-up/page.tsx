@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { signUp } from "@/api/userApi";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
@@ -17,6 +17,7 @@ export default function SignUp() {
   const [password, setPassword] = useState<string | undefined>();
   const [passwordRepeat, setPasswordRepeat] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const [warning, setWarning] = useState({
     noName: false,
     shortPassword: false,
@@ -26,9 +27,12 @@ export default function SignUp() {
   const handleSignUp = async () => {
     if (password === passwordRepeat) {
       const response = await signUp(name, email, password);
-      if (response) {
+      if (response.id) {
+        console.log(response);
         alert("회원가입이 완료되었습니다.");
         router.push("/");
+      } else {
+        setErrorMessage(response.response.data.message);
       }
     } else {
       alert("비밀번호를 확인해주세요.");
@@ -80,12 +84,19 @@ export default function SignUp() {
               이름을 입력해 주세요.
             </span>
           )}
+
           <Input
             span="이메일"
             placeholder="이메일을 입력해주세요"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setErrorMessage("")}
           />
+          {errorMessage && errorMessage === "이미 사용 중인 이메일입니다." && (
+            <span className="-my-[20px] text-red-500 animate-shake">
+              {errorMessage}
+            </span>
+          )}
           <Input
             span="비밀번호"
             placeholder="비밀번호를 입력해주세요"

@@ -18,7 +18,8 @@ export async function signUp(
     }
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    // alert(error.response.data.message);
+    return error;
   }
 }
 
