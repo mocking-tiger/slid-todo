@@ -57,7 +57,7 @@ export default function Dashboard() {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>
             <div className="flex flex-col sm:flex-row 2xl:flex-row gap-[24px]">
-              <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
+              <div className="w-full 2xl:w-[588px] h-auto px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
                 <div className="flex items-center gap-[8px]">
                   <div className="w-[40px] h-[40px] bg-[#3B82F6] rounded-[15px] flex justify-center items-center">
                     <Image
@@ -76,24 +76,40 @@ export default function Dashboard() {
                     </p>
                   </Link>
                 </div>
-                <ul>
+                <ul className="">
                   {recentTodos.map((todo: TodoType) => (
-                    <li key={todo.id} className="flex gap-[8px]">
-                      <Image
-                        className={todo.done ? "ml-[4px] mr-[2px]" : ""}
-                        src={
-                          todo.done
-                            ? "/checkbox-checked.svg"
-                            : "/checkbox-unchecked.svg"
-                        }
-                        width={todo.done === true ? 18 : 24}
-                        height={todo.done === true ? 18 : 24}
-                        alt="checkbox-icon"
-                      />
-                      <span className={todo.done ? "line-through" : ""}>
-                        {todo.title}
-                      </span>
-                    </li>
+                    <>
+                      <li key={todo.id} className="flex gap-[8px]">
+                        <Image
+                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          src={
+                            todo.done
+                              ? "/checkbox-checked.svg"
+                              : "/checkbox-unchecked.svg"
+                          }
+                          width={todo.done === true ? 18 : 24}
+                          height={todo.done === true ? 18 : 24}
+                          alt="checkbox-icon"
+                        />
+                        <span
+                          className={`text-[1.4rem] ${
+                            todo.done ? "line-through" : ""
+                          }`}
+                        >
+                          {todo.title}
+                        </span>
+                      </li>
+                      <div className="flex items-center gap-[8px]">
+                        <Image
+                          className="ml-[35px]"
+                          src="/goal-summit.png"
+                          width={24}
+                          height={24}
+                          alt="goal-summit-icon"
+                        />
+                        <p className="text-[1.4rem]">{todo.goal.title}</p>
+                      </div>
+                    </>
                   ))}
                 </ul>
               </div>

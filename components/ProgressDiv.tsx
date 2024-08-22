@@ -26,7 +26,7 @@ export default function ProgressDiv({
 
   setProgress(100 - ratio);
   return (
-    <div className="w-full 2xl:w-[588px] h-[250px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
+    <div className="w-full 2xl:w-[588px] h-[280px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
       <Image
         src="/dashboard-progress.png"
         width={40}

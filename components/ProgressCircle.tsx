@@ -16,7 +16,7 @@ export function setProgress(percent: number) {
 
 export default function ProgressCircle() {
   return (
-    <div className="absolute left-[40%] 2xl:left-[50%] top-16 z-10">
+    <div className="absolute left-[40%] 2xl:left-[50%] top-20 z-10">
       <svg
         width="166"
         height="166"

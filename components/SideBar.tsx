@@ -82,9 +82,10 @@ export default function SideBar() {
           <h2 className="text-[1.8rem] font-semibold">대시보드</h2>
         </div>
         <div
-          className={`w-[280px] min-h-screen py-[12px] float-left bg-white transform transition-transform duration-500 ease-in-out ${
-            isHide ? "-translate-x-full hidden" : "translate-x-0"
-          } lg:block`}
+          className={`w-[280px] min-h-screen py-[12px] float-left 
+            bg-white transform transition-transform duration-500 ease-in-out hidden ${
+              isHide ? "-translate-x-full" : "translate-x-0"
+            } lg:block`}
         >
           <div className="mb-[13px] px-[21px] flex justify-between items-center">
             <Link href="/">
@@ -197,7 +198,8 @@ export default function SideBar() {
       </aside>
       {isHide && (
         <div
-          className={`w-fit h-screen px-[14px] py-[16px] float-left bg-white lg:flex flex-col items-center gap-[16px] hidden`}
+          className="w-fit h-screen px-[14px] py-[16px] float-left bg-white lg:flex flex-col 
+            items-center gap-[16px] hidden"
         >
           <Link href="/">
             <Image
