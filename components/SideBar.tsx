@@ -83,7 +83,7 @@ export default function SideBar() {
         </div>
         <div
           className={`w-[280px] min-h-screen py-[12px] float-left bg-white transform transition-transform duration-500 ease-in-out ${
-            isHide ? "-translate-x-full" : "translate-x-0"
+            isHide ? "-translate-x-full hidden" : "translate-x-0"
           } lg:block`}
         >
           <div className="mb-[13px] px-[21px] flex justify-between items-center">
