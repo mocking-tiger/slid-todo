@@ -152,7 +152,7 @@ export default function SideBar() {
             />
             <span>목표</span>
           </div>
-          <div className="pt-[16px]  pb-[24px]">
+          <div className="max-h-[500px] pt-[16px] mb-[24px] overflow-y-auto">
             <div className="flex flex-col">
               {goals.map((goal) => (
                 <Link key={goal.id} href={`/dashboard/goal/${goal.id}`}>
