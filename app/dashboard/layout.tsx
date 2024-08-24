@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TodoProvider } from "@/context/TodoContext";
 import LoadingScreen from "@/components/Loading";
 import Cookies from "js-cookie";
 import SideBar from "@/components/SideBar";
@@ -26,9 +27,11 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="lg:flex">
-      <SideBar />
-      <main className="flex-1 bg-[#F1F5F9]">{children}</main>
-    </div>
+    <TodoProvider>
+      <div className="lg:flex">
+        <SideBar />
+        <main className="flex-1 bg-[#F1F5F9]">{children}</main>
+      </div>
+    </TodoProvider>
   );
 }

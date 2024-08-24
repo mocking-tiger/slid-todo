@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTodoContext } from "@/context/TodoContext";
 import { getTodo } from "@/api/todoApi";
 import { getGoalDetail } from "@/api/goalApi";
 import { GoalType, TodoType } from "@/types/apiTypes";
@@ -11,6 +12,7 @@ import LoadingScreen from "./Loading";
 
 export default function GoalSection({ id }: { id: number }) {
   const router = useRouter();
+  const { isUpdated } = useTodoContext();
   const [goalDetail, setGoalDetail] = useState<GoalType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [dones, setDones] = useState<TodoType[]>([]);
@@ -42,7 +44,7 @@ export default function GoalSection({ id }: { id: number }) {
   useEffect(() => {
     getDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isUpdated]);
 
   if (isLoading) {
     return <LoadingScreen />;

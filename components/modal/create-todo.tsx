@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useModal } from "@/hooks/useModal";
+import { useTodoContext } from "@/context/TodoContext";
 import { GoalType } from "@/types/apiTypes";
 import { NewTodoType } from "../types/componentTypes";
 import { addTodo } from "@/api/todoApi";
@@ -20,6 +21,7 @@ export default function CreateTodo({
 }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { Modal, openModal, closeModal } = useModal();
+  const { updateTodos } = useTodoContext();
   const [isGoalListClicked, setIsGoalListClicked] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -55,6 +57,7 @@ export default function CreateTodo({
     );
     if (response) {
       console.log(response);
+      updateTodos();
       closeThis();
     } else {
       setNewTodo({ ...newTodo, goalId: 0, linkUrl: "" });
