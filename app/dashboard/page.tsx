@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getGoals } from "@/api/goalApi";
+import { GoalType, TodoType } from "@/types/apiTypes";
+import { getTodoAll, patchTodo } from "@/api/todoApi";
 import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
-import { getGoals } from "@/api/goalApi";
-import { GoalType, TodoType } from "@/types/apiTypes";
 import GoalSection from "@/components/GoalSection";
 import LoadingScreen from "@/components/Loading";
-import { getTodoAll } from "@/api/todoApi";
+import { useTodoContext } from "@/context/TodoContext";
 
 export default function Dashboard() {
   const [progressValue, setProgressValue] = useState(0);
@@ -16,13 +17,14 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [ratio, setRatio] = useState(0);
   const [recentTodos, setRecentTodos] = useState<TodoType[]>([]);
+  const { isUpdated, updateTodos } = useTodoContext();
 
   const fetchGoals = async () => {
     const response = await getGoals(3);
     const allTodo = await getTodoAll();
     if (response && allTodo) {
       setGoals(response);
-      console.log(allTodo);
+      // console.log(allTodo);
       const total = allTodo.data.totalCount;
       const dones = allTodo.data.todos.filter(
         (todo: TodoType) => todo.done === true
@@ -36,15 +38,37 @@ export default function Dashboard() {
           )
           .slice(0, 4)
       );
-      console.log(recentTodos);
+      // console.log(recentTodos);
       setIsLoading(false);
+      console.log(ratio);
+    }
+  };
+
+  const changeTodoStatus = async (
+    title: string,
+    goalId: number,
+    fileUrl: string,
+    linkUrl: string,
+    done: boolean,
+    todoId: number
+  ) => {
+    const response = await patchTodo(
+      title,
+      goalId,
+      fileUrl,
+      linkUrl,
+      !done,
+      todoId
+    );
+    if (response) {
+      updateTodos();
     }
   };
 
   useEffect(() => {
     fetchGoals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isUpdated]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -78,10 +102,12 @@ export default function Dashboard() {
                 </div>
                 <ul className="">
                   {recentTodos.map((todo: TodoType) => (
-                    <>
-                      <li key={todo.id} className="flex gap-[8px]">
+                    <div key={todo.id}>
+                      <li className="flex gap-[8px]">
                         <Image
-                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          className={`cursor-pointer ${
+                            todo.done ? "ml-[4px] mr-[2px]" : ""
+                          }`}
                           src={
                             todo.done
                               ? "/checkbox-checked.svg"
@@ -90,6 +116,16 @@ export default function Dashboard() {
                           width={todo.done === true ? 18 : 24}
                           height={todo.done === true ? 18 : 24}
                           alt="checkbox-icon"
+                          onClick={() =>
+                            changeTodoStatus(
+                              todo.title,
+                              todo.goal.id,
+                              todo.fileUrl,
+                              todo.linkUrl,
+                              todo.done,
+                              todo.id
+                            )
+                          }
                         />
                         <span
                           className={`text-[1.4rem] ${
@@ -109,7 +145,7 @@ export default function Dashboard() {
                         />
                         <p className="text-[1.4rem]">{todo.goal.title}</p>
                       </div>
-                    </>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -139,7 +175,10 @@ export default function Dashboard() {
                       (index + 1) % 3 === 0 ? "col-span-2" : "col-span-1"
                     }`}
                   >
-                    <GoalSection id={goal.id} />
+                    <GoalSection
+                      id={goal.id}
+                      changeTodoStatus={changeTodoStatus}
+                    />
                   </div>
                 ))}
               </div>

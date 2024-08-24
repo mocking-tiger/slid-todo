@@ -57,3 +57,28 @@ export async function addTodo(
     alert(error.response.data.message);
   }
 }
+
+export async function patchTodo(
+  title: string,
+  goalId: number,
+  fileUrl: string,
+  linkUrl: string,
+  done: boolean,
+  todoId: number
+) {
+  try {
+    const response = await instance.patch(`${BASE_URL}todos/${todoId}`, {
+      title,
+      fileUrl,
+      linkUrl,
+      goalId,
+      done,
+      todoId,
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    alert(error.response.data.message);
+  }
+}

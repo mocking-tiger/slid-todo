@@ -6,11 +6,12 @@ import { useTodoContext } from "@/context/TodoContext";
 import { getTodo } from "@/api/todoApi";
 import { getGoalDetail } from "@/api/goalApi";
 import { GoalType, TodoType } from "@/types/apiTypes";
+import { GoalSectionType } from "./types/componentTypes";
 import ProgressBar from "./ProgressBar";
 import Image from "next/image";
 import LoadingScreen from "./Loading";
 
-export default function GoalSection({ id }: { id: number }) {
+export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
   const router = useRouter();
   const { isUpdated } = useTodoContext();
   const [goalDetail, setGoalDetail] = useState<GoalType>();
@@ -25,7 +26,7 @@ export default function GoalSection({ id }: { id: number }) {
     const fetchTodos = await getTodo(id, false, 5);
     const fetchDones = await getTodo(id, true, 5);
     if (fetchTodos && fetchDones && fetchGoal) {
-      // console.log(fetchGoal);
+      console.log(fetchGoal);
       setGoalDetail(fetchGoal.data);
       // console.log(fetchTodos);
       setTodos(fetchTodos.data.todos);
@@ -78,6 +79,17 @@ export default function GoalSection({ id }: { id: number }) {
                     width={24}
                     height={24}
                     alt="checkbox-icon"
+                    className="cursor-pointer"
+                    onClick={() =>
+                      changeTodoStatus(
+                        todo.title,
+                        todo.goal.id,
+                        todo.fileUrl,
+                        todo.linkUrl,
+                        todo.done,
+                        todo.id
+                      )
+                    }
                   />
                   <span>{todo.title}</span>
                 </li>
@@ -100,6 +112,17 @@ export default function GoalSection({ id }: { id: number }) {
                     width={18}
                     height={18}
                     alt="checkbox-icon"
+                    className="cursor-pointer"
+                    onClick={() =>
+                      changeTodoStatus(
+                        done.title,
+                        done.goal.id,
+                        done.fileUrl,
+                        done.linkUrl,
+                        done.done,
+                        done.id
+                      )
+                    }
                   />
                   <span className="line-through">{done.title}</span>
                 </li>

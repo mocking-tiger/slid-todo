@@ -13,9 +13,11 @@ export default function ProgressDiv({
     const interval = setInterval(() => {
       setProgressValue((prev) => {
         if (prev < ratio) {
-          return prev + 1;
+          return prev + 1; // 비율이 증가할 때
+        } else if (prev > ratio) {
+          return prev - 1; // 비율이 감소할 때
         } else {
-          clearInterval(interval);
+          clearInterval(interval); // 비율이 같아지면 인터벌 종료
           return prev;
         }
       });
