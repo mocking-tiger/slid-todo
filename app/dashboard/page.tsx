@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getGoals } from "@/api/goalApi";
-import { GoalType, TodoType } from "@/types/apiTypes";
+import { AllTodoType, GoalType, TodoType } from "@/types/apiTypes";
 import { getTodoAll, patchTodo } from "@/api/todoApi";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,19 +12,24 @@ import LoadingScreen from "@/components/Loading";
 import { useTodoContext } from "@/context/TodoContext";
 
 export default function Dashboard() {
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const { isUpdated, updateTodos } = useTodoContext();
   const [progressValue, setProgressValue] = useState(0);
   const [goals, setGoals] = useState<GoalType[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [ratio, setRatio] = useState(0);
   const [recentTodos, setRecentTodos] = useState<TodoType[]>([]);
-  const { isUpdated, updateTodos } = useTodoContext();
+  const [allTodos, setAllTodos] = useState<AllTodoType>();
+  const [howManyGoals, setHowManyGoals] = useState(3);
+  const [clickMoreGoals, setClickMoreGoals] = useState(false);
 
-  const fetchGoals = async () => {
-    const response = await getGoals(20);
+  const fetchGoals = async (howMany: number = 3) => {
+    const response = await getGoals(howMany);
     const allTodo = await getTodoAll();
     if (response && allTodo) {
       setGoals(response);
-      // console.log(allTodo);
+      setAllTodos(allTodo.data);
+      console.log(allTodo);
       const total = allTodo.data.totalCount;
       const dones = allTodo.data.todos.filter(
         (todo: TodoType) => todo.done === true
@@ -38,9 +43,7 @@ export default function Dashboard() {
           )
           .slice(0, 4)
       );
-      // console.log(recentTodos);
       setIsLoading(false);
-      console.log(ratio);
     }
   };
 
@@ -66,11 +69,37 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchGoals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUpdated]);
+    const targetNode = observerRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setHowManyGoals((prev) => prev + 3); // 맨 아래에 도달하면 3개의 목표 추가 로드
+        }
+      },
+      {
+        root: null, // 뷰포트가 루트
+        rootMargin: "0px",
+        threshold: 1.0, // 목표가 완전히 뷰포트에 들어왔을 때만 작동
+      }
+    );
 
-  if (isLoading) {
+    if (targetNode) {
+      observer.observe(targetNode); // Ref를 옵저버에 연결
+    }
+
+    return () => {
+      if (targetNode) {
+        observer.unobserve(targetNode); // 컴포넌트 언마운트 시 옵저버 연결 해제
+      }
+    };
+  }, [goals]);
+
+  useEffect(() => {
+    fetchGoals(howManyGoals);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdated, howManyGoals]);
+
+  if (isLoading && goals?.length === 0) {
     return <LoadingScreen />;
   }
 
@@ -167,7 +196,7 @@ export default function Dashboard() {
                 </div>
                 <h2 className="text-[1.8rem] font-semibold">목표 별 할 일</h2>
               </div>
-              <div className="flex flex-col sm:grid gap-[16px] grid-cols-2">
+              <div className="max-h-[675px] p-2 flex flex-col sm:grid gap-[16px] grid-cols-2 overflow-y-auto">
                 {goals?.map((goal, index) => (
                   <div
                     key={goal.id}
@@ -181,7 +210,20 @@ export default function Dashboard() {
                     />
                   </div>
                 ))}
+                {clickMoreGoals && <div ref={observerRef}></div>}
               </div>
+              {clickMoreGoals ||
+                (allTodos && allTodos.totalCount > 3 && (
+                  <div
+                    className="w-full p-3 bg-[#3B82F6] rounded-[12px] cursor-pointer text-[white] text-center"
+                    onClick={() => {
+                      setHowManyGoals((prev) => prev + 3);
+                      setClickMoreGoals(true);
+                    }}
+                  >
+                    목표 더보기
+                  </div>
+                ))}
             </div>
           </div>
         }

@@ -26,7 +26,7 @@ export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
     const fetchTodos = await getTodo(id, false, 5);
     const fetchDones = await getTodo(id, true, 5);
     if (fetchTodos && fetchDones && fetchGoal) {
-      console.log(fetchGoal);
+      // console.log(fetchGoal);
       setGoalDetail(fetchGoal.data);
       // console.log(fetchTodos);
       setTodos(fetchTodos.data.todos);
