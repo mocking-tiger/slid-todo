@@ -29,7 +29,6 @@ export default function Dashboard() {
     if (response && allTodo) {
       setGoals(response);
       setAllTodos(allTodo.data);
-      console.log(allTodo);
       const total = allTodo.data.totalCount;
       const dones = allTodo.data.todos.filter(
         (todo: TodoType) => todo.done === true

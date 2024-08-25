@@ -26,7 +26,7 @@ export default function ProgressDiv({
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
   }, [ratio, setProgressValue]);
 
-  setProgress(100 - ratio);
+  setProgress(ratio ? 100 - ratio : 100);
   return (
     <div className="w-full 2xl:w-[588px] h-[280px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-[#3B82F6] text-white relative">
       <Image
