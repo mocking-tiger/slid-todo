@@ -9,7 +9,7 @@ import { GoalType, TodoType } from "@/types/apiTypes";
 import { GoalSectionType } from "./types/componentTypes";
 import ProgressBar from "./ProgressBar";
 import Image from "next/image";
-import LoadingScreen from "./Loading";
+import Skeleton from "./Skeleton";
 
 export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
   const router = useRouter();
@@ -48,7 +48,19 @@ export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
   }, [isUpdated]);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return (
+      <div className="w-full h-auto p-[24px] bg-[#EFF6FF] rounded-[32px] select-none">
+        <div className="flex justify-between mb-[16px]">
+          <Skeleton width="50%" height="1.8rem" />
+          <Skeleton width="20%" height="1.4rem" />
+        </div>
+        <Skeleton width="100%" height="10px" />
+        <div className="flex mt-[16px] gap-[16px]">
+          <Skeleton width="48%" height="100px" />
+          <Skeleton width="48%" height="100px" />
+        </div>
+      </div>
+    );
   }
 
   return (
