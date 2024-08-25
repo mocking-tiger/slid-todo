@@ -35,8 +35,10 @@ export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
       const totalCount =
         fetchTodos.data.totalCount + fetchDones.data.totalCount;
       setProgress(Math.round((fetchDones.data.totalCount / totalCount) * 100));
-      if (fetchTodos.data.totalCount >= 5 || fetchDones.data.totalCount >= 5) {
+      if (fetchTodos.data.totalCount > 5 || fetchDones.data.totalCount > 5) {
         setIsOverFive(true);
+      } else {
+        setIsOverFive(false);
       }
       setIsLoading(false);
     }

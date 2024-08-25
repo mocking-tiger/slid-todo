@@ -20,7 +20,7 @@ export default function Dashboard() {
   const { isUpdated, updateTodos } = useTodoContext();
 
   const fetchGoals = async () => {
-    const response = await getGoals(3);
+    const response = await getGoals(20);
     const allTodo = await getTodoAll();
     if (response && allTodo) {
       setGoals(response);
@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <main className="relative">
-      <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9] select-none">
+      <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9] select-none mt-[51px] lg:mt-0">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">대시보드</h2>

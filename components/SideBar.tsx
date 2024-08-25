@@ -70,7 +70,7 @@ export default function SideBar() {
         }`}
       >
         {/* <button onClick={getNewToken}>api테스트</button> */}
-        <div className="w-screen px-[16px] py-[12px] flex gap-[16px] lg:hidden">
+        <div className="w-screen px-[16px] py-[12px] flex gap-[16px] lg:hidden fixed top-0 z-20 bg-white border border-b">
           <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
             <Image
               src="/sidebar-kebab.svg"
@@ -79,10 +79,17 @@ export default function SideBar() {
               alt="kebab-button"
             />
           </div>
-          <h2 className="text-[1.8rem] font-semibold">대시보드</h2>
+          <h2
+            className="text-[1.8rem] font-semibold cursor-pointer"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            대시보드
+          </h2>
         </div>
         <div
-          className={`w-[280px] min-h-screen py-[12px] float-left 
+          className={`w-[280px] h-screen py-[12px] float-left sticky top-0 
             bg-white transform transition-transform duration-500 ease-in-out hidden ${
               isHide ? "-translate-x-full" : "translate-x-0"
             } lg:block`}
@@ -161,7 +168,7 @@ export default function SideBar() {
               />
               <span>목표</span>
             </div>
-            <div className="max-h-[500px] pt-[16px] mb-[24px] overflow-y-auto">
+            <div className="max-h-[400px] pt-[16px] mb-[24px] overflow-y-auto">
               <div className="flex flex-col">
                 {goals.map((goal) => (
                   <Link key={goal.id} href={`/dashboard/goal/${goal.id}`}>
