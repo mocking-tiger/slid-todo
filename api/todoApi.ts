@@ -75,7 +75,7 @@ export async function patchTodo(
       done,
       todoId,
     });
-    console.log(response);
+    // console.log(response);
     return response;
   } catch (e) {
     const error = e as ErrorType;

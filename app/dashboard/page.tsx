@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTodoContext } from "@/context/TodoContext";
 import { getGoals } from "@/api/goalApi";
 import { AllTodoType, GoalType, TodoType } from "@/types/apiTypes";
 import { getTodoAll, patchTodo } from "@/api/todoApi";
@@ -9,7 +10,6 @@ import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
 import GoalSection from "@/components/GoalSection";
 import LoadingScreen from "@/components/Loading";
-import { useTodoContext } from "@/context/TodoContext";
 
 export default function Dashboard() {
   const observerRef = useRef<HTMLDivElement | null>(null);

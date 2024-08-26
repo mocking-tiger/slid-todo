@@ -9,7 +9,7 @@ export default function ProgressBar({ progress }: { progress?: number }) {
   }, [progress]);
 
   return (
-    <div className="w-full h-auto px-[9px] bg-white rounded-[13px] border border-[#F1F5F9] flex items-center gap-[8px]">
+    <div className="w-full h-auto px-[9px] bg-white rounded-[13px] flex items-center gap-[8px]">
       <div className="w-full h-[4px] bg-[#F1F5F9] rounded-[6px] relative">
         <div
           style={{
