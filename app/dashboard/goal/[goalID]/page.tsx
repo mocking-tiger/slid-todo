@@ -36,7 +36,7 @@ export default function GoalDetail(params: PagePropsType) {
 
   return (
     <aside>
-      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
+      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9] mt-[51px] lg:mt-0">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">목표</h2>

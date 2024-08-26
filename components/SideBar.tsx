@@ -3,7 +3,7 @@
 import { useUserStore } from "@/zustand/userStore";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { addGoal, getGoals } from "@/api/goalApi";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import { GoalType } from "@/types/apiTypes";
 import Image from "next/image";
@@ -15,9 +15,10 @@ import CreateTodo from "./modal/create-todo";
 export default function SideBar() {
   const router = useRouter();
   const user = useUserStore((state) => state.userInfo);
+  const path = usePathname();
   const clearUser = useUserStore((state) => state.clearUserInfo);
-  const { Modal, openModal, closeModal } = useModal();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { Modal, openModal, closeModal } = useModal();
   const [isHide, setIsHide] = useState(false);
   const [isAddGoal, setIsAddGoal] = useState(false);
   const [newGoalName, setNewGoalName] = useState("");
@@ -49,6 +50,16 @@ export default function SideBar() {
     const goalsData = await getGoals();
     if (goalsData) {
       setGoals(goalsData);
+    }
+  };
+
+  const whatPage = (path: string) => {
+    if (path === "/dashboard") {
+      return "대시보드";
+    } else if (path.startsWith("/dashboard/goal/")) {
+      return "목표";
+    } else {
+      return "";
     }
   };
 
@@ -85,7 +96,7 @@ export default function SideBar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            대시보드
+            {whatPage(path)}
           </h2>
         </div>
         <div

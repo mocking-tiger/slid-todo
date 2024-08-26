@@ -23,7 +23,7 @@ export default function TodoAll() {
 
   return (
     <div>
-      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9]">
+      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-[#F1F5F9] mt-[51px] lg:mt-0">
         <div className="w-[343px] sm:w-full 2xl:w-[1200px] h-[calc(100vh-40px)] mx-auto p-[24px] ">
           <div className="flex justify-between">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">
