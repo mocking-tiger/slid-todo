@@ -73,7 +73,7 @@ export default function TodoAll() {
             </span>
           </div>
           <div className="h-full flex">
-            <div className="w-full h-auto px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
+            <div className="w-full max-h-full px-[24px] py-[16px] overflow-y-auto flex flex-col gap-[16px] rounded-[12px] bg-white">
               <div className="flex items-center gap-[8px]">
                 <div
                   className={`px-[12px] py-[4px] border border-gray-300 rounded-[17px] cursor-pointer ${
@@ -103,89 +103,125 @@ export default function TodoAll() {
               <ul>
                 {status === "All" &&
                   todos?.todos.map((todo) => (
-                    <li key={todo.id} className="flex gap-[8px]">
-                      <Image
-                        className={`cursor-pointer ${
-                          todo.done ? "ml-[4px] mr-[2px]" : ""
-                        }`}
-                        src={
-                          todo.done
-                            ? "/checkbox-checked.svg"
-                            : "/checkbox-unchecked.svg"
-                        }
-                        width={todo.done === true ? 18 : 24}
-                        height={todo.done === true ? 18 : 24}
-                        alt="checkbox-icon"
-                        onClick={() =>
-                          changeTodoStatus(
-                            todo.title,
-                            todo.goal.id,
-                            todo.fileUrl,
-                            todo.linkUrl,
-                            todo.done,
-                            todo.id
-                          )
-                        }
-                      />
+                    <div key={todo.id}>
+                      <li className="flex gap-[8px]">
+                        <Image
+                          className={`cursor-pointer ${
+                            todo.done ? "ml-[4px] mr-[2px]" : ""
+                          }`}
+                          src={
+                            todo.done
+                              ? "/checkbox-checked.svg"
+                              : "/checkbox-unchecked.svg"
+                          }
+                          width={todo.done === true ? 18 : 24}
+                          height={todo.done === true ? 18 : 24}
+                          alt="checkbox-icon"
+                          onClick={() =>
+                            changeTodoStatus(
+                              todo.title,
+                              todo.goal.id,
+                              todo.fileUrl,
+                              todo.linkUrl,
+                              todo.done,
+                              todo.id
+                            )
+                          }
+                        />
 
-                      <span className={todo.done ? "line-through" : ""}>
-                        {todo.title}
-                      </span>
-                    </li>
+                        <span className={todo.done ? "line-through" : ""}>
+                          {todo.title}
+                        </span>
+                      </li>
+                      <div className="flex items-center gap-[8px]">
+                        <Image
+                          className="ml-[35px]"
+                          src="/goal-summit.png"
+                          width={24}
+                          height={24}
+                          alt="goal-summit-icon"
+                        />
+                        <p className="text-[1.4rem]">{todo.goal.title}</p>
+                      </div>
+                    </div>
                   ))}
                 {status === "Todo" &&
                   todos?.todos
                     .filter((todo) => todo.done === false)
                     .map((todo) => (
-                      <li key={todo.id} className="flex gap-[8px]">
-                        <Image
-                          className={`cursor-pointer ${
-                            todo.done ? "ml-[4px] mr-[2px]" : ""
-                          }`}
-                          src={"/checkbox-unchecked.svg"}
-                          width={24}
-                          height={24}
-                          alt="checkbox-icon"
-                          onClick={() =>
-                            changeTodoStatus(
-                              todo.title,
-                              todo.goal.id,
-                              todo.fileUrl,
-                              todo.linkUrl,
-                              todo.done,
-                              todo.id
-                            )
-                          }
-                        />
-                        <span>{todo.title}</span>
-                      </li>
+                      <div key={todo.id}>
+                        <li className="flex gap-[8px]">
+                          <Image
+                            className={`cursor-pointer ${
+                              todo.done ? "ml-[4px] mr-[2px]" : ""
+                            }`}
+                            src={"/checkbox-unchecked.svg"}
+                            width={24}
+                            height={24}
+                            alt="checkbox-icon"
+                            onClick={() =>
+                              changeTodoStatus(
+                                todo.title,
+                                todo.goal.id,
+                                todo.fileUrl,
+                                todo.linkUrl,
+                                todo.done,
+                                todo.id
+                              )
+                            }
+                          />
+                          <span>{todo.title}</span>
+                        </li>
+                        <div className="flex items-center gap-[8px]">
+                          <Image
+                            className="ml-[35px]"
+                            src="/goal-summit.png"
+                            width={24}
+                            height={24}
+                            alt="goal-summit-icon"
+                          />
+                          <p className="text-[1.4rem]">{todo.goal.title}</p>
+                        </div>
+                      </div>
                     ))}
                 {status === "Done" &&
                   todos?.todos
                     .filter((todo) => todo.done === true)
                     .map((todo) => (
-                      <li key={todo.id} className="flex gap-[8px]">
-                        <Image
-                          className={`cursor-pointer ${
-                            todo.done ? "ml-[4px] mr-[2px]" : ""
-                          }`}
-                          src={"/checkbox-checked.svg"}
-                          width={18}
-                          height={18}
-                          alt="checkbox-icon"
-                          onClick={() =>
-                            changeTodoStatus(
-                              todo.title,
-                              todo.goal.id,
-                              todo.fileUrl,
-                              todo.linkUrl,
-                              todo.done,
-                              todo.id
-                            )
-                          }
-                        />
-                        <span className="line-through">{todo.title}</span>
-                      </li>
+                      <div key={todo.id}>
+                        <li className="flex gap-[8px]">
+                          <Image
+                            className={`cursor-pointer ${
+                              todo.done ? "ml-[4px] mr-[2px]" : ""
+                            }`}
+                            src={"/checkbox-checked.svg"}
+                            width={18}
+                            height={18}
+                            alt="checkbox-icon"
+                            onClick={() =>
+                              changeTodoStatus(
+                                todo.title,
+                                todo.goal.id,
+                                todo.fileUrl,
+                                todo.linkUrl,
+                                todo.done,
+                                todo.id
+                              )
+                            }
+                          />
+                          <span className="line-through">{todo.title}</span>
+                        </li>
+                        <div className="flex items-center gap-[8px]">
+                          <Image
+                            className="ml-[35px]"
+                            src="/goal-summit.png"
+                            width={24}
+                            height={24}
+                            alt="goal-summit-icon"
+                          />
+                          <p className="text-[1.4rem]">{todo.goal.title}</p>
+                        </div>
+                      </div>
                     ))}
               </ul>
             </div>
