@@ -1,13 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useModal } from "@/hooks/useModal";
 import { getTodoAll } from "@/api/todoApi";
-import { AllTodoType } from "@/types/apiTypes";
+import { AllTodoType, GoalType } from "@/types/apiTypes";
 import Image from "next/image";
+import CreateTodo from "@/components/modal/create-todo";
+import { getGoals } from "@/api/goalApi";
+import { useTodoContext } from "@/context/TodoContext";
 
 export default function TodoAll() {
+  const { Modal, openModal, closeModal } = useModal();
+  const { isUpdated } = useTodoContext();
   const [todos, setTodos] = useState<AllTodoType>();
   const [status, setStatus] = useState<"All" | "Todo" | "Done">("All");
+  const [goals, setGoals] = useState<GoalType[]>([]);
 
   const getTodos = async () => {
     const todosData = await getTodoAll();
@@ -17,9 +24,17 @@ export default function TodoAll() {
     }
   };
 
+  const fetchGoals = async () => {
+    const goalsData = await getGoals();
+    if (goalsData) {
+      setGoals(goalsData);
+    }
+  };
+
   useEffect(() => {
     getTodos();
-  }, []);
+    fetchGoals();
+  }, [isUpdated]);
 
   return (
     <div>
@@ -29,7 +44,10 @@ export default function TodoAll() {
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">
               모든 할 일 {`(${todos && todos.totalCount})`}
             </h2>
-            <span className="text-[1.4rem] text-[#3B82F6] cursor-pointer">
+            <span
+              className="text-[1.4rem] text-[#3B82F6] cursor-pointer"
+              onClick={() => openModal("create-todo")}
+            >
               + 할일 추가
             </span>
           </div>
@@ -117,6 +135,9 @@ export default function TodoAll() {
           </div>
         </div>
       </main>
+      <Modal name="create-todo" title="할 일 생성">
+        <CreateTodo goals={goals} closeThis={closeModal} />
+      </Modal>
     </div>
   );
 }

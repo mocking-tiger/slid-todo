@@ -20,7 +20,7 @@ export default function ProgressBar({ progress }: { progress?: number }) {
         ></div>
       </div>
       <span className="text-[1.2rem] font-semibold">
-        {progress ? progress : 0}%
+        {progress ? Math.round(progress) : 0}%
       </span>
     </div>
   );
