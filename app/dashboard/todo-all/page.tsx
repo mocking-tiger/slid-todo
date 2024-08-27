@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
-import { getTodoAll } from "@/api/todoApi";
+import { getTodoAll, patchTodo } from "@/api/todoApi";
 import { AllTodoType, GoalType } from "@/types/apiTypes";
 import Image from "next/image";
 import CreateTodo from "@/components/modal/create-todo";
@@ -11,7 +11,7 @@ import { useTodoContext } from "@/context/TodoContext";
 
 export default function TodoAll() {
   const { Modal, openModal, closeModal } = useModal();
-  const { isUpdated } = useTodoContext();
+  const { isUpdated, updateTodos } = useTodoContext();
   const [todos, setTodos] = useState<AllTodoType>();
   const [status, setStatus] = useState<"All" | "Todo" | "Done">("All");
   const [goals, setGoals] = useState<GoalType[]>([]);
@@ -28,6 +28,27 @@ export default function TodoAll() {
     const goalsData = await getGoals();
     if (goalsData) {
       setGoals(goalsData);
+    }
+  };
+
+  const changeTodoStatus = async (
+    title: string,
+    goalId: number,
+    fileUrl: string,
+    linkUrl: string,
+    done: boolean,
+    todoId: number
+  ) => {
+    const response = await patchTodo(
+      title,
+      goalId,
+      fileUrl,
+      linkUrl,
+      !done,
+      todoId
+    );
+    if (response) {
+      updateTodos();
     }
   };
 
@@ -84,7 +105,9 @@ export default function TodoAll() {
                   todos?.todos.map((todo) => (
                     <li key={todo.id} className="flex gap-[8px]">
                       <Image
-                        className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                        className={`cursor-pointer ${
+                          todo.done ? "ml-[4px] mr-[2px]" : ""
+                        }`}
                         src={
                           todo.done
                             ? "/checkbox-checked.svg"
@@ -93,6 +116,16 @@ export default function TodoAll() {
                         width={todo.done === true ? 18 : 24}
                         height={todo.done === true ? 18 : 24}
                         alt="checkbox-icon"
+                        onClick={() =>
+                          changeTodoStatus(
+                            todo.title,
+                            todo.goal.id,
+                            todo.fileUrl,
+                            todo.linkUrl,
+                            todo.done,
+                            todo.id
+                          )
+                        }
                       />
 
                       <span className={todo.done ? "line-through" : ""}>
@@ -106,11 +139,23 @@ export default function TodoAll() {
                     .map((todo) => (
                       <li key={todo.id} className="flex gap-[8px]">
                         <Image
-                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          className={`cursor-pointer ${
+                            todo.done ? "ml-[4px] mr-[2px]" : ""
+                          }`}
                           src={"/checkbox-unchecked.svg"}
                           width={24}
                           height={24}
                           alt="checkbox-icon"
+                          onClick={() =>
+                            changeTodoStatus(
+                              todo.title,
+                              todo.goal.id,
+                              todo.fileUrl,
+                              todo.linkUrl,
+                              todo.done,
+                              todo.id
+                            )
+                          }
                         />
                         <span>{todo.title}</span>
                       </li>
@@ -121,11 +166,23 @@ export default function TodoAll() {
                     .map((todo) => (
                       <li key={todo.id} className="flex gap-[8px]">
                         <Image
-                          className={todo.done ? "ml-[4px] mr-[2px]" : ""}
+                          className={`cursor-pointer ${
+                            todo.done ? "ml-[4px] mr-[2px]" : ""
+                          }`}
                           src={"/checkbox-checked.svg"}
                           width={18}
                           height={18}
                           alt="checkbox-icon"
+                          onClick={() =>
+                            changeTodoStatus(
+                              todo.title,
+                              todo.goal.id,
+                              todo.fileUrl,
+                              todo.linkUrl,
+                              todo.done,
+                              todo.id
+                            )
+                          }
                         />
                         <span className="line-through">{todo.title}</span>
                       </li>
