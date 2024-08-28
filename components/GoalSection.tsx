@@ -10,8 +10,9 @@ import { GoalSectionType } from "./types/componentTypes";
 import ProgressBar from "./ProgressBar";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
+import AllTodoList from "./AllTodoList";
 
-export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
+export default function GoalSection({ id }: GoalSectionType) {
   const router = useRouter();
   const { isUpdated } = useTodoContext();
   const [goalDetail, setGoalDetail] = useState<GoalType>();
@@ -87,26 +88,27 @@ export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
           <ul>
             {todos.length > 0 ? (
               todos.map((todo) => (
-                <li key={todo.id} className="text-[1.4rem] flex gap-[8px]">
-                  <Image
-                    src="/checkbox-unchecked.svg"
-                    width={24}
-                    height={24}
-                    alt="checkbox-icon"
-                    className="cursor-pointer"
-                    onClick={() =>
-                      changeTodoStatus(
-                        todo.title,
-                        todo.goal.id,
-                        todo.fileUrl,
-                        todo.linkUrl,
-                        todo.done,
-                        todo.id
-                      )
-                    }
-                  />
-                  <span>{todo.title}</span>
-                </li>
+                // <li key={todo.id} className="text-[1.4rem] flex gap-[8px]">
+                //   <Image
+                //     src="/checkbox-unchecked.svg"
+                //     width={24}
+                //     height={24}
+                //     alt="checkbox-icon"
+                //     className="cursor-pointer"
+                //     onClick={() =>
+                //       changeTodoStatus(
+                //         todo.title,
+                //         todo.goal.id,
+                //         todo.fileUrl,
+                //         todo.linkUrl,
+                //         todo.done,
+                //         todo.id
+                //       )
+                //     }
+                //   />
+                //   <span>{todo.title}</span>
+                // </li>
+                <AllTodoList key={todo.id} todo={todo} goal={false} />
               ))
             ) : (
               <li className="py-[30px] text-[1.4rem] text-[#64748B] text-center">
@@ -120,26 +122,7 @@ export default function GoalSection({ id, changeTodoStatus }: GoalSectionType) {
           <ul>
             {dones.length > 0 ? (
               dones.map((done) => (
-                <li key={done.id} className="text-[1.4rem] flex gap-[8px]">
-                  <Image
-                    src="/checkbox-checked.svg"
-                    width={18}
-                    height={18}
-                    alt="checkbox-icon"
-                    className="cursor-pointer"
-                    onClick={() =>
-                      changeTodoStatus(
-                        done.title,
-                        done.goal.id,
-                        done.fileUrl,
-                        done.linkUrl,
-                        done.done,
-                        done.id
-                      )
-                    }
-                  />
-                  <span className="line-through">{done.title}</span>
-                </li>
+                <AllTodoList key={done.id} todo={done} goal={false} />
               ))
             ) : (
               <li className="py-[30px] text-[1.4rem] text-[#64748B] text-center">

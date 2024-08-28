@@ -100,7 +100,7 @@ export default function GoalDetail(params: PagePropsType) {
                 <h2 className="text-[1.8rem] font-semibold">노트 모아보기</h2>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row 2xl:flex-row gap-[24px] items-start">
+            <div className="flex flex-col sm:flex-row 2xl:flex-row gap-[24px] items-start select-none">
               <div className="w-full 2xl:w-[588px] min-h-[250px] px-[24px] py-[16px] relative flex flex-col gap-[16px] rounded-[12px] bg-white">
                 <div className="flex items-center gap-[8px]">
                   <h2 className="text-[1.8rem] font-semibold">To do</h2>
@@ -112,32 +112,66 @@ export default function GoalDetail(params: PagePropsType) {
                   {todos
                     .filter((todo) => todo.done === false)
                     .map((todo) => (
-                      <li key={todo.id} className="flex gap-[8px]">
-                        <Image
-                          className={`cursor-pointer ${
-                            todo.done ? "ml-[4px] mr-[2px]" : ""
-                          }`}
-                          src={
-                            todo.done
-                              ? "/checkbox-checked.svg"
-                              : "/checkbox-unchecked.svg"
-                          }
-                          width={todo.done === true ? 18 : 24}
-                          height={todo.done === true ? 18 : 24}
-                          alt="checkbox-icon"
-                          onClick={() =>
-                            changeTodoStatus(
-                              todo.title,
-                              todo.goal.id,
-                              todo.fileUrl,
-                              todo.linkUrl,
-                              todo.done,
-                              todo.id
-                            )
-                          }
-                        />
-                        <span>{todo.title}</span>
-                      </li>
+                      <div
+                        key={todo.id}
+                        className="relative group hover:-translate-y-1 rounded-2xl"
+                      >
+                        <li className="flex gap-[8px]">
+                          <Image
+                            className={`cursor-pointer ${
+                              todo.done ? "ml-[4px] mr-[2px]" : ""
+                            }`}
+                            src={
+                              todo.done
+                                ? "/checkbox-checked.svg"
+                                : "/checkbox-unchecked.svg"
+                            }
+                            width={todo.done === true ? 18 : 24}
+                            height={todo.done === true ? 18 : 24}
+                            alt="checkbox-icon"
+                            onClick={() =>
+                              changeTodoStatus(
+                                todo.title,
+                                todo.goal.id,
+                                todo.fileUrl,
+                                todo.linkUrl,
+                                todo.done,
+                                todo.id
+                              )
+                            }
+                          />
+                          <span>{todo.title}</span>
+                        </li>
+                        <div className="absolute top-0 right-1 hidden group-hover:flex gap-[4px]">
+                          {todo.noteId === null ? (
+                            <Image
+                              className="cursor-pointer"
+                              src="/todo-write.svg"
+                              width={24}
+                              height={24}
+                              alt="kebab-icon"
+                              title="노트 작성"
+                            />
+                          ) : (
+                            <Image
+                              className="cursor-pointer"
+                              src="/todo-note.svg"
+                              width={24}
+                              height={24}
+                              alt="kebab-icon"
+                              title="노트 보기"
+                            />
+                          )}
+                          <Image
+                            className="cursor-pointer"
+                            src="/todo-kebab.svg"
+                            width={24}
+                            height={24}
+                            alt="kebab-icon"
+                            title="수정 / 삭제"
+                          />
+                        </div>
+                      </div>
                     ))}
                 </ul>
                 {todos.filter((done) => done.done === false).length === 0 && (
@@ -154,26 +188,60 @@ export default function GoalDetail(params: PagePropsType) {
                   {todos
                     .filter((done) => done.done === true)
                     .map((done) => (
-                      <li key={done.id} className="flex gap-[8px]">
-                        <Image
-                          src="/checkbox-checked.svg"
-                          width={18}
-                          height={18}
-                          alt="checkbox-icon"
-                          className="cursor-pointer"
-                          onClick={() =>
-                            changeTodoStatus(
-                              done.title,
-                              done.goal.id,
-                              done.fileUrl,
-                              done.linkUrl,
-                              done.done,
-                              done.id
-                            )
-                          }
-                        />
-                        <span className="line-through">{done.title}</span>
-                      </li>
+                      <div
+                        key={done.id}
+                        className="relative group hover:-translate-y-1 rounded-2xl"
+                      >
+                        <li className="flex gap-[8px]">
+                          <Image
+                            src="/checkbox-checked.svg"
+                            width={18}
+                            height={18}
+                            alt="checkbox-icon"
+                            className="cursor-pointer"
+                            onClick={() =>
+                              changeTodoStatus(
+                                done.title,
+                                done.goal.id,
+                                done.fileUrl,
+                                done.linkUrl,
+                                done.done,
+                                done.id
+                              )
+                            }
+                          />
+                          <span className="line-through">{done.title}</span>
+                        </li>
+                        <div className="absolute top-0 right-1 hidden group-hover:flex gap-[4px]">
+                          {done.noteId === null ? (
+                            <Image
+                              className="cursor-pointer"
+                              src="/todo-write.svg"
+                              width={24}
+                              height={24}
+                              alt="kebab-icon"
+                              title="노트 작성"
+                            />
+                          ) : (
+                            <Image
+                              className="cursor-pointer"
+                              src="/todo-note.svg"
+                              width={24}
+                              height={24}
+                              alt="kebab-icon"
+                              title="노트 보기"
+                            />
+                          )}
+                          <Image
+                            className="cursor-pointer"
+                            src="/todo-kebab.svg"
+                            width={24}
+                            height={24}
+                            alt="kebab-icon"
+                            title="수정 / 삭제"
+                          />
+                        </div>
+                      </div>
                     ))}
                 </ul>
                 {todos.filter((done) => done.done === true).length === 0 && (

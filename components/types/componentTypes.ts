@@ -28,18 +28,4 @@ export type NewTodoType = {
 
 export type GoalSectionType = {
   id: number;
-  changeTodoStatus: (
-    // eslint-disable-next-line
-    title: string,
-    // eslint-disable-next-line
-    goalId: number,
-    // eslint-disable-next-line
-    fileUrl: string,
-    // eslint-disable-next-line
-    linkUrl: string,
-    // eslint-disable-next-line
-    done: boolean,
-    // eslint-disable-next-line
-    todoId: number
-  ) => void;
 };

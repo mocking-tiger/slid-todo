@@ -4,16 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import { useTodoContext } from "@/context/TodoContext";
 import { getGoals } from "@/api/goalApi";
 import { AllTodoType, GoalType, TodoType } from "@/types/apiTypes";
-import { getTodoAll, patchTodo } from "@/api/todoApi";
+import { getTodoAll } from "@/api/todoApi";
 import Image from "next/image";
 import Link from "next/link";
 import ProgressDiv from "@/components/ProgressDiv";
 import GoalSection from "@/components/GoalSection";
 import LoadingScreen from "@/components/Loading";
+import AllTodoList from "@/components/AllTodoList";
 
 export default function Dashboard() {
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const { isUpdated, updateTodos } = useTodoContext();
+  const { isUpdated } = useTodoContext();
   const [progressValue, setProgressValue] = useState(0);
   const [goals, setGoals] = useState<GoalType[]>();
   const [isLoading, setIsLoading] = useState(false);
@@ -43,27 +44,6 @@ export default function Dashboard() {
           .slice(0, 4)
       );
       setIsLoading(false);
-    }
-  };
-
-  const changeTodoStatus = async (
-    title: string,
-    goalId: number,
-    fileUrl: string,
-    linkUrl: string,
-    done: boolean,
-    todoId: number
-  ) => {
-    const response = await patchTodo(
-      title,
-      goalId,
-      fileUrl,
-      linkUrl,
-      !done,
-      todoId
-    );
-    if (response) {
-      updateTodos();
     }
   };
 
@@ -130,50 +110,7 @@ export default function Dashboard() {
                 </div>
                 <ul className="">
                   {recentTodos.map((todo: TodoType) => (
-                    <div key={todo.id}>
-                      <li className="flex gap-[8px]">
-                        <Image
-                          className={`cursor-pointer ${
-                            todo.done ? "ml-[4px] mr-[2px]" : ""
-                          }`}
-                          src={
-                            todo.done
-                              ? "/checkbox-checked.svg"
-                              : "/checkbox-unchecked.svg"
-                          }
-                          width={todo.done === true ? 18 : 24}
-                          height={todo.done === true ? 18 : 24}
-                          alt="checkbox-icon"
-                          onClick={() =>
-                            changeTodoStatus(
-                              todo.title,
-                              todo.goal.id,
-                              todo.fileUrl,
-                              todo.linkUrl,
-                              todo.done,
-                              todo.id
-                            )
-                          }
-                        />
-                        <span
-                          className={`text-[1.4rem] ${
-                            todo.done ? "line-through" : ""
-                          }`}
-                        >
-                          {todo.title}
-                        </span>
-                      </li>
-                      <div className="flex items-center gap-[8px]">
-                        <Image
-                          className="ml-[35px]"
-                          src="/goal-summit.png"
-                          width={24}
-                          height={24}
-                          alt="goal-summit-icon"
-                        />
-                        <p className="text-[1.4rem]">{todo.goal.title}</p>
-                      </div>
-                    </div>
+                    <AllTodoList todo={todo} key={todo.id} />
                   ))}
                 </ul>
               </div>
@@ -203,10 +140,7 @@ export default function Dashboard() {
                       (index + 1) % 3 === 0 ? "col-span-2" : "col-span-1"
                     }`}
                   >
-                    <GoalSection
-                      id={goal.id}
-                      changeTodoStatus={changeTodoStatus}
-                    />
+                    <GoalSection id={goal.id} />
                   </div>
                 ))}
                 {clickMoreGoals && <div ref={observerRef}></div>}

@@ -3,7 +3,13 @@ import { useTodoContext } from "@/context/TodoContext";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
 
-export default function AllTodoList({ todo }: { todo: TodoType }) {
+export default function AllTodoList({
+  todo,
+  goal = true,
+}: {
+  todo: TodoType;
+  goal?: boolean;
+}) {
   const { updateTodos } = useTodoContext();
 
   const changeTodoStatus = async (
@@ -27,7 +33,12 @@ export default function AllTodoList({ todo }: { todo: TodoType }) {
     }
   };
   return (
-    <div key={todo.id} className="relative group hover:border rounded-2xl">
+    <div
+      key={todo.id}
+      className={`relative group rounded-2xl ${
+        goal ? "hover:border" : "hover:-translate-y-[2px]"
+      }`}
+    >
       <li className="flex gap-[8px]">
         <Image
           className={`cursor-pointer ${todo.done ? "ml-[4px] mr-[2px]" : ""}`}
@@ -47,19 +58,27 @@ export default function AllTodoList({ todo }: { todo: TodoType }) {
           }
         />
 
-        <span className={todo.done ? "line-through" : ""}>{todo.title}</span>
+        <span className={`text-[1.4rem] ${todo.done ? "line-through" : ""}`}>
+          {todo.title}
+        </span>
       </li>
-      <div className="flex items-center gap-[8px]">
-        <Image
-          className="ml-[35px]"
-          src="/goal-summit.png"
-          width={24}
-          height={24}
-          alt="goal-summit-icon"
-        />
-        <p className="text-[1.4rem]">{todo.goal.title}</p>
-      </div>
-      <div className="absolute top-[25%] right-1 hidden group-hover:flex gap-[4px]">
+      {goal && (
+        <div className="flex items-center gap-[8px]">
+          <Image
+            className="ml-[35px]"
+            src="/goal-summit.png"
+            width={24}
+            height={24}
+            alt="goal-summit-icon"
+          />
+          <p className="text-[1.4rem]">{todo.goal.title}</p>
+        </div>
+      )}
+      <div
+        className={`absolute ${
+          goal ? "top-[25%]" : "top-0"
+        } right-1 hidden group-hover:flex gap-[4px]`}
+      >
         {todo.noteId === null ? (
           <Image
             className="cursor-pointer"
