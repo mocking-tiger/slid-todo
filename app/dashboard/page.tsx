@@ -82,17 +82,8 @@ export default function Dashboard() {
     return <LoadingScreen />;
   }
 
-  function test() {
-    if (confirm("gdgd")) {
-      console.log("확인 누름");
-    } else {
-      console.log("취소 누름");
-    }
-  }
-
   return (
     <main className="relative">
-      <button onClick={test}>테스트</button>
       <div className="w-full min-h-[calc(100vh-51px)] bg-[#F1F5F9] select-none mt-[51px] lg:mt-0">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">

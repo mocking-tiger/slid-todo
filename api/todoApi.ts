@@ -93,3 +93,44 @@ export async function deleteTodo(todoId: number) {
     alert(error.response.data.message);
   }
 }
+
+export async function editTodo(
+  title: string,
+  goalId: number,
+  todoId: number,
+  fileUrl?: string | null,
+  linkUrl?: string | null
+) {
+  try {
+    const payload: {
+      title: string;
+      goalId: number;
+      fileUrl?: string | null;
+      linkUrl?: string | null;
+    } = {
+      title,
+      goalId,
+    };
+
+    if (fileUrl) {
+      payload.fileUrl = fileUrl;
+    } else if (fileUrl === null) {
+      payload.fileUrl = null;
+    }
+
+    if (linkUrl) {
+      payload.linkUrl = linkUrl;
+    } else if (linkUrl === null) {
+      payload.linkUrl = null;
+    }
+
+    const response = await instance.patch(
+      `${BASE_URL}todos/${todoId}`,
+      payload
+    );
+    return response.data;
+  } catch (e) {
+    const error = e as ErrorType;
+    alert(error.response.data.message);
+  }
+}

@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTodoContext } from "@/context/TodoContext";
 import { deleteTodo, patchTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
+import { useModal } from "@/hooks/useModal";
+import CreateTodo from "./modal/create-todo";
 
 export default function AllTodoList({
   todo,
@@ -11,8 +14,12 @@ export default function AllTodoList({
   todo: TodoType;
   goal?: boolean;
 }) {
+  const router = useRouter();
+  const { Modal, openModal, closeModal } = useModal();
   const { updateTodos } = useTodoContext();
   const [isClicked, setIsClicked] = useState(false);
+
+  console.log(todo);
 
   const changeTodoStatus = async (
     title: string,
@@ -95,6 +102,7 @@ export default function AllTodoList({
             height={24}
             alt="kebab-icon"
             title="노트 작성"
+            onClick={() => router.push("/dashboard/note")}
           />
         ) : (
           <Image
@@ -121,12 +129,31 @@ export default function AllTodoList({
           className="absolute right-0 border bg-white z-10 rounded-lg"
           onMouseLeave={() => setIsClicked(false)}
         >
-          <h6 className="p-5 hover:bg-gray-200">수정하기</h6>
-          <h6 className="p-5 hover:bg-gray-200" onClick={handleDeleteTodo}>
+          <h6
+            className="p-5 hover:bg-gray-200 cursor-pointer"
+            onClick={() => openModal("edit-todo")}
+          >
+            수정하기
+          </h6>
+          <h6
+            className="p-5 hover:bg-gray-200 cursor-pointer"
+            onClick={handleDeleteTodo}
+          >
             삭제하기
           </h6>
         </div>
       )}
+      <Modal name="edit-todo" title="할 일 수정">
+        <CreateTodo
+          closeThis={closeModal}
+          startsFrom={todo.goal.id}
+          title={todo.title}
+          fileUrl={todo.fileUrl}
+          linkUrl={todo.linkUrl}
+          todoId={todo.id}
+          isEdit
+        />
+      </Modal>
     </div>
   );
 }
