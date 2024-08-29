@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { useTodoContext } from "@/context/TodoContext";
 import { GoalType } from "@/types/apiTypes";
@@ -11,13 +11,16 @@ import Image from "next/image";
 import Button from "../Button";
 import UploadLink from "./upload-link";
 import LoadingScreen from "../Loading";
+import { getGoals } from "@/api/goalApi";
 
 export default function CreateTodo({
-  goals,
+  //goals,
   closeThis,
+  startsFrom,
 }: {
-  goals: GoalType[];
+  //goals: GoalType[];
   closeThis: () => void;
+  startsFrom?: number;
 }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { Modal, openModal, closeModal } = useModal();
@@ -27,11 +30,20 @@ export default function CreateTodo({
   const [fileName, setFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState("");
+  const [goals, setGoals] = useState<GoalType[]>([]);
   const [newTodo, setNewTodo] = useState<NewTodoType>({
     title: "",
     linkUrl: "",
     goalId: 0,
   });
+  console.log(goals);
+
+  const fetchGoals = async () => {
+    const goalsData = await getGoals();
+    if (goalsData) {
+      setGoals(goalsData);
+    }
+  };
 
   const handleFileChange = async () => {
     if (fileInputRef.current?.files?.length) {
@@ -64,6 +76,15 @@ export default function CreateTodo({
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
+  useEffect(() => {
+    setNewTodo({ ...newTodo, goalId: startsFrom as number });
+    // eslint-disable-next-line
+  }, [startsFrom]);
 
   if (isLoading) {
     return <LoadingScreen />;

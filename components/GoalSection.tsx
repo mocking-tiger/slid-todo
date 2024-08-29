@@ -11,11 +11,15 @@ import ProgressBar from "./ProgressBar";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
 import AllTodoList from "./AllTodoList";
+import { useModal } from "@/hooks/useModal";
+import CreateTodo from "./modal/create-todo";
 
 export default function GoalSection({ id }: GoalSectionType) {
   const router = useRouter();
   const { isUpdated } = useTodoContext();
+  const { Modal, openModal, closeModal } = useModal();
   const [goalDetail, setGoalDetail] = useState<GoalType>();
+  const [goalForProps, setGoalForProps] = useState<GoalType[]>([]);
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [dones, setDones] = useState<TodoType[]>([]);
   const [progress, setProgress] = useState(0);
@@ -29,6 +33,7 @@ export default function GoalSection({ id }: GoalSectionType) {
     if (fetchTodos && fetchDones && fetchGoal) {
       // console.log(fetchGoal);
       setGoalDetail(fetchGoal.data);
+      setGoalForProps([fetchGoal.data]);
       // console.log(fetchTodos);
       setTodos(fetchTodos.data.todos);
       // console.log(fetchDones);
@@ -75,7 +80,10 @@ export default function GoalSection({ id }: GoalSectionType) {
         >
           {goalDetail?.title}
         </h1>
-        <span className="text-[1.4rem] text-[#3B82F6] cursor-pointer">
+        <span
+          className="text-[1.4rem] text-[#3B82F6] cursor-pointer"
+          onClick={() => openModal("create-todo")}
+        >
           + 할일 추가
         </span>
       </div>
@@ -88,26 +96,6 @@ export default function GoalSection({ id }: GoalSectionType) {
           <ul>
             {todos.length > 0 ? (
               todos.map((todo) => (
-                // <li key={todo.id} className="text-[1.4rem] flex gap-[8px]">
-                //   <Image
-                //     src="/checkbox-unchecked.svg"
-                //     width={24}
-                //     height={24}
-                //     alt="checkbox-icon"
-                //     className="cursor-pointer"
-                //     onClick={() =>
-                //       changeTodoStatus(
-                //         todo.title,
-                //         todo.goal.id,
-                //         todo.fileUrl,
-                //         todo.linkUrl,
-                //         todo.done,
-                //         todo.id
-                //       )
-                //     }
-                //   />
-                //   <span>{todo.title}</span>
-                // </li>
                 <AllTodoList key={todo.id} todo={todo} goal={false} />
               ))
             ) : (
@@ -148,6 +136,9 @@ export default function GoalSection({ id }: GoalSectionType) {
           </div>
         </div>
       )}
+      <Modal name="create-todo" title="할 일 추가">
+        <CreateTodo closeThis={closeModal} startsFrom={goalForProps[0].id} />
+      </Modal>
     </div>
   );
 }

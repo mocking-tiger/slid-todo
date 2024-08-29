@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { getTodoAll } from "@/api/todoApi";
-import { AllTodoType, GoalType } from "@/types/apiTypes";
+import { AllTodoType } from "@/types/apiTypes";
 import CreateTodo from "@/components/modal/create-todo";
-import { getGoals } from "@/api/goalApi";
 import { useTodoContext } from "@/context/TodoContext";
 import AllTodoList from "@/components/AllTodoList";
 
@@ -14,7 +13,6 @@ export default function TodoAll() {
   const { isUpdated } = useTodoContext();
   const [todos, setTodos] = useState<AllTodoType>();
   const [status, setStatus] = useState<"All" | "Todo" | "Done">("All");
-  const [goals, setGoals] = useState<GoalType[]>([]);
 
   const getTodos = async () => {
     const todosData = await getTodoAll();
@@ -24,16 +22,8 @@ export default function TodoAll() {
     }
   };
 
-  const fetchGoals = async () => {
-    const goalsData = await getGoals();
-    if (goalsData) {
-      setGoals(goalsData);
-    }
-  };
-
   useEffect(() => {
     getTodos();
-    fetchGoals();
   }, [isUpdated]);
 
   return (
@@ -98,7 +88,7 @@ export default function TodoAll() {
         </div>
       </main>
       <Modal name="create-todo" title="할 일 생성">
-        <CreateTodo goals={goals} closeThis={closeModal} />
+        <CreateTodo closeThis={closeModal} />
       </Modal>
     </div>
   );

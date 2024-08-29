@@ -211,7 +211,7 @@ export default function SideBar() {
         </div>
 
         <Modal name="create-todo" title="할 일 생성">
-          <CreateTodo goals={goals} closeThis={closeModal} />
+          <CreateTodo closeThis={closeModal} />
         </Modal>
       </aside>
       {isHide && (
