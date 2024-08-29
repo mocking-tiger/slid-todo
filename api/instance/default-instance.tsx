@@ -1,3 +1,4 @@
+import LoadingScreen from "@/components/Loading";
 import { BASE_URL } from "../constants/url";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -25,6 +26,7 @@ instance.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 401) {
+      let isLoading = true;
       const token = async () => {
         const refreshToken = Cookies.get("refreshToken");
         const getNewToken = await axios.post(`${BASE_URL}auth/tokens`, null, {
@@ -47,6 +49,11 @@ instance.interceptors.response.use(
       };
       const response = await axios.request(error.config);
       console.log("instance에서 토큰 재발급");
+      isLoading = false;
+
+      if (isLoading) {
+        return <LoadingScreen />;
+      }
       return response;
     }
     return Promise.reject(error);
