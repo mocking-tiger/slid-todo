@@ -1,5 +1,6 @@
-import { patchTodo } from "@/api/todoApi";
+import { useState } from "react";
 import { useTodoContext } from "@/context/TodoContext";
+import { deleteTodo, patchTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
 
@@ -11,6 +12,7 @@ export default function AllTodoList({
   goal?: boolean;
 }) {
   const { updateTodos } = useTodoContext();
+  const [isClicked, setIsClicked] = useState(false);
 
   const changeTodoStatus = async (
     title: string,
@@ -32,12 +34,18 @@ export default function AllTodoList({
       updateTodos();
     }
   };
+
+  const handleDeleteTodo = async () => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      await deleteTodo(todo.id);
+      updateTodos();
+    }
+  };
+
   return (
     <div
       key={todo.id}
-      className={`relative group rounded-2xl ${
-        goal ? "hover:border" : "hover:-translate-y-[2px]"
-      }`}
+      className={`relative group rounded-2xl ${goal ? "hover:border" : ""} `}
     >
       <li className="flex gap-[8px]">
         <Image
@@ -105,8 +113,20 @@ export default function AllTodoList({
           height={24}
           alt="kebab-icon"
           title="수정 / 삭제"
+          onClick={() => setIsClicked((prev) => !prev)}
         />
       </div>
+      {isClicked && (
+        <div
+          className="absolute right-0 border bg-white z-10 rounded-lg"
+          onMouseLeave={() => setIsClicked(false)}
+        >
+          <h6 className="p-5 hover:bg-gray-200">수정하기</h6>
+          <h6 className="p-5 hover:bg-gray-200" onClick={handleDeleteTodo}>
+            삭제하기
+          </h6>
+        </div>
+      )}
     </div>
   );
 }

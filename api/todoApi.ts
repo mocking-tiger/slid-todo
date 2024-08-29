@@ -82,3 +82,14 @@ export async function patchTodo(
     alert(error.response.data.message);
   }
 }
+
+export async function deleteTodo(todoId: number) {
+  try {
+    const response = await instance.delete(`${BASE_URL}todos/${todoId}`);
+    console.log(response);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    alert(error.response.data.message);
+  }
+}

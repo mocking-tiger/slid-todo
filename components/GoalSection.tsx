@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/useModal";
 import { useTodoContext } from "@/context/TodoContext";
 import { getTodo } from "@/api/todoApi";
 import { getGoalDetail } from "@/api/goalApi";
@@ -11,7 +12,6 @@ import ProgressBar from "./ProgressBar";
 import Image from "next/image";
 import Skeleton from "./Skeleton";
 import AllTodoList from "./AllTodoList";
-import { useModal } from "@/hooks/useModal";
 import CreateTodo from "./modal/create-todo";
 
 export default function GoalSection({ id }: GoalSectionType) {
