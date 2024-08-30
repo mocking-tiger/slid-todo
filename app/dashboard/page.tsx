@@ -17,7 +17,7 @@ export default function Dashboard() {
   const { isUpdated } = useTodoContext();
   const [progressValue, setProgressValue] = useState(0);
   const [goals, setGoals] = useState<GoalType[]>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [ratio, setRatio] = useState(0);
   const [recentTodos, setRecentTodos] = useState<TodoType[]>([]);
   const [allTodos, setAllTodos] = useState<AllTodoType>();

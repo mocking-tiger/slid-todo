@@ -100,7 +100,7 @@ export default function SideBar() {
           </h2>
         </div>
         <div
-          className={`w-[280px] h-screen py-[12px] float-left sticky top-0 
+          className={`w-[280px] h-screen py-[12px] float-left sticky top-0 border-r 
             bg-white transform transition-transform duration-500 ease-in-out hidden ${
               isHide ? "-translate-x-full" : "translate-x-0"
             } lg:block`}

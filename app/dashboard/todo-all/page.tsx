@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
+import { useTodoContext } from "@/context/TodoContext";
 import { getTodoAll } from "@/api/todoApi";
 import { AllTodoType } from "@/types/apiTypes";
 import CreateTodo from "@/components/modal/create-todo";
-import { useTodoContext } from "@/context/TodoContext";
 import AllTodoList from "@/components/AllTodoList";
 
 export default function TodoAll() {
@@ -32,7 +32,7 @@ export default function TodoAll() {
         <div className="w-[343px] sm:w-full 2xl:w-[1200px] h-[calc(100vh-40px)] mx-auto p-[24px] ">
           <div className="flex justify-between">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">
-              모든 할 일 {`(${todos && todos.totalCount})`}
+              모든 할 일 {`(${todos ? todos.totalCount : "불러오는중.."})`}
             </h2>
             <span
               className="text-[1.4rem] text-[#3B82F6] cursor-pointer"
