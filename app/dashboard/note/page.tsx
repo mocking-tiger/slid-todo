@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 export default function Note() {
+  const [text, setText] = useState("");
+
   return (
     <div>
       <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-white mt-[51px] lg:mt-0">
@@ -34,12 +39,16 @@ export default function Note() {
           <input
             type="text"
             placeholder="노트의 제목을 입력해주세요"
-            className="w-full mb-[12px] py-[12px] border-y focus:outline-none"
+            className="w-full mb-[12px] py-[12px] border-y focus:outline-none text-[1.8rem]"
           />
-          <h2 className="mb-[8px]">{`공백포함 : 총 ${0}자 | 공백제외 : 총 ${0}자`}</h2>
+          <h2 className="mb-[8px] text-[1.2rem] font-medium">{`공백포함 : 총 ${
+            text.length
+          }자 | 공백제외 : 총 ${text.replace(/\s+/g, "").length}자`}</h2>
           <textarea
+            value={text}
             placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
             className="w-full min-h-[600px] overflow-y-auto focus:outline-none"
+            onChange={(e) => setText(e.target.value)}
           />
         </div>
       </main>
