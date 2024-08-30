@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/useModal";
 import { useTodoContext } from "@/context/TodoContext";
 import { deleteTodo, patchTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
-import { useModal } from "@/hooks/useModal";
 import CreateTodo from "./modal/create-todo";
 
 export default function AllTodoList({
@@ -100,7 +100,7 @@ export default function AllTodoList({
             height={24}
             alt="kebab-icon"
             title="노트 작성"
-            onClick={() => router.push("/dashboard/note")}
+            onClick={() => router.push(`/dashboard/note/${todo.id}`)}
           />
         ) : (
           <Image

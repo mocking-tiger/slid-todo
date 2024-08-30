@@ -217,7 +217,7 @@ export default function SideBar() {
       {isHide && (
         <div
           className="w-fit h-screen px-[14px] py-[16px] float-left bg-white lg:flex flex-col 
-            items-center gap-[16px] hidden"
+            items-center gap-[16px] hidden border-r"
         >
           <Link href="/">
             <Image
