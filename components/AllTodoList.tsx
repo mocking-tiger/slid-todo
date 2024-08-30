@@ -19,8 +19,6 @@ export default function AllTodoList({
   const { updateTodos } = useTodoContext();
   const [isClicked, setIsClicked] = useState(false);
 
-  console.log(todo);
-
   const changeTodoStatus = async (
     title: string,
     goalId: number,

@@ -46,7 +46,6 @@ export default function CreateTodo({
     linkUrl: "",
     goalId: 0,
   });
-  console.log(goals);
 
   const fetchGoals = async () => {
     const goalsData = await getGoals();
