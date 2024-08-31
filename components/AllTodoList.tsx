@@ -6,6 +6,7 @@ import { deleteTodo, patchTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
 import CreateTodo from "./modal/create-todo";
+import Note from "@/app/dashboard/note/[noteID]/page";
 
 export default function AllTodoList({
   todo,
@@ -100,7 +101,9 @@ export default function AllTodoList({
             height={24}
             alt="kebab-icon"
             title="노트 작성"
-            onClick={() => router.push(`/dashboard/note/${todo.id}`)}
+            onClick={() =>
+              router.push(`/dashboard/note/${todo.id}?goalId=${todo.goal.id}`)
+            }
           />
         ) : (
           <Image
