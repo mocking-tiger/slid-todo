@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTodoContext } from "@/context/TodoContext";
+import { useModal } from "@/hooks/useModal";
 import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
 import { getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";
@@ -9,10 +10,12 @@ import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import ProgressBar from "@/components/ProgressBar";
 import AllTodoList from "@/components/AllTodoList";
+import CreateTodo from "@/components/modal/create-todo";
 
 export default function GoalDetail(params: PagePropsType) {
   const id = params.params.goalID;
   const { isUpdated } = useTodoContext();
+  const { Modal, openModal, closeModal } = useModal();
   const [goalDetail, setGoalDetail] = useState<GoalDetailType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,7 +87,10 @@ export default function GoalDetail(params: PagePropsType) {
               <div className="w-full 2xl:w-[588px] min-h-[250px] px-[24px] py-[16px] relative flex flex-col gap-[16px] rounded-[12px] bg-white">
                 <div className="flex items-center gap-[8px]">
                   <h2 className="text-[1.8rem] font-semibold">To do</h2>
-                  <p className="min-w-[74px] text-[1.4rem] text-[#3B82F6] grow text-right cursor-pointer">
+                  <p
+                    className="min-w-[74px] text-[1.4rem] text-[#3B82F6] grow text-right cursor-pointer"
+                    onClick={() => openModal("create-todo")}
+                  >
                     {"+ 할일 추가"}
                   </p>
                 </div>
@@ -122,6 +128,9 @@ export default function GoalDetail(params: PagePropsType) {
           </div>
         }
       </main>
+      <Modal name="create-todo" title="할 일 생성">
+        <CreateTodo closeThis={closeModal} startsFrom={Number(id)} />
+      </Modal>
     </aside>
   );
 }
