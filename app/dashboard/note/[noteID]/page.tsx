@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { getTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/userTypes";
+import { getNote } from "@/api/noteApi";
+import { NoteType } from "@/types/apiTypes";
+import Image from "next/image";
+import LoadingScreen from "@/components/Loading";
 
 export default function Note() {
   // const todoId = params.noteID;
@@ -12,17 +15,28 @@ export default function Note() {
   const searchParams = useSearchParams();
   const goalId = searchParams.get("goalId");
   const todoId = pathName.split("/").pop();
+  const [todo, setTodo] = useState<TodoType>();
+  const [noteDetail, setNoteDetail] = useState<NoteType>();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [todo, setTodo] = useState<TodoType>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchDetail = async () => {
     const response = await getTodo(Number(goalId), undefined, 9999);
     if (response) {
-      console.log(response);
-      setTodo(
-        response.data.todos.find((todo: TodoType) => todo.id === Number(todoId))
+      // console.log(response);
+      const thisTodo = response.data.todos.find(
+        (todo: TodoType) => todo.id === Number(todoId)
       );
+      setTodo(thisTodo);
+      if (thisTodo.noteId) {
+        const noteResponse = await getNote(thisTodo.noteId);
+        setNoteDetail(noteResponse?.data);
+        setText(noteResponse?.data.content);
+        setTitle(noteResponse?.data.title);
+        // console.log(noteResponse);
+      }
+      setIsLoading(false);
     }
   };
 
@@ -35,6 +49,10 @@ export default function Note() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div>
       <p></p>
@@ -45,10 +63,12 @@ export default function Note() {
             <div className="flex items-center gap-[31px] text-[1.4rem]">
               <h6 className="text-[#3B82F6] cursor-pointer">임시저장</h6>
               <h6
-                className="px-[24px] py-[12px] text-white bg-[#94A3B8] rounded-[12px] cursor-pointer"
+                className={`px-[24px] py-[12px] text-white rounded-[12px] cursor-pointer ${
+                  title && text ? "bg-[#3B82F6]" : "bg-[#94A3B8] cursor-default"
+                }`}
                 onClick={handleSubmit}
               >
-                작성 완료
+                {noteDetail ? "수정하기" : "작성 완료"}
               </h6>
             </div>
           </div>
@@ -70,6 +90,7 @@ export default function Note() {
             <h2 className="text-[1.4rem]">{todo?.title}</h2>
           </div>
           <input
+            value={title}
             type="text"
             placeholder="노트의 제목을 입력해주세요"
             className="w-full mb-[12px] py-[12px] border-y focus:outline-none text-[1.8rem]"

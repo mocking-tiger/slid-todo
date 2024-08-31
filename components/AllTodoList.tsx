@@ -6,7 +6,6 @@ import { deleteTodo, patchTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/apiTypes";
 import Image from "next/image";
 import CreateTodo from "./modal/create-todo";
-import Note from "@/app/dashboard/note/[noteID]/page";
 
 export default function AllTodoList({
   todo,
@@ -93,28 +92,18 @@ export default function AllTodoList({
           goal ? "top-[25%]" : "top-0"
         } right-1 hidden group-hover:flex gap-[4px]`}
       >
-        {todo.noteId === null ? (
-          <Image
-            className="cursor-pointer"
-            src="/todo-write.svg"
-            width={24}
-            height={24}
-            alt="kebab-icon"
-            title="노트 작성"
-            onClick={() =>
-              router.push(`/dashboard/note/${todo.id}?goalId=${todo.goal.id}`)
-            }
-          />
-        ) : (
-          <Image
-            className="cursor-pointer"
-            src="/todo-note.svg"
-            width={24}
-            height={24}
-            alt="kebab-icon"
-            title="노트 보기"
-          />
-        )}
+        <Image
+          className="cursor-pointer"
+          src={todo.noteId === null ? "/todo-write.svg" : "/todo-note.svg"}
+          width={24}
+          height={24}
+          alt="kebab-icon"
+          title={todo.noteId === null ? "노트 작성" : "노트 보기"}
+          onClick={() =>
+            router.push(`/dashboard/note/${todo.id}?goalId=${todo.goal.id}`)
+          }
+        />
+
         <Image
           className="cursor-pointer"
           src="/todo-kebab.svg"

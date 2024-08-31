@@ -39,3 +39,25 @@ export interface AllTodoType {
   todos: TodoType[];
   totalCount: number;
 }
+
+export interface NoteType {
+  content: string;
+  createdAt: string;
+  goal: {
+    id: number;
+    title: string;
+  };
+  id: number;
+  linkUrl: string;
+  teamId: string;
+  title: string;
+  todo: {
+    done: boolean;
+    fileUrl: string | null;
+    id: number;
+    linkUrl: string | null;
+    title: string;
+  };
+  updatedAt: string;
+  userId: number;
+}
