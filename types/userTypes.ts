@@ -10,7 +10,6 @@ export interface PagePropsType {
   params: {
     goalID?: string;
   };
-  noteID?: string;
 }
 
 export type GoalDetailType = {
