@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { getTodo } from "@/api/todoApi";
+import { addNote, getTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/userTypes";
 import { getNote } from "@/api/noteApi";
 import { NoteType } from "@/types/apiTypes";
@@ -13,8 +13,8 @@ export default function Note() {
   // const todoId = params.noteID;
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const goalId = searchParams.get("goalId");
-  const todoId = pathName.split("/").pop();
+  const goalId = Number(searchParams.get("goalId"));
+  const todoId = Number(pathName.split("/").pop());
   const [todo, setTodo] = useState<TodoType>();
   const [noteDetail, setNoteDetail] = useState<NoteType>();
   const [title, setTitle] = useState("");
@@ -22,11 +22,11 @@ export default function Note() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchDetail = async () => {
-    const response = await getTodo(Number(goalId), undefined, 9999);
+    const response = await getTodo(goalId, undefined, 9999);
     if (response) {
       // console.log(response);
       const thisTodo = response.data.todos.find(
-        (todo: TodoType) => todo.id === Number(todoId)
+        (todo: TodoType) => todo.id === todoId
       );
       setTodo(thisTodo);
       if (thisTodo.noteId) {
@@ -34,15 +34,23 @@ export default function Note() {
         setNoteDetail(noteResponse?.data);
         setText(noteResponse?.data.content);
         setTitle(noteResponse?.data.title);
-        // console.log(noteResponse);
+        console.log(noteResponse);
       }
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = () => {};
-  // console.log(todoId);
-  // console.log(goalId);
+  const handleSubmit = async (type: string) => {
+    if (type === "create") {
+      const response = await addNote(todoId, title, text);
+      if (response) {
+        alert("작성완료");
+        setNoteDetail(response.data);
+        console.log(response);
+      }
+    } else {
+    }
+  };
 
   useEffect(() => {
     fetchDetail();
@@ -66,7 +74,7 @@ export default function Note() {
                 className={`px-[24px] py-[12px] text-white rounded-[12px] cursor-pointer ${
                   title && text ? "bg-[#3B82F6]" : "bg-[#94A3B8] cursor-default"
                 }`}
-                onClick={handleSubmit}
+                onClick={() => title && text && handleSubmit("create")}
               >
                 {noteDetail ? "수정하기" : "작성 완료"}
               </h6>
@@ -99,6 +107,28 @@ export default function Note() {
           <h2 className="mb-[8px] text-[1.2rem] font-medium">{`공백포함 : 총 ${
             text.length
           }자 | 공백제외 : 총 ${text.replace(/\s+/g, "").length}자`}</h2>
+          {noteDetail?.linkUrl && (
+            <div className="w-full mt-[12px] mb-[16px] px-[6px] py-[4px] flex justify-between bg-[#E2E8F0] rounded-[20px]">
+              <div className="flex gap-[8px] items-center">
+                <Image
+                  src="/note-embed.svg"
+                  width={24}
+                  height={24}
+                  alt="embed-icon"
+                />
+                <p className="cursor-pointer hover:underline">
+                  {noteDetail.linkUrl}
+                </p>
+              </div>
+              <Image
+                className="cursor-pointer"
+                src="/note-delete.svg"
+                width={18}
+                height={18}
+                alt="delete-icon"
+              />
+            </div>
+          )}
           <textarea
             value={text}
             placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"

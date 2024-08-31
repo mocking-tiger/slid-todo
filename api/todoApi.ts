@@ -134,3 +134,34 @@ export async function editTodo(
     alert(error.response.data.message);
   }
 }
+
+export async function addNote(
+  todoId: number,
+  title: string,
+  content: string,
+  linkUrl?: string | null
+) {
+  try {
+    const payload: {
+      todoId: number;
+      title: string;
+      content: string;
+      linkUrl?: string | null;
+    } = {
+      todoId,
+      title,
+      content,
+    };
+
+    if (linkUrl) {
+      payload.linkUrl;
+    }
+
+    const response = await instance.post(`${BASE_URL}notes`, payload);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+    alert(error.response.data.message);
+  }
+}
