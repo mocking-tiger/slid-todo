@@ -78,7 +78,7 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdated, howManyGoals]);
 
-  if (isLoading && goals?.length === 0) {
+  if (isLoading) {
     return <LoadingScreen />;
   }
 

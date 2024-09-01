@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { addNote, getTodo } from "@/api/todoApi";
+import { getTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/userTypes";
-import { getNote } from "@/api/noteApi";
+import { addNote, editNote, getNote } from "@/api/noteApi";
 import { NoteType } from "@/types/apiTypes";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
@@ -19,6 +19,7 @@ export default function Note() {
   const [noteDetail, setNoteDetail] = useState<NoteType>();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [link, setLink] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchDetail = async () => {
@@ -34,6 +35,7 @@ export default function Note() {
         setNoteDetail(noteResponse?.data);
         setText(noteResponse?.data.content);
         setTitle(noteResponse?.data.title);
+        setLink(noteResponse?.data.linkUrl);
         console.log(noteResponse);
       }
       setIsLoading(false);
@@ -42,13 +44,24 @@ export default function Note() {
 
   const handleSubmit = async (type: string) => {
     if (type === "create") {
-      const response = await addNote(todoId, title, text);
+      const response = await addNote(todoId, title, text, link ? link : null);
       if (response) {
         alert("작성완료");
         setNoteDetail(response.data);
         console.log(response);
       }
     } else {
+      const response = await editNote(
+        Number(noteDetail?.id),
+        title,
+        text,
+        link ? link : null
+      );
+      if (response) {
+        alert("수정완료");
+        setNoteDetail(response.data);
+        console.log(response);
+      }
     }
   };
 
@@ -74,7 +87,11 @@ export default function Note() {
                 className={`px-[24px] py-[12px] text-white rounded-[12px] cursor-pointer ${
                   title && text ? "bg-[#3B82F6]" : "bg-[#94A3B8] cursor-default"
                 }`}
-                onClick={() => title && text && handleSubmit("create")}
+                onClick={() =>
+                  title && text && noteDetail
+                    ? handleSubmit("edit")
+                    : handleSubmit("create")
+                }
               >
                 {noteDetail ? "수정하기" : "작성 완료"}
               </h6>
@@ -107,7 +124,7 @@ export default function Note() {
           <h2 className="mb-[8px] text-[1.2rem] font-medium">{`공백포함 : 총 ${
             text.length
           }자 | 공백제외 : 총 ${text.replace(/\s+/g, "").length}자`}</h2>
-          {noteDetail?.linkUrl && (
+          {link && (
             <div className="w-full mt-[12px] mb-[16px] px-[6px] py-[4px] flex justify-between bg-[#E2E8F0] rounded-[20px]">
               <div className="flex gap-[8px] items-center">
                 <Image
@@ -116,9 +133,7 @@ export default function Note() {
                   height={24}
                   alt="embed-icon"
                 />
-                <p className="cursor-pointer hover:underline">
-                  {noteDetail.linkUrl}
-                </p>
+                <p className="cursor-pointer hover:underline">{link}</p>
               </div>
               <Image
                 className="cursor-pointer"
@@ -126,6 +141,7 @@ export default function Note() {
                 width={18}
                 height={18}
                 alt="delete-icon"
+                onClick={() => setLink("")}
               />
             </div>
           )}
