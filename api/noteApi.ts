@@ -32,8 +32,6 @@ export async function addNote(
 
     if (linkUrl) {
       payload.linkUrl;
-    } else if (linkUrl === null) {
-      payload.linkUrl = null;
     }
 
     const response = await instance.post(`${BASE_URL}notes`, payload);
