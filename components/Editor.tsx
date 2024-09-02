@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ContentState,
   DraftBlockType,
@@ -13,21 +13,14 @@ import { toggleTextAlign, blockStyleFn } from "contenido";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import "contenido/dist/styles.css";
+import { TextEditorType } from "./types/componentTypes";
 
 const DynamicEditor = dynamic(
   () => import("contenido").then((mod) => mod.Editor),
   { ssr: false }
 );
 
-const TextEditor = ({
-  text,
-  setText,
-  openModal,
-}: {
-  text: string;
-  setText: Dispatch<SetStateAction<string>>;
-  openModal: (name: string) => void;
-}) => {
+const TextEditor = ({ text, setText, openModal }: TextEditorType) => {
   const [editorState, setEditorState] = useState(() =>
     text
       ? EditorState.createWithContent(ContentState.createFromText(text))
@@ -61,12 +54,13 @@ const TextEditor = ({
     <div className="relative">
       <div
         className="w-full h-[500px] px-5 overflow-y-auto focus:outline-none editor-content"
-        onClick={() =>
-          setEditorState(
-            EditorState.forceSelection(editorState, selectionState)
-          )
-        }
-        onChange={() => console.log("gd")}
+        onClick={() => {
+          if (!selectionState.getHasFocus()) {
+            setEditorState(
+              EditorState.forceSelection(editorState, selectionState)
+            );
+          }
+        }}
       >
         <DynamicEditor
           editorState={editorState}

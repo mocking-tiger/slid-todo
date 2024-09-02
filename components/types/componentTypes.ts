@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent } from "react";
+import { ChangeEvent, Dispatch, FocusEvent, SetStateAction } from "react";
 
 export type InputType = {
   span: string;
@@ -28,4 +28,11 @@ export type NewTodoType = {
 
 export type GoalSectionType = {
   id: number;
+};
+
+export type TextEditorType = {
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
+  // eslint-disable-next-line
+  openModal: (name: string) => void;
 };
