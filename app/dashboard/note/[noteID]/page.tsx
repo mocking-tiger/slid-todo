@@ -8,6 +8,7 @@ import { addNote, editNote, getNote } from "@/api/noteApi";
 import { NoteType } from "@/types/apiTypes";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
+import TextEditor from "@/components/Editor";
 
 export default function Note() {
   // const todoId = params.noteID;
@@ -145,12 +146,7 @@ export default function Note() {
               />
             </div>
           )}
-          <textarea
-            value={text}
-            placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
-            className="w-full min-h-[600px] overflow-y-auto focus:outline-none"
-            onChange={(e) => setText(e.target.value)}
-          />
+          <TextEditor text={text} setText={setText} />
         </div>
       </main>
     </div>

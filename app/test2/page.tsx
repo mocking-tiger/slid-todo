@@ -1,9 +1,9 @@
-import TextAlignmentEditor from "@/components/Editor";
+import TextEditor from "@/components/Editor";
 
 export default function Test2() {
   return (
     <div>
-      <TextAlignmentEditor />
+      <TextEditor />
     </div>
   );
 }

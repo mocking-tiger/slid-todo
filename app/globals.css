@@ -41,3 +41,11 @@ html {
   border-radius: 10px;
   border: 3px solid #f1f1f1; /* 스크롤바 바깥쪽 테두리 */
 }
+
+.editor-content ul {
+  @apply list-disc pl-5; /* 기본 원형 불렛과 왼쪽 패딩 */
+}
+
+.editor-content ol {
+  @apply list-decimal pl-5; /* 기본 숫자 불렛과 왼쪽 패딩 */
+}
