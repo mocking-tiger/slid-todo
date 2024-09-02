@@ -6,9 +6,11 @@ import { getTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/userTypes";
 import { addNote, editNote, getNote } from "@/api/noteApi";
 import { NoteType } from "@/types/apiTypes";
+import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import TextEditor from "@/components/Editor";
+import UploadLink from "@/components/modal/upload-link";
 
 export default function Note() {
   // const todoId = params.noteID;
@@ -16,6 +18,7 @@ export default function Note() {
   const searchParams = useSearchParams();
   const goalId = Number(searchParams.get("goalId"));
   const todoId = Number(pathName.split("/").pop());
+  const { Modal, openModal, closeModal } = useModal();
   const [todo, setTodo] = useState<TodoType>();
   const [noteDetail, setNoteDetail] = useState<NoteType>();
   const [title, setTitle] = useState("");
@@ -146,9 +149,21 @@ export default function Note() {
               />
             </div>
           )}
-          <TextEditor text={text} setText={setText} />
+          <TextEditor
+            text={text}
+            setText={setText}
+            openModal={() => openModal("upload-link")}
+          />
         </div>
       </main>
+      <Modal name="upload-link" title="링크 업로드">
+        <UploadLink
+          closeModal={closeModal}
+          atNote={true}
+          linkForNote={link}
+          setLinkForNote={setLink}
+        />
+      </Modal>
     </div>
   );
 }

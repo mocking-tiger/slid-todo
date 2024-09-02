@@ -270,6 +270,7 @@ export default function CreateTodo({
           closeModal={closeModal}
           newTodo={newTodo}
           setNewTodo={setNewTodo}
+          atNote={false}
         />
       </Modal>
     </div>

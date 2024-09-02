@@ -22,9 +22,11 @@ const DynamicEditor = dynamic(
 const TextEditor = ({
   text,
   setText,
+  openModal,
 }: {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
+  openModal: (name: string) => void;
 }) => {
   const [editorState, setEditorState] = useState(() =>
     text
@@ -197,6 +199,7 @@ const TextEditor = ({
           alt="link-icon"
           onMouseDown={(e) => {
             e.preventDefault();
+            openModal("upload-link");
           }}
         />
       </div>

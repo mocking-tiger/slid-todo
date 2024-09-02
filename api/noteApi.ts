@@ -31,7 +31,7 @@ export async function addNote(
     };
 
     if (linkUrl) {
-      payload.linkUrl;
+      payload.linkUrl = linkUrl;
     }
 
     const response = await instance.post(`${BASE_URL}notes`, payload);
@@ -62,7 +62,7 @@ export async function editNote(
     };
 
     if (linkUrl) {
-      payload.linkUrl;
+      payload.linkUrl = linkUrl;
     } else if (linkUrl === null) {
       payload.linkUrl = null;
     }
