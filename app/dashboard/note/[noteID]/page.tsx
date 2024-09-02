@@ -11,6 +11,7 @@ import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 // import TextEditor from "@/components/Editor";
 import UploadLink from "@/components/modal/upload-link";
+import Link from "next/link";
 
 export default function Note() {
   // const todoId = params.noteID;
@@ -24,26 +25,29 @@ export default function Note() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [link, setLink] = useState<string>("");
+  const [isLinkClicked, setIsLinkClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchDetail = async () => {
     const response = await getTodo(goalId, undefined, 9999);
-    if (response) {
-      // console.log(response);
+    if (response && response.data && response.data.todos) {
       const thisTodo = response.data.todos.find(
         (todo: TodoType) => todo.id === todoId
       );
-      setTodo(thisTodo);
-      if (thisTodo.noteId) {
-        const noteResponse = await getNote(thisTodo.noteId);
-        setNoteDetail(noteResponse?.data);
-        setText(noteResponse?.data.content);
-        setTitle(noteResponse?.data.title);
-        setLink(noteResponse?.data.linkUrl);
-        console.log(noteResponse);
+      if (thisTodo) {
+        setTodo(thisTodo);
+        if (thisTodo.noteId) {
+          const noteResponse = await getNote(thisTodo.noteId);
+          if (noteResponse && noteResponse.data) {
+            setNoteDetail(noteResponse.data);
+            setText(noteResponse.data.content);
+            setTitle(noteResponse.data.title);
+            setLink(noteResponse.data.linkUrl);
+          }
+        }
       }
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   const handleSubmit = async (type: string) => {
@@ -79,10 +83,33 @@ export default function Note() {
   }
 
   return (
-    <div>
-      <p></p>
-      <main className="w-full h-[calc(100vh-51px)] lg:h-screen bg-white mt-[51px] lg:mt-0">
-        <div className="w-[343px] sm:w-full 2xl:w-[1200px] h-[calc(100vh-40px)] mx-auto p-[24px] ">
+    <div className="flex">
+      {isLinkClicked && (
+        <div className="w-1/2 flex flex-col justify-center items-center gap-3">
+          <iframe
+            src={link.includes("https://") ? link : `https://${link}`}
+            className="w-full h-3/4 "
+            title="Embeded Link"
+          />
+          <Link
+            className="hover:underline"
+            href={link.includes("https://") ? link : `https://${link}`}
+            target="_blank"
+          >
+            <h2>새창에서 열기</h2>
+          </Link>
+        </div>
+      )}
+      <main
+        className={`${
+          isLinkClicked ? "w-1/2" : "w-full"
+        } h-[calc(100vh-51px)] lg:h-screen bg-white mt-[51px] lg:mt-0`}
+      >
+        <div
+          className={`w-[343px] sm:w-full ${
+            isLinkClicked ? "2xl:w-full" : "2xl:w-[1200px]"
+          } h-[calc(100vh-40px)] mx-auto p-[24px]`}
+        >
           <div className="mb-[24px] flex justify-between items-center">
             <h2 className=" text-[1.8rem] font-semibold">노트 작성</h2>
             <div className="flex items-center gap-[31px] text-[1.4rem]">
@@ -137,7 +164,12 @@ export default function Note() {
                   height={24}
                   alt="embed-icon"
                 />
-                <p className="cursor-pointer hover:underline">{link}</p>
+                <p
+                  className="cursor-pointer hover:underline"
+                  onClick={() => setIsLinkClicked((prev) => !prev)}
+                >
+                  {link}
+                </p>
               </div>
               <Image
                 className="cursor-pointer"
@@ -145,7 +177,10 @@ export default function Note() {
                 width={18}
                 height={18}
                 alt="delete-icon"
-                onClick={() => setLink("")}
+                onClick={() => {
+                  setLink("");
+                  setIsLinkClicked(false);
+                }}
               />
             </div>
           ) : (
