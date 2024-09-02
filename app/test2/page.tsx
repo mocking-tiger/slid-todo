@@ -1,9 +1,9 @@
-import NoteContent from "@/components/noteContent";
+import TextAlignmentEditor from "@/components/Editor";
 
 export default function Test2() {
   return (
     <div>
-      <NoteContent />
+      <TextAlignmentEditor />
     </div>
   );
 }
