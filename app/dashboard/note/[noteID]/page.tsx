@@ -9,7 +9,7 @@ import { NoteType } from "@/types/apiTypes";
 import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
-import TextEditor from "@/components/Editor";
+// import TextEditor from "@/components/Editor";
 import UploadLink from "@/components/modal/upload-link";
 
 export default function Note() {
@@ -128,7 +128,7 @@ export default function Note() {
           <h2 className="mb-[8px] text-[1.2rem] font-medium">{`공백포함 : 총 ${
             text.length
           }자 | 공백제외 : 총 ${text.replace(/\s+/g, "").length}자`}</h2>
-          {link && (
+          {link ? (
             <div className="w-full mt-[12px] mb-[16px] px-[6px] py-[4px] flex justify-between bg-[#E2E8F0] rounded-[20px]">
               <div className="flex gap-[8px] items-center">
                 <Image
@@ -148,11 +148,31 @@ export default function Note() {
                 onClick={() => setLink("")}
               />
             </div>
+          ) : (
+            <div
+              className="mt-[12px] mb-[16px] px-[6px] py-[4px] flex gap-[8px] cursor-pointer hover:underline"
+              onMouseDown={() => openModal("upload-link")}
+            >
+              <Image
+                className="cursor-pointer"
+                src="/button-link.png"
+                width={24}
+                height={24}
+                alt="link-icon"
+              />
+              <span>링크첨부</span>
+            </div>
           )}
-          <TextEditor
+          {/* <TextEditor
             text={text}
             setText={setText}
             openModal={() => openModal("upload-link")}
+          /> */}
+          <textarea
+            value={text}
+            placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
+            className="w-full h-[500px] p-5 overflow-y-auto focus:outline-none border"
+            onChange={(e) => setText(e.target.value)}
           />
         </div>
       </main>
