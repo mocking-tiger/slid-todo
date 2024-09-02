@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, KeyboardEvent, SetStateAction, useState } from "react";
 import { NewTodoType } from "../types/componentTypes";
 import Button from "../Button";
 
@@ -34,6 +34,12 @@ export default function UploadLink({
     closeModal();
   };
 
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      atNote ? handleChangeLinkForNote() : handleChangeLink();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-[24px] select-none">
       <div>
@@ -44,6 +50,7 @@ export default function UploadLink({
           onChange={(e) =>
             atNote ? setTempLink(e.target.value) : setLink(e.target.value)
           }
+          onKeyDown={(e) => handleEnter(e)}
         ></input>
       </div>
       <div className="">
