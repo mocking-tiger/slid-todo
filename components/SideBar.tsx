@@ -11,6 +11,7 @@ import Link from "next/link";
 import Button from "./Button";
 import Cookies from "js-cookie";
 import CreateTodo from "./modal/create-todo";
+import { useTodoContext } from "@/context/TodoContext";
 
 export default function SideBar() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function SideBar() {
   const path = usePathname();
   const clearUser = useUserStore((state) => state.clearUserInfo);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { isUpdated } = useTodoContext();
   const { Modal, openModal, closeModal } = useModal();
   const [isHide, setIsHide] = useState(false);
   const [isAddGoal, setIsAddGoal] = useState(false);
@@ -71,7 +73,7 @@ export default function SideBar() {
 
   useEffect(() => {
     fetchGoals();
-  }, []);
+  }, [isUpdated]);
 
   return (
     <>

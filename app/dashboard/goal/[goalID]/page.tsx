@@ -4,22 +4,26 @@ import { useEffect, useState } from "react";
 import { useTodoContext } from "@/context/TodoContext";
 import { useModal } from "@/hooks/useModal";
 import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
-import { getGoalDetail } from "@/api/goalApi";
+import { deleteGoal, getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import ProgressBar from "@/components/ProgressBar";
 import AllTodoList from "@/components/AllTodoList";
 import CreateTodo from "@/components/modal/create-todo";
+import EditGoal from "@/components/modal/edit-goal";
+import { useRouter } from "next/navigation";
 
 export default function GoalDetail(params: PagePropsType) {
   const id = params.params.goalID;
+  const router = useRouter();
   const { isUpdated } = useTodoContext();
   const { Modal, openModal, closeModal } = useModal();
   const [goalDetail, setGoalDetail] = useState<GoalDetailType>();
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
 
   const getPageDetail = async () => {
     const goalData = await getGoalDetail(Number(id));
@@ -37,6 +41,17 @@ export default function GoalDetail(params: PagePropsType) {
     setProgress(ratio);
   };
 
+  const handleDelete = async () => {
+    const really = confirm("정말 삭제하시겠습니까?");
+    if (really) {
+      const response = await deleteGoal(goalDetail?.id as number);
+      if (response) {
+        alert("삭제완료");
+        router.push("/");
+      }
+    }
+  };
+
   useEffect(() => {
     getPageDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,23 +63,52 @@ export default function GoalDetail(params: PagePropsType) {
 
   return (
     <aside>
-      <main className="w-full min-h-[calc(100vh)] h-auto lg:h-screen bg-[#F1F5F9] mt-[51px] lg:mt-0">
+      <main className="w-full min-h-[calc(100vh)] h-auto lg:h-screen bg-[#F1F5F9] mt-[51px] lg:mt-0 select-none">
         {
           <div className="w-[343px] sm:w-full 2xl:w-[1200px] p-[24px] mx-auto">
             <h2 className="mb-[12px] text-[1.8rem] font-semibold">목표</h2>
             <div className="w-[306px] sm:w-auto h-full my-[24px] px-[24px] py-[16px] flex flex-col gap-[16px] rounded-[12px] bg-white">
-              <div className="flex items-center gap-[8px]">
-                <div className="w-[40px] h-[40px] bg-[#1E293B] rounded-[15px] flex justify-center items-center">
-                  <Image
-                    src="/goal-flag.svg"
-                    width={24}
-                    height={24}
-                    alt="recent-task-icon"
-                  />
+              <div className="flex justify-between relative">
+                <div className="flex items-center gap-[8px]">
+                  <div className="w-[40px] h-[40px] bg-[#1E293B] rounded-[15px] flex justify-center items-center">
+                    <Image
+                      src="/goal-flag.svg"
+                      width={24}
+                      height={24}
+                      alt="recent-task-icon"
+                    />
+                  </div>
+                  <h2 className="text-[1.8rem] font-semibold">
+                    {goalDetail?.title}
+                  </h2>
                 </div>
-                <h2 className="text-[1.8rem] font-semibold">
-                  {goalDetail?.title}
-                </h2>
+                <Image
+                  className="cursor-pointer"
+                  src="/goal-kebab.svg"
+                  width={24}
+                  height={24}
+                  alt="kebab-icon"
+                  onClick={() => setIsClicked((prev) => !prev)}
+                />
+                {isClicked && (
+                  <div
+                    className="absolute right-0 -bottom-[100px] border bg-white z-10 rounded-lg"
+                    onMouseLeave={() => setIsClicked(false)}
+                  >
+                    <h6
+                      className="p-5 hover:bg-gray-200 cursor-pointer"
+                      onClick={() => openModal("edit-goal")}
+                    >
+                      수정하기
+                    </h6>
+                    <h6
+                      className="p-5 hover:bg-gray-200 cursor-pointer"
+                      onClick={handleDelete}
+                    >
+                      삭제하기
+                    </h6>
+                  </div>
+                )}
               </div>
               <div>
                 <h3 className="mb-[8px] pl-[7px]">Progress</h3>
@@ -130,6 +174,9 @@ export default function GoalDetail(params: PagePropsType) {
       </main>
       <Modal name="create-todo" title="할 일 생성">
         <CreateTodo closeThis={closeModal} startsFrom={Number(id)} />
+      </Modal>
+      <Modal name="edit-goal" title="목표 수정">
+        <EditGoal goalId={goalDetail?.id} closeModal={closeModal} />
       </Modal>
     </aside>
   );

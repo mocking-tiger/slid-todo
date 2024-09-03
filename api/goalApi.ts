@@ -33,5 +33,34 @@ export async function getGoalDetail(goalID: number) {
   } catch (e) {
     const error = e as ErrorType;
     console.log(error);
+    if (error.response.data.message === "목표를 찾을 수 없습니다.") {
+      window.location.href = "/not-found";
+    }
+  }
+}
+
+export async function editGoal(goalID: number, title: string) {
+  try {
+    const payload = {
+      title,
+    };
+    const response = await instance.patch(
+      `${BASE_URL}goals/${goalID}`,
+      payload
+    );
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+  }
+}
+
+export async function deleteGoal(goalID: number) {
+  try {
+    const response = await instance.delete(`${BASE_URL}goals/${goalID}`);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
   }
 }
