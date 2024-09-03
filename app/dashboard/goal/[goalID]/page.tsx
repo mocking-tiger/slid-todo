@@ -176,7 +176,11 @@ export default function GoalDetail(params: PagePropsType) {
         <CreateTodo closeThis={closeModal} startsFrom={Number(id)} />
       </Modal>
       <Modal name="edit-goal" title="목표 수정">
-        <EditGoal goalId={goalDetail?.id} closeModal={closeModal} />
+        <EditGoal
+          goalId={goalDetail?.id}
+          mototitle={goalDetail?.title}
+          closeModal={closeModal}
+        />
       </Modal>
     </aside>
   );
