@@ -61,3 +61,21 @@ export interface NoteType {
   updatedAt: string;
   userId: number;
 }
+
+export interface NoteListType {
+  createdAt: string;
+  goal: {
+    id: number;
+    title: string;
+  };
+  id: number;
+  teamId: string;
+  title: string;
+  todo: {
+    done: boolean;
+    id: number;
+    title: string;
+  };
+  updatedAt: string;
+  userId: number;
+}

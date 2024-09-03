@@ -78,3 +78,16 @@ export async function editNote(
     alert(error.response.data.message);
   }
 }
+
+export async function getAllNotes(goalId: number) {
+  try {
+    const response = await instance.get(
+      `${BASE_URL}notes?goalId=${goalId}&size=9999`
+    );
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+    alert(error.response.data.message);
+  }
+}
