@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useTodoContext } from "@/context/TodoContext";
 import { getAllNotes } from "@/api/noteApi";
 import { NoteListType } from "@/types/apiTypes";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import NoteListItem from "@/components/NoteListItem";
-import { useTodoContext } from "@/context/TodoContext";
 import Link from "next/link";
 
 export default function NoteAll() {
@@ -53,7 +53,7 @@ export default function NoteAll() {
                 alt="recent-task-icon"
               />
             </div>
-            <h1 className="text-[1.4rem] font-semibold">
+            <h1 className="text-[1.4rem] font-semibold hover:underline">
               <Link
                 href={`http://localhost:3000/dashboard/goal/${
                   notes && notes[0].goal.id

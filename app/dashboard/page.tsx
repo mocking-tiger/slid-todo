@@ -23,13 +23,16 @@ export default function Dashboard() {
   const [allTodos, setAllTodos] = useState<AllTodoType>();
   const [howManyGoals, setHowManyGoals] = useState(3);
   const [clickMoreGoals, setClickMoreGoals] = useState(false);
+  const [totalGoals, setTotalGoals] = useState(0);
 
   const fetchGoals = async (howMany: number = 3) => {
     const response = await getGoals(howMany);
     const allTodo = await getTodoAll();
     if (response && allTodo) {
-      setGoals(response);
+      console.log(response);
+      setGoals(response.data.goals);
       setAllTodos(allTodo.data);
+      setTotalGoals(response.data.totalCount);
       const total = allTodo.data.totalCount;
       const dones = allTodo.data.todos.filter(
         (todo: TodoType) => todo.done === true
@@ -146,7 +149,7 @@ export default function Dashboard() {
                 {clickMoreGoals && <div ref={observerRef}></div>}
               </div>
               {clickMoreGoals ||
-                (allTodos && allTodos.totalCount > 3 && (
+                (totalGoals > 3 && (
                   <div
                     className="w-full p-3 bg-[#3B82F6] rounded-[12px] cursor-pointer text-[white] text-center"
                     onClick={() => {

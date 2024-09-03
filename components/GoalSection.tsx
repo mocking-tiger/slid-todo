@@ -72,10 +72,10 @@ export default function GoalSection({ id }: GoalSectionType) {
   }
 
   return (
-    <div className="w-full h-auto p-[24px] bg-[#EFF6FF] rounded-[32px] select-none">
+    <div className="w-full h-auto min-h-[231px] p-[24px] bg-[#EFF6FF] rounded-[32px] select-none">
       <div className="flex justify-between">
         <h1
-          className="mb-[8px] text-[1.8rem] font-bold cursor-pointer"
+          className="mb-[8px] text-[1.8rem] font-bold cursor-pointer hover:underline"
           onClick={() => router.push(`/dashboard/goal/${goalDetail?.id}`)}
         >
           {goalDetail?.title}

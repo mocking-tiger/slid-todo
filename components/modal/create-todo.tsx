@@ -51,7 +51,7 @@ export default function CreateTodo({
   const fetchGoals = async () => {
     const goalsData = await getGoals();
     if (goalsData) {
-      setGoals(goalsData);
+      setGoals(goalsData.data.goals);
     }
   };
 

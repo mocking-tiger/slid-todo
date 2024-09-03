@@ -39,8 +39,8 @@ export default function SideBar() {
         setNewGoalName("");
         setIsAddGoal(false);
         await addGoal(newGoalName);
-        const updatedGolas = await getGoals();
-        setGoals(updatedGolas);
+        const updatedGoals = await getGoals();
+        setGoals(updatedGoals?.data.goals);
       } else {
         alert("목표를 입력해 주세요.");
         setIsAddGoal(false);
@@ -51,7 +51,7 @@ export default function SideBar() {
   const fetchGoals = async () => {
     const goalsData = await getGoals();
     if (goalsData) {
-      setGoals(goalsData);
+      setGoals(goalsData.data.goals);
     }
   };
 
@@ -182,10 +182,14 @@ export default function SideBar() {
               <span>목표</span>
             </div>
             <div className="max-h-[400px] pt-[16px] mb-[24px] overflow-y-auto">
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[16px]">
                 {goals.map((goal) => (
-                  <Link key={goal.id} href={`/dashboard/goal/${goal.id}`}>
-                    {goal.title}
+                  <Link
+                    key={goal.id}
+                    href={`/dashboard/goal/${goal.id}`}
+                    className="max-w-[231px] text-ellipsis overflow-hidden whitespace-nowrap"
+                  >
+                    {`・${goal.title}`}
                   </Link>
                 ))}
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getTodo } from "@/api/todoApi";
 import { TodoType } from "@/types/userTypes";
 import { addNote, editNote, getNote } from "@/api/noteApi";
@@ -15,6 +15,7 @@ import Link from "next/link";
 
 export default function Note() {
   // const todoId = params.noteID;
+  const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const goalId = Number(searchParams.get("goalId"));
@@ -56,7 +57,8 @@ export default function Note() {
       if (response) {
         alert("작성완료");
         setNoteDetail(response.data);
-        console.log(response);
+        router.push(`/dashboard/goal/${goalId}`);
+        //console.log(response);
       }
     } else {
       const response = await editNote(
@@ -68,7 +70,8 @@ export default function Note() {
       if (response) {
         alert("수정완료");
         setNoteDetail(response.data);
-        console.log(response);
+        router.push(`/dashboard/goal/${goalId}`);
+        //console.log(response);
       }
     }
   };
@@ -147,7 +150,12 @@ export default function Note() {
                 alt="recent-task-icon"
               />
             </div>
-            <h1 className="font-medium">{todo?.goal.title}</h1>
+            <h1
+              className="font-medium cursor-pointer hover:underline"
+              onClick={() => router.push(`/dashboard/goal/${todo?.goal.id}`)}
+            >
+              {todo?.goal.title}
+            </h1>
           </div>
           <div className="mb-[24px] flex gap-[8px] items-center">
             <h2 className="px-[3px] py-[2px] bg-[#f1f5f9] rounded-[4px] text-[1.2rem]">

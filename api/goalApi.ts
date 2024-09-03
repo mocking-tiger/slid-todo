@@ -7,7 +7,7 @@ export async function getGoals(size: number = 999, cursor?: number) {
     const response = await instance.get(
       `${BASE_URL}goals?${cursor ? `cursor=${cursor}&` : ""}size=${size}`
     );
-    return response.data.goals;
+    return response;
   } catch (e) {
     const error = e as ErrorType;
     console.log(error);

@@ -143,7 +143,7 @@ export default function GoalDetail(params: PagePropsType) {
               <div className="flex items-center gap-[8px]">
                 <h2 className="text-[1.8rem] font-semibold">To do</h2>
                 <p
-                  className="min-w-[74px] text-[1.4rem] text-[#3B82F6] grow text-right cursor-pointer"
+                  className="min-w-[74px] text-[1.4rem] text-[#3B82F6] grow text-right cursor-pointer z-10"
                   onClick={() => openModal("create-todo")}
                 >
                   {"+ 할일 추가"}

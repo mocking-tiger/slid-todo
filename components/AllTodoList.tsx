@@ -53,17 +53,32 @@ export default function AllTodoList({
     }
   };
 
-  useEffect(() => {
-    fetchNoteContent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleDeleteTodo = async () => {
     if (confirm("정말 삭제하시겠습니까?")) {
       await deleteTodo(todo.id);
       updateTodos();
     }
   };
+
+  const handleLinkClick = (linkUrl: string) => {
+    const url = linkUrl.includes("https://") ? linkUrl : `https://${linkUrl}`;
+    const screen = window.screen.width;
+    const windowWidth = screen > 450 ? window.screen.width * 0.5 : screen;
+    const windowHeight = window.screen.height;
+    const windowLeft = window.screenX;
+    const windowTop = window.screenY + 100;
+
+    window.open(
+      url,
+      "_blank",
+      `width=${windowWidth},height=${windowHeight},left=${windowLeft},top=${windowTop}`
+    );
+  };
+
+  useEffect(() => {
+    fetchNoteContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -72,7 +87,7 @@ export default function AllTodoList({
         goal ? "hover:border" : "hover:underline"
       } `}
     >
-      <li className="flex gap-[8px]">
+      <li className="flex gap-[8px] items-center">
         <Image
           className={`cursor-pointer ${todo.done ? "ml-[4px] mr-[2px]" : ""}`}
           src={todo.done ? "/checkbox-checked.svg" : "/checkbox-unchecked.svg"}
@@ -91,7 +106,14 @@ export default function AllTodoList({
           }
         />
 
-        <span className={`text-[1.4rem] ${todo.done ? "line-through" : ""}`}>
+        <span
+          className={`text-[1.4rem] ${todo.done ? "line-through" : ""}`}
+          onClick={() =>
+            todo.noteId
+              ? setIsNoteClicked((prev) => !prev)
+              : router.push(`/dashboard/note/${todo.id}?goalId=${todo.goal.id}`)
+          }
+        >
           {todo.title}
         </span>
       </li>
@@ -223,32 +245,27 @@ export default function AllTodoList({
         </h3>
         {noteContent?.linkUrl && (
           <div className="w-full mt-[12px] mb-[16px] px-[6px] py-[4px] flex justify-between bg-[#E2E8F0] rounded-[20px]">
-            <div className="flex gap-[8px] items-center">
+            <div className="flex gap-[8px] items-center overflow-hidden">
               <Image
                 src="/note-embed.svg"
                 width={24}
                 height={24}
                 alt="embed-icon"
               />
-              <a
-                href={
-                  noteContent?.linkUrl.includes("https://")
-                    ? noteContent.linkUrl
-                    : `https://${noteContent.linkUrl}`
-                }
-                target="_blank"
+
+              <p
+                className="cursor-pointer hover:underline text-ellipsis overflow-hidden"
+                onClick={() => handleLinkClick(noteContent.linkUrl)}
               >
-                <p className="cursor-pointer hover:underline">
-                  {noteContent?.linkUrl}
-                </p>
-              </a>
+                {noteContent?.linkUrl}
+              </p>
             </div>
           </div>
         )}
         <textarea
           value={noteContent ? noteContent.content : "불러오는중..."}
           readOnly
-          className="w-full h-[500px] overflow-y-auto focus:outline-none"
+          className="w-full h-[500px] xl:h-[80%] overflow-y-auto focus:outline-none"
         />
       </div>
     </div>
