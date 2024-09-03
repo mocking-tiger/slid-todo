@@ -8,6 +8,7 @@ import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import NoteListItem from "@/components/NoteListItem";
 import { useTodoContext } from "@/context/TodoContext";
+import Link from "next/link";
 
 export default function NoteAll() {
   const path = usePathname();
@@ -53,7 +54,13 @@ export default function NoteAll() {
               />
             </div>
             <h1 className="text-[1.4rem] font-semibold">
-              {notes && notes[0].goal.title}
+              <Link
+                href={`http://localhost:3000/dashboard/goal/${
+                  notes && notes[0].goal.id
+                }`}
+              >
+                {notes && notes[0].goal.title}
+              </Link>
             </h1>
           </div>
           <div className="flex flex-col gap-[16px]">

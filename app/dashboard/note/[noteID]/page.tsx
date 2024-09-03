@@ -85,7 +85,15 @@ export default function Note() {
   return (
     <div className="flex">
       {isLinkClicked && (
-        <div className="w-1/2 flex flex-col justify-center items-center gap-3">
+        <div className="w-1/2 flex flex-col justify-center items-center gap-3 relative">
+          <Image
+            className="absolute left-3 top-3 cursor-pointer"
+            src="/modal-close.svg"
+            width={24}
+            height={24}
+            alt="close-icon"
+            onClick={() => setIsLinkClicked((prev) => !prev)}
+          />
           <iframe
             src={link.includes("https://") ? link : `https://${link}`}
             className="w-full h-3/4 "
@@ -208,7 +216,7 @@ export default function Note() {
           <textarea
             value={text}
             placeholder="이 곳을 클릭해 노트 작성을 시작해주세요"
-            className="w-full h-[500px] p-5 overflow-y-auto focus:outline-none border"
+            className="w-full h-[500px] p-5 overflow-y-auto focus:outline-none"
             onChange={(e) => setText(e.target.value)}
           />
         </div>
