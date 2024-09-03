@@ -32,6 +32,7 @@ export default function CreateTodo({
   todoId?: number;
   isEdit?: boolean;
 }) {
+  const titleInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { Modal, openModal, closeModal } = useModal();
   const { updateTodos } = useTodoContext();
@@ -78,7 +79,8 @@ export default function CreateTodo({
         newTodo.linkUrl ? newTodo.linkUrl : null
       );
       if (response) {
-        console.log(response);
+        // console.log(response);
+        alert("수정완료");
         updateTodos();
         closeThis();
       } else {
@@ -92,7 +94,8 @@ export default function CreateTodo({
         newTodo.linkUrl ? newTodo.linkUrl : undefined
       );
       if (response) {
-        console.log(response);
+        // console.log(response);
+        alert("작성완료");
         updateTodos();
         closeThis();
       } else {
@@ -133,17 +136,21 @@ export default function CreateTodo({
   if (isLoading) {
     return <LoadingScreen />;
   }
-
+  titleInputRef.current?.focus();
   return (
     <div className="flex flex-col gap-[24px] select-none">
       <div>
         <h2 className="mb-[12px] font-[600]">제목</h2>
         <input
+          ref={titleInputRef}
           value={newTodo.title}
           className="w-full px-[24px] py-[12px] bg-[#F8FAFC] rounded-[12px] focus:outline-none"
           placeholder="할 일의 제목을 적어주세요"
           onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
           maxLength={30}
+          onKeyDown={(e) =>
+            e.key === "Enter" && handleSubmit(isEdit ? "edit" : "create")
+          }
         />
       </div>
       <div>

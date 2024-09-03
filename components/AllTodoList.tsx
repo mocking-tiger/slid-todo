@@ -68,7 +68,9 @@ export default function AllTodoList({
   return (
     <div
       key={todo.id}
-      className={`relative group rounded-2xl ${goal ? "hover:border" : ""} `}
+      className={`relative group rounded-2xl ${
+        goal ? "hover:border" : "hover:underline"
+      } `}
     >
       <li className="flex gap-[8px]">
         <Image
