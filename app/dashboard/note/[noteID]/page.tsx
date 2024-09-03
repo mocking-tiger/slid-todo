@@ -111,7 +111,9 @@ export default function Note() {
           } h-[calc(100vh-40px)] mx-auto p-[24px]`}
         >
           <div className="mb-[24px] flex justify-between items-center">
-            <h2 className=" text-[1.8rem] font-semibold">노트 작성</h2>
+            <h2 className=" text-[1.8rem] font-semibold">
+              {noteDetail ? "노트 수정" : "노트 작성"}
+            </h2>
             <div className="flex items-center gap-[31px] text-[1.4rem]">
               <h6 className="text-[#3B82F6] cursor-pointer">임시저장</h6>
               <h6

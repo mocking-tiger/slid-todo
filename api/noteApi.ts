@@ -91,3 +91,14 @@ export async function getAllNotes(goalId: number) {
     alert(error.response.data.message);
   }
 }
+
+export default async function deleteNote(noteId: number) {
+  try {
+    const response = await instance.delete(`${BASE_URL}notes/${noteId}`);
+    return response;
+  } catch (e) {
+    const error = e as ErrorType;
+    console.log(error);
+    alert(error.response.data.message);
+  }
+}

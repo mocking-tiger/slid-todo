@@ -6,10 +6,13 @@ import { getAllNotes } from "@/api/noteApi";
 import { NoteListType } from "@/types/apiTypes";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
+import NoteListItem from "@/components/NoteListItem";
+import { useTodoContext } from "@/context/TodoContext";
 
 export default function NoteAll() {
   const path = usePathname();
   const goalId = Number(path.split("/").pop());
+  const { isUpdated } = useTodoContext();
   const [notes, setNotes] = useState<NoteListType[]>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +28,7 @@ export default function NoteAll() {
   useEffect(() => {
     fetchNotes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isUpdated]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -55,31 +58,7 @@ export default function NoteAll() {
           </div>
           <div className="flex flex-col gap-[16px]">
             {notes?.map((note) => (
-              <div key={note.id} className="bg-white p-[24px] rounded-[12px]">
-                <div className="mb-[16px] flex justify-between">
-                  <Image
-                    src="/note-header.png"
-                    width={28}
-                    height={28}
-                    alt="note-header-icon"
-                  />
-                  <Image
-                    className="cursor-pointer"
-                    src="/note-kebab.png"
-                    width={28}
-                    height={28}
-                    alt="note-header-icon"
-                  />
-                </div>
-                <h2 className="text-[1.8rem]">{note.title}</h2>
-                <hr className="my-[12px]" />
-                <div className="flex gap-[8px]">
-                  <span className="px-[3px] py-[2px] bg-[#f1f5f9] rounded-[4px] text-[1.2rem]">
-                    {note.todo.done ? "Done" : "To do"}
-                  </span>
-                  <h3>{note.todo.title}</h3>
-                </div>
-              </div>
+              <NoteListItem key={note.id} note={note} />
             ))}
           </div>
         </div>
