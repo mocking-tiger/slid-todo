@@ -14,7 +14,7 @@ export default function ProgressBar({ progress }: { progress?: number }) {
         <div
           style={{
             width: `${animatedProgress}%`,
-            transition: "width 0.5s ease",
+            transition: "width 1s ease",
           }}
           className="h-[4px] bg-[#000] rounded-[6px] absolute"
         ></div>
