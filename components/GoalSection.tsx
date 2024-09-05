@@ -96,7 +96,12 @@ export default function GoalSection({ id }: GoalSectionType) {
           <ul>
             {todos.length > 0 ? (
               todos.map((todo) => (
-                <AllTodoList key={todo.id} todo={todo} goal={false} />
+                <AllTodoList
+                  key={todo.id}
+                  todo={todo}
+                  goal={false}
+                  atGoalSection
+                />
               ))
             ) : (
               <li className="py-[30px] text-[1.4rem] text-[#64748B] text-center">
@@ -110,7 +115,12 @@ export default function GoalSection({ id }: GoalSectionType) {
           <ul>
             {dones.length > 0 ? (
               dones.map((done) => (
-                <AllTodoList key={done.id} todo={done} goal={false} />
+                <AllTodoList
+                  key={done.id}
+                  todo={done}
+                  goal={false}
+                  atGoalSection
+                />
               ))
             ) : (
               <li className="py-[30px] text-[1.4rem] text-[#64748B] text-center">

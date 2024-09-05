@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTodoContext } from "@/context/TodoContext";
 import { getGoals } from "@/api/goalApi";
-import { AllTodoType, GoalType, TodoType } from "@/types/apiTypes";
+import { GoalType, TodoType } from "@/types/apiTypes";
 import { getTodoAll } from "@/api/todoApi";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,6 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [ratio, setRatio] = useState(0);
   const [recentTodos, setRecentTodos] = useState<TodoType[]>([]);
-  const [allTodos, setAllTodos] = useState<AllTodoType>();
   const [howManyGoals, setHowManyGoals] = useState(3);
   const [clickMoreGoals, setClickMoreGoals] = useState(false);
   const [totalGoals, setTotalGoals] = useState(0);
@@ -31,7 +30,6 @@ export default function Dashboard() {
     if (response && allTodo) {
       console.log(response);
       setGoals(response.data.goals);
-      setAllTodos(allTodo.data);
       setTotalGoals(response.data.totalCount);
       const total = allTodo.data.totalCount;
       const dones = allTodo.data.todos.filter(

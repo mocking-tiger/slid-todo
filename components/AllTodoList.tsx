@@ -12,9 +12,11 @@ import NoteViewer from "./NoteViewer";
 export default function AllTodoList({
   todo,
   goal = true,
+  atGoalSection,
 }: {
   todo: TodoType;
   goal?: boolean;
+  atGoalSection?: boolean;
 }) {
   const router = useRouter();
   const { Modal, openModal, closeModal } = useModal();
@@ -22,7 +24,7 @@ export default function AllTodoList({
   const [isClicked, setIsClicked] = useState(false);
   const [isNoteClicked, setIsNoteClicked] = useState(false);
   const [noteContent, setNoteContent] = useState<NoteType>();
-  console.log(todo);
+
   const fetchNoteContent = async () => {
     if (todo.noteId) {
       const response = await getNote(todo.noteId);
@@ -116,10 +118,47 @@ export default function AllTodoList({
         </div>
       )}
       <div
-        className={`absolute ${
+        className={`absolute ${atGoalSection && "bg-[#EFF6FF] rounded-3xl"} ${
           goal ? "top-[25%]" : "top-0"
         } right-1 hidden group-hover:flex gap-[4px]`}
       >
+        {todo.fileUrl && (
+          <a
+            href={
+              todo.fileUrl.includes("https://")
+                ? todo.fileUrl
+                : `https://${todo.fileUrl}`
+            }
+          >
+            <Image
+              className="cursor-pointer"
+              src="/todo-file.png"
+              width={24}
+              height={24}
+              alt="kebab-icon"
+              title="첨부 파일"
+            />
+          </a>
+        )}
+        {todo.linkUrl && (
+          <a
+            href={
+              todo.linkUrl.includes("https://")
+                ? todo.linkUrl
+                : `https://${todo.linkUrl}`
+            }
+            target="_blank"
+          >
+            <Image
+              className="cursor-pointer"
+              src="/todo-link.png"
+              width={24}
+              height={24}
+              alt="kebab-icon"
+              title="첨부 링크"
+            />
+          </a>
+        )}
         <Image
           className="cursor-pointer"
           src="/todo-write.svg"
