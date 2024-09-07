@@ -81,7 +81,7 @@ export default function SignIn() {
           </Link>
         </p>
       </div>
-      <h6 className="fixed right-1 bottom-0">v 1.1</h6>
+      <h6 className="fixed right-1 bottom-0">v 1.2</h6>
     </main>
   );
 }
