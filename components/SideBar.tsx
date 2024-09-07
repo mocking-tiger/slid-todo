@@ -85,7 +85,10 @@ export default function SideBar() {
       >
         {/* <button onClick={getNewToken}>api테스트</button> */}
         <div className="w-screen px-[16px] py-[12px] flex gap-[16px] lg:hidden fixed top-0 z-20 bg-white border border-b">
-          <div className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer">
+          <div
+            className="w-[24px] h-[24px] px-[6px] py-[8px] flex justify-center items-center cursor-pointer"
+            onClick={() => router.push("/")}
+          >
             <Image
               src="/sidebar-kebab.svg"
               width={12}
