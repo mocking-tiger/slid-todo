@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTodoContext } from "@/context/TodoContext";
 import { NoteListType, NoteType } from "@/types/apiTypes";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import deleteNote, { getNote } from "@/api/noteApi";
 import NoteViewer from "./NoteViewer";
@@ -28,7 +29,7 @@ export default function NoteListItem({ note }: { note: NoteListType }) {
     if (really) {
       const response = await deleteNote(note.id);
       if (response) {
-        alert("삭제되었습니다.");
+        toast.success("삭제되었습니다.");
         updateTodos();
       }
     }

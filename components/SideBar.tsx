@@ -1,17 +1,18 @@
 "use client";
 
 import { useUserStore } from "@/zustand/userStore";
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { addGoal, getGoals } from "@/api/goalApi";
+import { useTodoContext } from "@/context/TodoContext";
 import { usePathname, useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { addGoal, getGoals } from "@/api/goalApi";
 import { GoalType } from "@/types/apiTypes";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Cookies from "js-cookie";
 import CreateTodo from "./modal/create-todo";
-import { useTodoContext } from "@/context/TodoContext";
 
 export default function SideBar() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function SideBar() {
         const updatedGoals = await getGoals();
         setGoals(updatedGoals?.data.goals);
       } else {
-        alert("목표를 입력해 주세요.");
+        toast.warn("목표를 입력해 주세요.");
         setIsAddGoal(false);
       }
     }

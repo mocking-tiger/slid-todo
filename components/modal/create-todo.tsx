@@ -12,6 +12,7 @@ import Button from "../Button";
 import UploadLink from "./upload-link";
 import LoadingScreen from "../Loading";
 import { getGoals } from "@/api/goalApi";
+import { toast } from "react-toastify";
 
 export default function CreateTodo({
   //goals,
@@ -56,7 +57,11 @@ export default function CreateTodo({
   };
 
   const handleFileChange = async () => {
-    if (fileInputRef.current?.files?.length) {
+    const MAX_FILE_SIZE = 3 * 1024 * 1024;
+    if (
+      fileInputRef.current?.files?.length &&
+      fileInputRef.current.files[0].size < MAX_FILE_SIZE
+    ) {
       const response = await uploadFile(fileInputRef.current.files[0]);
       if (response) {
         setFile(response.url);
@@ -64,6 +69,7 @@ export default function CreateTodo({
         setFileName(fileInputRef.current.files[0].name);
       }
     } else {
+      toast.error("파일은 3MB이하만 업로드 가능합니다.");
       setIsFileUploaded(false);
     }
   };
@@ -79,8 +85,7 @@ export default function CreateTodo({
         newTodo.linkUrl ? newTodo.linkUrl : null
       );
       if (response) {
-        // console.log(response);
-        alert("수정완료");
+        toast.success("수정완료");
         updateTodos();
         closeThis();
       } else {
@@ -94,8 +99,7 @@ export default function CreateTodo({
         newTodo.linkUrl ? newTodo.linkUrl : undefined
       );
       if (response) {
-        // console.log(response);
-        alert("작성완료");
+        toast.success("작성완료");
         updateTodos();
         closeThis();
       } else {
@@ -121,6 +125,7 @@ export default function CreateTodo({
 
   useEffect(() => {
     setNewTodo({ ...newTodo, goalId: startsFrom as number });
+    console.log(newTodo.goalId);
     // eslint-disable-next-line
   }, [startsFrom]);
 
@@ -260,14 +265,14 @@ export default function CreateTodo({
       {isEdit ? (
         <Button
           onClick={() => handleSubmit("edit")}
-          disabled={newTodo.title !== "" && newTodo.goalId !== 0 ? false : true}
+          disabled={newTodo.title === "" || newTodo.goalId === undefined}
         >
           수정
         </Button>
       ) : (
         <Button
           onClick={() => handleSubmit("create")}
-          disabled={newTodo.title !== "" && newTodo.goalId !== 0 ? false : true}
+          disabled={newTodo.title === "" || newTodo.goalId === undefined}
         >
           확인
         </Button>

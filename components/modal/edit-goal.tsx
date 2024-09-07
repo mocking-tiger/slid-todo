@@ -3,6 +3,7 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { editGoal } from "@/api/goalApi";
 import { useTodoContext } from "@/context/TodoContext";
+import { toast } from "react-toastify";
 import Button from "../Button";
 
 export default function EditGoal({
@@ -21,7 +22,7 @@ export default function EditGoal({
   const handleSubmit = async () => {
     const response = await editGoal(goalId as number, title as string);
     if (response) {
-      alert("수정완료");
+      toast.success("수정완료");
       closeModal();
       updateTodos();
     }

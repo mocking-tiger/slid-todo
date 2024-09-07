@@ -54,12 +54,10 @@ export default function NoteAll() {
               />
             </div>
             <h1 className="text-[1.4rem] font-semibold hover:underline">
-              <Link
-                href={`http://localhost:3000/dashboard/goal/${
-                  notes && notes[0].goal.id
-                }`}
-              >
-                {notes && notes[0].goal.title}
+              <Link href={`http://localhost:3000/dashboard/goal/${goalId}`}>
+                {notes && notes[0]
+                  ? notes[0].goal.title
+                  : "작성된 노트가 없습니다."}
               </Link>
             </h1>
           </div>

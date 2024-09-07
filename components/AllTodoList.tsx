@@ -29,7 +29,6 @@ export default function AllTodoList({
     if (todo.noteId) {
       const response = await getNote(todo.noteId);
       if (response) {
-        console.log(response);
         setNoteContent(response.data);
       }
     }

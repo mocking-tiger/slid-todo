@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { signUp } from "@/api/userApi";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
@@ -29,13 +30,13 @@ export default function SignUp() {
       const response = await signUp(name, email, password);
       if (response.id) {
         console.log(response);
-        alert("회원가입이 완료되었습니다.");
+        toast.success("회원가입이 완료되었습니다.");
         router.push("/");
       } else {
         setErrorMessage(response.response.data.message);
       }
     } else {
-      alert("비밀번호를 확인해주세요.");
+      toast.warn("비밀번호를 확인해주세요.");
     }
   };
 

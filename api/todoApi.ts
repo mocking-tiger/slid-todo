@@ -1,6 +1,7 @@
 import { BASE_URL } from "./constants/url";
 import { ErrorType } from "../types/apiTypes";
 import instance from "./instance/default-instance";
+import { toast } from "react-toastify";
 
 export async function getTodo(goalID: number, done?: boolean, size?: number) {
   try {
@@ -54,7 +55,7 @@ export async function addTodo(
     return response.data;
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 }
 
@@ -79,7 +80,7 @@ export async function patchTodo(
     return response;
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 }
 
@@ -90,7 +91,7 @@ export async function deleteTodo(todoId: number) {
     return response;
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 }
 
@@ -131,6 +132,6 @@ export async function editTodo(
     return response.data;
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 }

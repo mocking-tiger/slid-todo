@@ -7,6 +7,7 @@ import { TodoType } from "@/types/userTypes";
 import { addNote, editNote, getNote } from "@/api/noteApi";
 import { NoteType } from "@/types/apiTypes";
 import { useModal } from "@/hooks/useModal";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 // import TextEditor from "@/components/Editor";
@@ -55,10 +56,9 @@ export default function Note() {
     if (type === "create") {
       const response = await addNote(todoId, title, text, link ? link : null);
       if (response) {
-        alert("작성완료");
+        toast.success("작성완료");
         setNoteDetail(response.data);
         router.push(`/dashboard/goal/${goalId}`);
-        //console.log(response);
       }
     } else {
       const response = await editNote(
@@ -68,10 +68,9 @@ export default function Note() {
         link ? link : null
       );
       if (response) {
-        alert("수정완료");
+        toast.success("수정완료");
         setNoteDetail(response.data);
         router.push(`/dashboard/goal/${goalId}`);
-        //console.log(response);
       }
     }
   };

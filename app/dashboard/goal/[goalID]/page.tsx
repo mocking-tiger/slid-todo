@@ -7,6 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import { GoalDetailType, PagePropsType, TodoType } from "@/types/userTypes";
 import { deleteGoal, getGoalDetail } from "@/api/goalApi";
 import { getTodo } from "@/api/todoApi";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import LoadingScreen from "@/components/Loading";
 import ProgressBar from "@/components/ProgressBar";
@@ -46,7 +47,7 @@ export default function GoalDetail(params: PagePropsType) {
     if (really) {
       const response = await deleteGoal(goalDetail?.id as number);
       if (response) {
-        alert("삭제완료");
+        toast.success("삭제완료");
         router.push("/");
       }
     }
@@ -56,7 +57,7 @@ export default function GoalDetail(params: PagePropsType) {
     const hasNote = todos.find((todo) => todo.noteId !== null);
     hasNote
       ? router.push(`/dashboard/note-all/${goalDetail?.id}`)
-      : alert("이 목표에 작성된 노트가 없습니다.");
+      : toast.warn("이 목표에 작성된 노트가 없습니다.");
   };
 
   useEffect(() => {

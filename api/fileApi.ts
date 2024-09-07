@@ -1,5 +1,6 @@
 import { BASE_URL } from "./constants/url";
 import { ErrorType } from "../types/apiTypes";
+import { toast } from "react-toastify";
 import instance from "./instance/default-instance";
 
 export async function uploadFile(file: File) {
@@ -15,6 +16,6 @@ export async function uploadFile(file: File) {
     return response.data;
   } catch (e) {
     const error = e as ErrorType;
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 }
