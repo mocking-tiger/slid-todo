@@ -80,6 +80,25 @@ export default function Note() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem(`note${todoId}`)) {
+      setTimeout(() => {
+        const callTempNote = confirm(
+          "현재 노트에 저장된 데이터가 있습니다. 불러오시겠습니까?"
+        );
+        if (callTempNote) {
+          const noteData = JSON.parse(
+            localStorage.getItem(`note${todoId}`) as string
+          );
+          setTitle(noteData.title);
+          setText(noteData.content);
+          setLink(noteData.link);
+        }
+      }, 500);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -125,7 +144,18 @@ export default function Note() {
               {noteDetail ? "노트 수정" : "노트 작성"}
             </h2>
             <div className="flex items-center gap-[31px] text-[1.4rem]">
-              <h6 className="text-[#3B82F6] cursor-pointer">임시저장</h6>
+              <h6
+                className="text-[#3B82F6] cursor-pointer"
+                onClick={() => {
+                  localStorage.setItem(
+                    `note${todoId}`,
+                    JSON.stringify({ title: title, content: text, link: link })
+                  );
+                  toast.success("임시저장 되었습니다.");
+                }}
+              >
+                임시저장
+              </h6>
               <h6
                 className={`px-[24px] py-[12px] text-white rounded-[12px] cursor-pointer ${
                   title && text ? "bg-[#3B82F6]" : "bg-[#94A3B8] cursor-default"
@@ -201,18 +231,19 @@ export default function Note() {
               />
             </div>
           ) : (
-            <div
-              className="mt-[12px] mb-[16px] px-[6px] py-[4px] flex gap-[8px] cursor-pointer hover:underline"
-              onMouseDown={() => openModal("upload-link")}
-            >
+            <div className="mt-[12px] mb-[16px] px-[6px] py-[4px] flex gap-[8px]">
               <Image
-                className="cursor-pointer"
                 src="/button-link.png"
                 width={24}
                 height={24}
                 alt="link-icon"
               />
-              <span>링크첨부</span>
+              <span
+                className="cursor-pointer hover:underline"
+                onMouseDown={() => openModal("upload-link")}
+              >
+                링크첨부
+              </span>
             </div>
           )}
           {/* <TextEditor

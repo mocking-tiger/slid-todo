@@ -32,7 +32,7 @@ export default function GoalDetail(params: PagePropsType) {
     if (goalData && todoData) setIsLoading(false);
     // console.log(goalData);
     setGoalDetail(goalData?.data);
-    console.log(todoData);
+    // console.log(todoData);
     setTodos(todoData?.data.todos);
     const ratio =
       ((todoData?.data.todos.filter((todo: TodoType) => todo.done === true))
