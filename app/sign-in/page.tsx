@@ -49,7 +49,7 @@ export default function SignIn() {
         </div>
         <div className="mb-[48px] flex flex-col gap-[24px]">
           <Input
-            span="아이디"
+            span="이메일"
             placeholder="이메일을 입력해주세요"
             type="email"
             onChange={(e) => setEmail(e.target.value)}

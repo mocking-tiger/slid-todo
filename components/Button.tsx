@@ -7,6 +7,7 @@ export default function Button({
   text,
   border,
   disabled,
+  isSubmit = false,
 }: {
   children: ReactNode;
   onClick: () => void;
@@ -14,6 +15,7 @@ export default function Button({
   text?: string;
   border?: string;
   disabled?: boolean;
+  isSubmit?: boolean;
 }) {
   return (
     <button
@@ -22,6 +24,7 @@ export default function Button({
       } ${text ? text : "text-white"} ${border ? border : ""} `}
       onClick={onClick}
       disabled={disabled}
+      type={isSubmit ? "submit" : undefined}
     >
       {children}
     </button>

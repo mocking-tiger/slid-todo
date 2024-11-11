@@ -93,11 +93,12 @@ export default function SignUp() {
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setErrorMessage("")}
           />
-          {errorMessage && errorMessage === "이미 사용 중인 이메일입니다." && (
-            <span className="-my-[20px] text-red-500 animate-shake">
-              {errorMessage}
-            </span>
-          )}
+          {(errorMessage && errorMessage === "이미 사용 중인 이메일입니다.") ||
+            (errorMessage === "이메일 형식으로 작성해 주세요." && (
+              <span className="-my-[20px] text-red-500 animate-shake">
+                {errorMessage}
+              </span>
+            ))}
           <Input
             span="비밀번호"
             placeholder="비밀번호를 입력해주세요"
@@ -131,7 +132,12 @@ export default function SignUp() {
             </span>
           )}
         </div>
-        <Button onClick={handleSignUp}>회원가입</Button>
+        <Button
+          onClick={handleSignUp}
+          disabled={(!name || !email || !password || !passwordRepeat) && true}
+        >
+          회원가입
+        </Button>
         <p className="w-fit mx-auto mt-[40px] text-[1.4rem]">
           이미 회원이신가요?{" "}
           <Link href="/" className="text-[#3182F6] text-[1.4rem]">
